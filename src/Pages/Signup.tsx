@@ -1,9 +1,7 @@
-import Navbar from "../Components/Navbar";
-
 const SignUp = () => {
   return (
     <div>
-      <Navbar />
+      <h1>Sign Up</h1>
     </div>
   );
 };
