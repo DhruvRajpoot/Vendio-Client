@@ -2,17 +2,24 @@ import { Link } from "react-router-dom";
 import { RiSearch2Line } from "react-icons/ri";
 import { LiaShoppingCartSolid } from "react-icons/lia";
 import { CiLogin } from "react-icons/ci";
+import logo from "../Assets/Images/logo.png";
 
 const Navbar = () => {
   return (
     <div className="w-full h-16 p-3 bg-white flex items-center justify-between px-20 border-b border-b-stone-200">
       {/* Logo */}
-      <div className="text-2xl font-bold cursor-pointer flex flex-col text-right">
-        <Link to="/">Vendio</Link>
-        <span className="text-xs text-gray-400 relative bottom-1.5">
-          eCommerce
-        </span>
-      </div>
+      <Link
+        to="/"
+        className="text-2xl font-bold cursor-pointer flex gap-1 items-center text-right"
+      >
+        <img src={logo} alt="Vendio" className="w-8 h-8" />
+        <div className="relative">
+          <span>Vendio</span>
+          <span className="text-xs text-gray-400 absolute -bottom-2 right-0">
+            eCommerce
+          </span>
+        </div>
+      </Link>
 
       {/* Search */}
       <div className="rounded-full bg-gray-100 text-gray-800 px-6 py-1 w-full max-w-96 h-10">

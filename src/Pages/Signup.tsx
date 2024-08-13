@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Lottie from "lottie-react";
-import signupAnimation from "../assets/Lottie/cart.json";
+import signupAnimation from "../assets/Lottie/signup.json";
 import GoogleButton from "../Components/GoogleButton";
 import Navbar from "../Components/Navbar";
 import { serverurl } from "../Config/baseurl";
@@ -56,8 +56,11 @@ const SignUp: React.FC = () => {
         {/* Left side - Illustration */}
         <div className="md:w-1/2 w-full flex items-center justify-center bg-gradient-to-br from-green-300 to-green-400 px-4 pb-8 md:p-4">
           <div className="text-center">
-            <div className="flex justify-center items-center md:mb-8 h-48 w-48 md:h-72 md:w-[450px] mx-auto">
-              <Lottie animationData={signupAnimation} />
+            <div className="flex justify-center items-center md:mb-8 h-48 w-48 md:h-96 md:w-[450px] mx-auto">
+              <Lottie
+                animationData={signupAnimation}
+                style={{ height: "100%" }}
+              />
             </div>
             <h2 className="text-xl md:text-2xl font-semibold mb-4">
               Shop the Best Deals
