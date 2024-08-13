@@ -14,11 +14,11 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({ items }) => {
   return (
     <nav className="bg-gray-100 py-3 mb-6">
       <div className="container mx-auto px-4 max-w-screen-xl">
-        <ul className="flex items-center space-x-4 text-gray-600">
+        <ul className="flex items-center space-x-4 text-gray-600 overflow-hidden">
           {items.map((item, index) => (
             <React.Fragment key={index}>
               {item.link ? (
-                <li>
+                <li className="flex-shrink-0">
                   <Link
                     to={item.link}
                     className="hover:text-teal-600 transition-colors"
@@ -27,7 +27,9 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({ items }) => {
                   </Link>
                 </li>
               ) : (
-                <li className="text-gray-500 font-semibold">{item.label}</li>
+                <li className="text-gray-500 font-semibold flex-shrink-0">
+                  {item.label}
+                </li>
               )}
               {index < items.length - 1 && <li className="text-gray-400">/</li>}
             </React.Fragment>

@@ -1,9 +1,10 @@
 import React from "react";
 import { FaHeart, FaStar, FaStarHalfAlt } from "react-icons/fa";
-import { Link } from "react-router-dom";
-import { clienturl } from "../Config/baseurl";
+import { Link, useNavigate } from "react-router-dom";
 
 const ProductCard: React.FC<{ product: any }> = ({ product }) => {
+  const navigate = useNavigate();
+
   const discountedPrice = (
     product.price -
     product.price * (product.discount / 100)
@@ -33,14 +34,22 @@ const ProductCard: React.FC<{ product: any }> = ({ product }) => {
   };
 
   return (
-    <div className="bg-white rounded-xl shadow-xl overflow-hidden relative group transition-transform transform hover:scale-[1.02]">
+    <div
+      className="bg-white rounded-xl shadow-xl overflow-hidden relative group transition-transform transform hover:scale-[1.02]"
+      onClick={() => {
+        navigate(`/products/${product.id}`);
+      }}
+    >
       <img
         src={product.images[0]}
         alt={product.title}
         className="w-full h-68 object-cover transition-transform duration-300 group-hover:scale-[1.02]"
       />
       <div className="absolute top-4 right-4">
-        <button className="p-2 bg-white rounded-full border border-gray-300 shadow-md text-gray-500 hover:text-red-600 hover:bg-gray-100 transition-colors">
+        <button
+          className="p-2 bg-white rounded-full border border-gray-300 shadow-md text-gray-500 hover:text-red-600 hover:bg-gray-100 transition-colors"
+          onClick={(e) => e.stopPropagation()}
+        >
           <FaHeart className="w-4 h-4" />
         </button>
       </div>
@@ -64,7 +73,7 @@ const ProductCard: React.FC<{ product: any }> = ({ product }) => {
           </div>
           <div className="flex items-center justify-between mb-4">
             <Link
-              to={`${clienturl + `/details?id=${product.id}`}`}
+              to={`/products/${product.id}`}
               className="bg-gradient-to-r from-teal-400 to-teal-600 text-white py-2 px-4 rounded-md shadow-lg hover:bg-gradient-to-l hover:from-teal-500 hover:to-teal-700 transition-colors w-fit"
             >
               More Details
