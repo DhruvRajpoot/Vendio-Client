@@ -1,5 +1,6 @@
 import Navbar from "../../Components/Navbar";
 import Hero from "./Components/Hero";
+import Ranges from "./Components/Ranges";
 
 const Home: React.FC = () => {
   return (
@@ -7,6 +8,8 @@ const Home: React.FC = () => {
       <Navbar />
 
       <Hero />
+
+      <Ranges />
     </div>
   );
 };

@@ -51,8 +51,8 @@ const Hero: React.FC = () => {
         spaceBetween={0}
         slidesPerView={1}
         navigation={{
-          nextEl: ".swiper-button-next",
-          prevEl: ".swiper-button-prev",
+          nextEl: ".swiper-button-next-hero",
+          prevEl: ".swiper-button-prev-hero",
         }}
         pagination={{ clickable: true }}
         autoplay={{ delay: 3000, disableOnInteraction: true }}
@@ -95,10 +95,10 @@ const Hero: React.FC = () => {
           </SwiperSlide>
         ))}
 
-        <div className="swiper-button-prev bg-black text-white rounded-full w-10 h-10 p-2.5 flex items-center justify-center shadow-md hover:bg-gray-700 absolute left-4 top-1/2 transform -translate-y-1/2 z-10 after:content-none">
+        <div className="swiper-button-prev-hero bg-black text-white rounded-full w-10 h-10 p-2.5 flex items-center justify-center shadow-md hover:bg-gray-700 absolute left-4 top-1/2 transform -translate-y-1/2 z-10 after:content-none">
           <FaArrowLeft />
         </div>
-        <div className="swiper-button-next bg-black text-white rounded-full w-10 h-10 p-2.5 flex items-center justify-center shadow-md hover:bg-gray-700 absolute right-4 top-1/2 transform -translate-y-1/2 z-10 after:content-none">
+        <div className="swiper-button-next-hero bg-black text-white rounded-full w-10 h-10 p-2.5 flex items-center justify-center shadow-md hover:bg-gray-700 absolute right-4 top-1/2 transform -translate-y-1/2 z-10 after:content-none">
           <FaArrowRight />
         </div>
       </Swiper>
