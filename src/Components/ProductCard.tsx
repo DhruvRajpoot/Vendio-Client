@@ -33,7 +33,7 @@ const ProductCard: React.FC<{ product: any }> = ({ product }) => {
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-xl overflow-hidden relative group transition-transform transform hover:scale-[1.02]">
+    <div className="bg-white rounded-xl shadow-xl overflow-hidden relative group transition-transform transform hover:scale-[1.02]">
       <img
         src={product.images[0]}
         alt={product.title}
