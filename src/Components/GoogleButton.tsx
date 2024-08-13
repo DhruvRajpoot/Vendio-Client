@@ -4,13 +4,16 @@ import { useState } from "react";
 import { serverurl } from "../Config/baseurl";
 import Lottie from "lottie-react";
 import animationData from "../assets/Lottie/googlelogin.json";
+import loadingimg from "../assets/images/loading.gif";
+import { useNavigate } from "react-router-dom";
 
 interface GoogleButtonProps {
   type: "login" | "signup";
 }
 
 const GoogleButton: React.FC<GoogleButtonProps> = ({ type }) => {
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState<boolean>(false);
+  const navigate = useNavigate();
 
   const googleLogin = useGoogleLogin({
     onSuccess: (tokenResponse) => handleSuccess(tokenResponse.access_token),
@@ -26,9 +29,21 @@ const GoogleButton: React.FC<GoogleButtonProps> = ({ type }) => {
           googleToken: accessToken,
         }
       );
-      console.log("Success", response.data);
+
+      if (response.status === 200 || response.status === 201) {
+        const { accessToken, refreshToken } = response.data.token;
+
+        localStorage.setItem("access_token", accessToken);
+        document.cookie = `refreshToken=${refreshToken}; Max-Age=${
+          7 * 24 * 60 * 60
+        }; Secure; HttpOnly`;
+
+        navigate("/");
+      } else {
+        console.error("Unexpected response status:", response.status);
+      }
     } catch (error) {
-      console.error("Error", error);
+      console.error("Error during Google authentication:", error);
     } finally {
       setLoading(false);
     }
@@ -45,8 +60,16 @@ const GoogleButton: React.FC<GoogleButtonProps> = ({ type }) => {
       onClick={() => googleLogin()}
       disabled={loading}
     >
-      <Lottie animationData={animationData} className="h-10 w-12" />
-      {type === "login" ? "Login with Google" : "Signup with Google"}
+      {!loading ? (
+        <>
+          <Lottie animationData={animationData} className="h-10 w-12" />
+          {type === "login" ? "Login with Google" : "Signup with Google"}
+        </>
+      ) : (
+        <>
+          <img src={loadingimg} alt="loading" className="w-10 h-10 scale-150" />
+        </>
+      )}
     </button>
   );
 };
