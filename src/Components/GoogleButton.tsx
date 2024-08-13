@@ -13,16 +13,17 @@ const GoogleButton: React.FC<GoogleButtonProps> = ({ type }) => {
   const [loading, setLoading] = useState(false);
 
   const googleLogin = useGoogleLogin({
-    onSuccess: (credentialResponse) => handleSuccess(credentialResponse),
+    onSuccess: (tokenResponse) => handleSuccess(tokenResponse.access_token),
+    onError: (error) => handleError(error),
   });
 
-  const handleSuccess = async (credentialResponse: any) => {
+  const handleSuccess = async (accessToken: string) => {
     setLoading(true);
     try {
       const response = await axios.post(
         `${serverurl}/auth/google/${type === "signup" ? "signup" : "login"}`,
         {
-          googleToken: credentialResponse.credential,
+          googleToken: accessToken,
         }
       );
       console.log("Success", response.data);
@@ -31,6 +32,10 @@ const GoogleButton: React.FC<GoogleButtonProps> = ({ type }) => {
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleError = (error: any) => {
+    console.error("Error", error);
   };
 
   return (

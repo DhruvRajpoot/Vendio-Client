@@ -1,36 +1,37 @@
 import Lottie from "lottie-react";
 import React from "react";
-import signupAnimation from "../assets/Lottie/cart.json";
+import loginAnimation from "../assets/Lottie/cart.json";
 import { Link } from "react-router-dom";
 import GoogleButton from "../Components/GoogleButton";
 
-const SignUp: React.FC = () => {
+const Login: React.FC = () => {
   return (
     <div className="flex flex-col md:flex-row h-screen">
       {/* Left side - Illustration */}
-      <div className="md:w-1/2 w-full flex items-center justify-center bg-gradient-to-br from-green-300 to-green-400 px-4 pb-8 md:p-4">
+      <div className="md:w-1/2 w-full flex items-center justify-center bg-gradient-to-br from-blue-400 to-blue-500 px-4 pb-8 md:p-4">
         <div className="text-center">
           <div className="flex justify-center items-center md:mb-8 h-48 w-48 md:h-72 md:w-[450px] mx-auto">
-            <Lottie animationData={signupAnimation} />
+            <Lottie animationData={loginAnimation} />
           </div>
-          <h2 className="text-xl md:text-2xl font-semibold mb-4">
-            Shop the Best Deals
+          <h2 className="text-xl text-white md:text-2xl font-semibold mb-4">
+            Access Your Account
           </h2>
-          <p className="text-gray-600 text-sm md:text-base font-medium px-10">
-            Explore our wide range of products at unbeatable prices. Shop now
-            and experience the convenience of our eCommerce platform.
+          <p className="text-white text-sm md:text-base font-medium px-10">
+            Log in to access your personalized dashboard where you can manage
+            your orders, and enjoy a seamless, shopping experience designed just
+            for you.
           </p>
         </div>
       </div>
 
-      {/* Right side - Sign-Up Form */}
+      {/* Right side - Login Form */}
       <div className="md:w-1/2 w-full flex items-center justify-center p-4">
         <div className="max-w-md w-full">
           <h1 className="text-3xl md:text-4xl font-bold mt-4 md:mt-0 mb-4 md:mb-6 text-center">
-            Welcome to Vendio
+            Welcome Back
           </h1>
           <h2 className="text-lg md:text-xl font-semibold mb-4 md:mb-6 text-center">
-            Create Your Account
+            Log In to Your Account
           </h2>
           <form>
             <div className="mb-4">
@@ -63,46 +64,14 @@ const SignUp: React.FC = () => {
               />
             </div>
 
-            <div className="mb-4 flex flex-col gap-4 md:flex-row md:gap-6">
-              <div className="flex-1">
-                <label
-                  htmlFor="firstname"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  First Name
-                </label>
-                <input
-                  type="text"
-                  id="firstname"
-                  className="mt-1 p-2 block w-full border-gray-300 rounded-md shadow-sm outline-none border-b border-b-gray-200 focus:border-b-black"
-                  placeholder="John"
-                />
-              </div>
-
-              <div className="flex-1">
-                <label
-                  htmlFor="lastname"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Last Name
-                </label>
-                <input
-                  type="text"
-                  id="lastname"
-                  className="mt-1 p-2 block w-full border-gray-300 rounded-md shadow-sm outline-none border-b border-b-gray-200 focus:border-b-black"
-                  placeholder="Doe"
-                />
-              </div>
-            </div>
-
             <div className="flex justify-between items-center mb-4">
               <button
                 type="submit"
                 className="px-4 md:px-6 py-2 bg-gray-800 text-white rounded-md"
               >
-                Sign up
+                Log In
               </button>
-              <Link to="/" className="text-sm text-indigo-600">
+              <Link to="/forgot-password" className="text-sm text-indigo-600">
                 Forgot password?
               </Link>
             </div>
@@ -112,13 +81,13 @@ const SignUp: React.FC = () => {
             </div>
 
             <div className="text-center mb-4">
-              <GoogleButton type="signup" />
+              <GoogleButton type="login" />
             </div>
 
             <div className="text-center">
-              Already have an account?{" "}
-              <Link to="/login" className="text-sm text-indigo-600">
-                Login
+              Don't have an account?{" "}
+              <Link to="/signup" className="text-sm text-indigo-600">
+                Sign Up
               </Link>
             </div>
           </form>
@@ -128,4 +97,4 @@ const SignUp: React.FC = () => {
   );
 };
 
-export default SignUp;
+export default Login;
