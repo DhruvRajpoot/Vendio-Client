@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Lottie from "lottie-react";
-import loginAnimation from "../assets/Lottie/cart.json";
+import loginAnimation from "../Assets/Lottie/cart.json";
 import GoogleButton from "../Components/GoogleButton";
 import Navbar from "../Components/Navbar";
 import { serverurl } from "../Config/baseurl";
