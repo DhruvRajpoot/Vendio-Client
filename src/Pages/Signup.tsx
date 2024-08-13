@@ -6,6 +6,7 @@ import signupAnimation from "../assets/Lottie/cart.json";
 import GoogleButton from "../Components/GoogleButton";
 import Navbar from "../Components/Navbar";
 import { serverurl } from "../Config/baseurl";
+import toast from "react-hot-toast";
 
 const SignUp: React.FC = () => {
   const [email, setEmail] = useState<string>("");
@@ -38,8 +39,11 @@ const SignUp: React.FC = () => {
 
         navigate("/");
       }
-    } catch (err) {
-      setError("Sign up failed. Please try again.");
+    } catch (err: any) {
+      console.log(err);
+      const errorMessage =
+        err?.response?.data?.error || "Sign up failed. Please try again.";
+      toast.error(errorMessage);
     } finally {
       setLoading(false);
     }

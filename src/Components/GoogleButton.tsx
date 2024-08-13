@@ -6,6 +6,7 @@ import Lottie from "lottie-react";
 import animationData from "../assets/Lottie/googlelogin.json";
 import loadingimg from "../assets/images/loading.gif";
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 interface GoogleButtonProps {
   type: "login" | "signup";
@@ -42,8 +43,12 @@ const GoogleButton: React.FC<GoogleButtonProps> = ({ type }) => {
       } else {
         console.error("Unexpected response status:", response.status);
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error("Error during Google authentication:", error);
+      const errorMessage =
+        error?.response?.data?.error ||
+        "Something went wrong. Please try again.";
+      toast.error(errorMessage);
     } finally {
       setLoading(false);
     }

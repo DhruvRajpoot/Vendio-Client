@@ -1,5 +1,6 @@
 {
-  "name": "go-shop",
+  "name": "vendio",
+  "description": "Vendio is a modern eCommerce platform offering a seamless online shopping experience with intuitive navigation and a wide range of products.",
   "author": {
     "name": "Dhruv Rajpoot",
     "email": "dhruvrajpootiiitbhopal@gmail.com"
@@ -19,6 +20,7 @@
     "lottie-react": "^2.4.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "react-hot-toast": "^2.4.1",
     "react-icons": "^5.2.1",
     "react-router-dom": "^6.26.0"
   },

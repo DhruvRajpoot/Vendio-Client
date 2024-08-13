@@ -6,6 +6,7 @@ import loginAnimation from "../assets/Lottie/cart.json";
 import GoogleButton from "../Components/GoogleButton";
 import Navbar from "../Components/Navbar";
 import { serverurl } from "../Config/baseurl";
+import toast from "react-hot-toast";
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState<string>("");
@@ -34,8 +35,11 @@ const Login: React.FC = () => {
 
         navigate("/");
       }
-    } catch (err) {
-      setError("Login failed. Please check your credentials and try again.");
+    } catch (err: any) {
+      console.log(err);
+      const errorMessage =
+        err?.response?.data?.error || "Login failed. Please try again.";
+      toast.error(errorMessage);
     } finally {
       setLoading(false);
     }
