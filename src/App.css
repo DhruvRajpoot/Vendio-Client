@@ -8,3 +8,22 @@
 .ranges-slider > .swiper-pagination {
   bottom: -5px;
 }
+
+.testimonialswiper .swiper-pagination {
+  bottom: -5px;
+}
+
+.swiper-pagination-bullet {
+  width: 12px;
+  height: 12px;
+  background: #202925;
+  border-radius: 50%;
+  transition: all 0.2s ease-in-out;
+}
+
+.swiper-pagination-bullet-active {
+  width: 24px;
+  height: 12px;
+  border-radius: 10px;
+  background: #000000;
+}

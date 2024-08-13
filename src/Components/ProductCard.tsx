@@ -16,10 +16,17 @@ const ProductCard: React.FC<{ product: any }> = ({ product }) => {
 
     return (
       <div className="flex items-center">
-        {Array(fullStars).fill(<FaStar className="text-yellow-500 text-lg" />)}
-        {hasHalfStar && <FaStarHalfAlt className="text-yellow-500 text-lg" />}
-        {Array(totalStars - fullStars - (hasHalfStar ? 1 : 0)).fill(
-          <FaStar className="text-gray-300 text-lg" />
+        {Array.from({ length: fullStars }, (_, index) => (
+          <FaStar key={`full-${index}`} className="text-yellow-500 text-lg" />
+        ))}
+        {hasHalfStar && (
+          <FaStarHalfAlt key="half" className="text-yellow-500 text-lg" />
+        )}
+        {Array.from(
+          { length: totalStars - fullStars - (hasHalfStar ? 1 : 0) },
+          (_, index) => (
+            <FaStar key={`empty-${index}`} className="text-gray-300 text-lg" />
+          )
         )}
       </div>
     );
