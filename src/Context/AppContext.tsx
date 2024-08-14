@@ -68,6 +68,7 @@ export function AppContextProvider({ children }: { children: ReactNode }) {
     setUser(null);
     localStorage.removeItem("access_token");
     localStorage.removeItem("user");
+    localStorage.removeItem("cart");
     document.cookie = "refreshToken=; Max-Age=0;";
     toast.success("Logged out successfully");
     navigate("/login");
