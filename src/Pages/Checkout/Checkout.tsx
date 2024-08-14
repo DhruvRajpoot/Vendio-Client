@@ -8,9 +8,14 @@ import { AiOutlineCaretLeft, AiOutlineCaretRight } from "react-icons/ai";
 
 const CheckoutPage: React.FC = () => {
   const [currentStep, setCurrentStep] = useState(0);
+  const [isStepValid, setIsStepValid] = useState(false);
+
+  const validateStep = (isValid: boolean) => {
+    setIsStepValid(isValid);
+  };
 
   const nextStep = () => {
-    if (currentStep < 2) {
+    if (isStepValid && currentStep < 2) {
       setCurrentStep(currentStep + 1);
     }
   };
@@ -41,23 +46,24 @@ const CheckoutPage: React.FC = () => {
               Back
             </button>
           )}
-          {currentStep < 2 ? (
+          {currentStep < 2 && (
             <button
               onClick={nextStep}
-              className="flex items-center ml-auto bg-teal-600 text-white p-3 rounded-md shadow-md hover:bg-teal-700 transition-colors duration-200"
+              className={`flex items-center ml-auto p-3 rounded-md shadow-md transition-colors duration-200 ${
+                isStepValid
+                  ? "bg-teal-600 text-white hover:bg-teal-700"
+                  : "bg-gray-300 text-gray-500 cursor-not-allowed"
+              }`}
+              disabled={!isStepValid}
             >
               Next <AiOutlineCaretRight className="inline ml-1" />
-            </button>
-          ) : (
-            <button className="bg-green-600 text-white p-3 rounded-md shadow-md hover:bg-green-700 transition-colors duration-200">
-              Place Order
             </button>
           )}
         </div>
 
-        <div className="bg-white shadow-lg rounded-lg p-6 mx-auto w-[90%]">
-          {currentStep === 0 && <AddressStep />}
-          {currentStep === 1 && <PaymentStep />}
+        <div className="bg-white shadow-lg rounded-lg p-4 sm:p-6 mx-auto sm:w-[90%]">
+          {currentStep === 0 && <AddressStep validateStep={validateStep} />}
+          {currentStep === 1 && <PaymentStep validateStep={validateStep} />}
           {currentStep === 2 && <ReviewStep />}
         </div>
       </div>

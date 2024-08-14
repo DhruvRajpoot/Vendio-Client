@@ -67,7 +67,7 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
                   : "bg-teal-600 hover:bg-teal-700"
               }`}
           >
-            {isCouponApplied ? "Erase" : "Apply"}
+            {isCouponApplied ? "Clear" : "Apply"}
           </button>
         </form>
       </div>
@@ -100,7 +100,7 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
 
       <Link
         to="/checkout"
-        className="bg-teal-600 text-white py-2 rounded-md hover:bg-teal-700 transition-colors"
+        className="bg-teal-600 text-white py-2 rounded-md hover:bg-teal-700 transition-colors flex items-center justify-center"
       >
         Checkout
       </Link>
