@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Lottie from "lottie-react";
 import signupAnimation from "../assets/Lottie/signup.json";
@@ -18,6 +18,8 @@ const SignUp: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
   const { login } = useAppContext();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/";
 
   const handleSignUp = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -35,8 +37,8 @@ const SignUp: React.FC = () => {
       if (response.status === 200 || response.status === 201) {
         const { user, token } = response.data;
         login(user, token.accessToken, token.refreshToken);
-        navigate("/");
         toast.success("Signed up successfully!");
+        navigate(from, { replace: true }); // Redirect to the previous location
       }
     } catch (err: any) {
       console.log(err);
@@ -165,11 +167,8 @@ const SignUp: React.FC = () => {
                   className="px-4 md:px-6 py-2 bg-gray-800 text-white rounded-md"
                   disabled={loading}
                 >
-                  {loading ? "Signing up..." : "Sign Up"}
+                  {loading ? "Signing Up..." : "Sign Up"}
                 </button>
-                <Link to="/login" className="text-sm text-indigo-600">
-                  Already have an account?
-                </Link>
               </div>
 
               <div className="text-center mb-4">
@@ -178,6 +177,13 @@ const SignUp: React.FC = () => {
 
               <div className="text-center mb-4">
                 <GoogleButton type="signup" />
+              </div>
+
+              <div className="text-center">
+                Already have an account?{" "}
+                <Link to="/login" className="text-sm text-indigo-600">
+                  Log In
+                </Link>
               </div>
             </form>
           </div>

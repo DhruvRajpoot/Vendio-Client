@@ -7,6 +7,7 @@ import ProductDetails from "../Pages/ProductDetails/ProductDetails";
 import Cart from "../Pages/Cart/Cart";
 import NotFoundPage from "../Pages/Error/404";
 import Checkout from "../Pages/Checkout/Checkout";
+import PrivateRoute from "./PrivateRoutes";
 
 export const Router = () => {
   return (
@@ -17,7 +18,10 @@ export const Router = () => {
       <Route path="/products" element={<Products />} />
       <Route path="/products/:id" element={<ProductDetails />} />
       <Route path="/cart" element={<Cart />} />
-      <Route path="/checkout" element={<Checkout />} />
+      <Route
+        path="/checkout"
+        element={<PrivateRoute element={<Checkout />} />}
+      />
       <Route path="*" element={<NotFoundPage />} />
     </Routes>
   );

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Lottie from "lottie-react";
 import loginAnimation from "../Assets/Lottie/cart.json";
@@ -16,6 +16,8 @@ const Login: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
   const { login } = useAppContext();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/";
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -32,7 +34,7 @@ const Login: React.FC = () => {
         const { user, token } = response.data;
         login(user, token.accessToken, token.refreshToken);
         toast.success("Logged in successfully!");
-        navigate("/");
+        navigate(from, { replace: true });
       }
     } catch (err: any) {
       console.log(err);
