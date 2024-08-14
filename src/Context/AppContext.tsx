@@ -7,6 +7,7 @@ import {
 } from "react";
 import { jwtDecode } from "jwt-decode";
 import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 interface User {
   _id: string;
@@ -34,6 +35,8 @@ export function AppContextProvider({ children }: { children: ReactNode }) {
   });
 
   const isAuthenticated = !!user;
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const accessToken = localStorage.getItem("access_token");
@@ -67,6 +70,7 @@ export function AppContextProvider({ children }: { children: ReactNode }) {
     localStorage.removeItem("user");
     document.cookie = "refreshToken=; Max-Age=0;";
     toast.success("Logged out successfully");
+    navigate("/login");
   };
 
   return (

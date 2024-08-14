@@ -6,14 +6,17 @@ import "./App.css";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import ToastProvider from "./Components/ToastProvider.tsx";
 import { AppContextProvider } from "./Context/AppContext.tsx";
+import { BrowserRouter } from "react-router-dom";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID}>
       <ToastProvider />
-      <AppContextProvider>
-        <App />
-      </AppContextProvider>
+      <BrowserRouter>
+        <AppContextProvider>
+          <App />
+        </AppContextProvider>
+      </BrowserRouter>
     </GoogleOAuthProvider>
   </StrictMode>
 );
