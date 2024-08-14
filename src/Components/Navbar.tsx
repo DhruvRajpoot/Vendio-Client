@@ -1,3 +1,4 @@
+import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import { RiSearch2Line } from "react-icons/ri";
 import { LiaShoppingCartSolid } from "react-icons/lia";
@@ -5,12 +6,19 @@ import { CiLogin, CiLogout } from "react-icons/ci";
 import logo from "../Assets/Images/logo.png";
 import defaultuser from "../Assets/Images/defaultuser.png";
 import { useAppContext } from "../Context/AppContext";
+import { useCart } from "../Context/CartContext";
 
 const Navbar = () => {
   const { isAuthenticated, user, logout } = useAppContext();
+  const { cartItems } = useCart();
   const location = useLocation();
 
   const isLoginPage = location.pathname === "/login";
+
+  const navlinks = [
+    { title: "Home", path: "/" },
+    { title: "Products", path: "/products" },
+  ];
 
   return (
     <div className="w-full h-16 p-3 bg-white flex items-center justify-between px-20 border-b border-b-stone-200">
@@ -29,7 +37,7 @@ const Navbar = () => {
       </Link>
 
       {/* Search */}
-      <div className="rounded-full bg-gray-100 text-gray-800 px-6 py-1 w-full max-w-96 h-10">
+      {/* <div className="rounded-full bg-gray-100 text-gray-800 px-6 py-1 w-full max-w-96 h-10">
         <form
           className="flex items-center gap-3 w-full h-full"
           onSubmit={(e) => e.preventDefault()}
@@ -43,14 +51,31 @@ const Navbar = () => {
             <RiSearch2Line className="text-xl" />
           </button>
         </form>
-      </div>
+      </div> */}
+
+      {/* Links */}
+      {
+        <div className="flex items-center gap-6">
+          {navlinks.map((link) => (
+            <Link
+              to={link.path}
+              key={link.title}
+              className={`text-gray-600 hover:text-gray-900
+                ${location.pathname === link.path ? "font-semibold" : ""}
+                `}
+            >
+              {link.title}
+            </Link>
+          ))}
+        </div>
+      }
 
       {/* User Section */}
       <div className="flex items-center gap-6 text-2xl">
         {isAuthenticated ? (
           <>
             <div className="flex items-center gap-2 text-sm font-semibold text-gray-600">
-              <span className="text-gray-800">Welcome, {user?.firstName}</span>
+              <span className="text-gray-800">{user?.firstName}</span>
               <img
                 src={user?.profilePic || defaultuser}
                 alt="Profile"
@@ -88,10 +113,15 @@ const Navbar = () => {
         <Link
           to="/cart"
           title="cart"
-          className="flex items-center gap-2 text-sm font-semibold hover:font-bold text-gray-600 hover:text-gray-900"
+          className="relative flex items-center gap-2 text-sm font-semibold hover:font-bold text-gray-600 hover:text-gray-900"
         >
-          <span>Cart</span>
           <LiaShoppingCartSolid className="text-xl" />
+          {/* Badge */}
+          {cartItems.length > 0 && (
+            <span className="absolute -top-2 -right-2 bg-teal-600 text-white text-xs font-bold rounded-full w-3.5 h-3.5 flex items-center justify-center">
+              {cartItems.length}
+            </span>
+          )}
         </Link>
       </div>
     </div>

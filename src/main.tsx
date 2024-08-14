@@ -7,6 +7,7 @@ import { GoogleOAuthProvider } from "@react-oauth/google";
 import ToastProvider from "./Components/ToastProvider.tsx";
 import { AppContextProvider } from "./Context/AppContext.tsx";
 import { BrowserRouter } from "react-router-dom";
+import { CartProvider } from "./Context/CartContext.tsx";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
@@ -14,7 +15,9 @@ createRoot(document.getElementById("root")!).render(
       <ToastProvider />
       <BrowserRouter>
         <AppContextProvider>
-          <App />
+          <CartProvider>
+            <App />
+          </CartProvider>
         </AppContextProvider>
       </BrowserRouter>
     </GoogleOAuthProvider>
