@@ -28,7 +28,9 @@ interface CartContextType {
   removeFromCart: (productId: number) => void;
   updateCart: (productId: number, quantity: number) => void;
   syncCartWithBackend: () => void;
-  applyCoupon: (code: string) => void;
+  couponCode: string;
+  setCouponCode: React.Dispatch<React.SetStateAction<string>>;
+  applyCoupon: (code: string) => number;
   discount: number;
 }
 
@@ -170,19 +172,22 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({
     }
   };
 
+  const [couponCode, setCouponCode] = useState<string>("");
   const [discount, setDiscount] = useState<number>(0);
 
   const applyCoupon = (code: string) => {
     if (code === "") {
       setDiscount(0);
-      return;
+      return 0;
     } else {
       if (code === "SAVE10") {
         setDiscount(10);
         toast.success("Coupon applied!");
+        return 10;
       } else {
         setDiscount(0);
         toast.error("Invalid coupon code.");
+        return 0;
       }
     }
   };
@@ -197,6 +202,8 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({
         syncCartWithBackend,
         applyCoupon,
         discount,
+        couponCode,
+        setCouponCode,
       }}
     >
       {children}

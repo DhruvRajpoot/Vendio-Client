@@ -1,16 +1,12 @@
 import React, { useState } from "react";
-import toast from "react-hot-toast";
 import { Link } from "react-router-dom";
+import { useCart } from "../../../Context/CartContext";
 
 interface OrderSummaryProps {
   subtotal: number;
   deliveryCharges: number;
   taxes: number;
   total: number;
-  discount: number;
-  onApplyCoupon: (code: string) => void;
-  couponCode: string;
-  setCouponCode: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const OrderSummary: React.FC<OrderSummaryProps> = ({
@@ -18,11 +14,8 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
   deliveryCharges,
   taxes,
   total,
-  discount,
-  onApplyCoupon,
-  couponCode,
-  setCouponCode,
 }) => {
+  const { couponCode, setCouponCode, applyCoupon, discount } = useCart();
   const [isCouponApplied, setIsCouponApplied] = useState<boolean>(discount > 0);
 
   const handleCouponSubmit = (e: React.FormEvent) => {
@@ -31,11 +24,11 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
 
     if (isCouponApplied) {
       setCouponCode("");
-      onApplyCoupon("");
+      applyCoupon("");
       setIsCouponApplied(false);
     } else {
-      onApplyCoupon(couponCode);
-      setIsCouponApplied(true);
+      const discountapplied = applyCoupon(couponCode);
+      if (discountapplied) setIsCouponApplied(true);
     }
   };
 

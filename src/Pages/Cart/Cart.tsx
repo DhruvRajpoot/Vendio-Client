@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import { useCart } from "../../Context/CartContext";
 import CartItem from "./Components/CartItem";
@@ -7,9 +7,7 @@ import OrderSummary from "./Components/OrderSummary";
 import EmptyCart from "./Components/EmptyCart";
 
 const Cart: React.FC = () => {
-  const { cartItems, addToCart, removeFromCart, applyCoupon, discount } =
-    useCart();
-  const [couponCode, setCouponCode] = useState("");
+  const { cartItems, addToCart, removeFromCart, discount } = useCart();
 
   const handleQuantityChange = (id: number, amount: number) => {
     const item = cartItems.find((item) => item.product.id === id);
@@ -27,23 +25,20 @@ const Cart: React.FC = () => {
     removeFromCart(id);
   };
 
-  const calculateTotal = () => {
-    return cartItems.reduce((total, item) => {
-      return (
-        total +
-        (item.product.price -
-          item.product.price * (item.product.discount / 100)) *
-          item.quantity
-      );
-    }, 0);
-  };
+  // Calculate subtotal, discount, delivery charges, taxes, and grand total
+  const subtotal = cartItems.reduce((total, item) => {
+    return (
+      total +
+      (item.product.price -
+        item.product.price * (item.product.discount / 100)) *
+        item.quantity
+    );
+  }, 0);
 
-  const totalBeforeDiscount = calculateTotal();
-  const discountAmount = (totalBeforeDiscount * discount) / 100;
-  const totalAfterDiscount = totalBeforeDiscount - discountAmount;
-
+  const discountAmount = (subtotal * discount) / 100;
   const deliveryCharges = 50;
-  const taxes = totalAfterDiscount * 0.05;
+  const taxes = (subtotal - discountAmount) * 0.05;
+  const grandTotal = subtotal - discountAmount + deliveryCharges + taxes;
 
   return (
     <div className="min-h-screen bg-gray-100">
@@ -92,14 +87,10 @@ const Cart: React.FC = () => {
 
           {cartItems.length > 0 && (
             <OrderSummary
-              subtotal={totalBeforeDiscount}
+              subtotal={subtotal}
               deliveryCharges={deliveryCharges}
               taxes={taxes}
-              total={totalAfterDiscount + deliveryCharges + taxes}
-              discount={discount}
-              onApplyCoupon={applyCoupon}
-              couponCode={couponCode}
-              setCouponCode={setCouponCode}
+              total={grandTotal}
             />
           )}
         </div>

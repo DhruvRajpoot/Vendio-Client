@@ -19,13 +19,20 @@ const ReviewStep: React.FC<ReviewStepProps> = ({ selectedPayment }) => {
     );
   }, 0);
 
+  const discountAmount = (subtotal * discount) / 100;
   const deliveryCharges = 50;
-  const taxes = (subtotal - discount) * 0.05;
-  const grandTotal = subtotal - discount + deliveryCharges + taxes;
+  const taxes = (subtotal - discountAmount) * 0.05;
+  const grandTotal = subtotal - discountAmount + deliveryCharges + taxes;
 
   const shippingAddress = {
-    name: "John Williams",
-    address: "3817 Penhurst Dr. Richardson, California 62639",
+    name: "Robert Fox",
+    mobileNumber: "1234567890",
+    addressLine: "4257 Washington Ave.",
+    area: "Manchester",
+    landmark: "Near Park",
+    city: "Manchester",
+    state: "Kentucky",
+    zip: "39495",
   };
 
   // Placeholder delivery date
@@ -53,12 +60,16 @@ const ReviewStep: React.FC<ReviewStepProps> = ({ selectedPayment }) => {
                 Shipping Address
               </h2>
               <div className="bg-gray-50 p-4 rounded-lg shadow-sm mb-4">
-                <p className="text-md font-medium text-gray-700">
+                <p className="text-lg font-semibold text-gray-800">
                   {shippingAddress.name}
                 </p>
-                <p className="text-md text-gray-600">
-                  {shippingAddress.address}
+                <p className="text-gray-700">{shippingAddress.addressLine}</p>
+                <p className="text-gray-700">
+                  {`${shippingAddress.area}, ${shippingAddress.city}, ${shippingAddress.state} `}
+                  <span className="font-semibold">{shippingAddress.zip}</span>
                 </p>
+                <p className="text-gray-700">{`Landmark: ${shippingAddress.landmark}`}</p>
+                <p className="text-gray-700 font-semibold">{`Mobile: ${shippingAddress.mobileNumber}`}</p>
               </div>
             </div>
 
@@ -90,7 +101,7 @@ const ReviewStep: React.FC<ReviewStepProps> = ({ selectedPayment }) => {
                   </div>
                   <div className="flex justify-between mb-3 text-md text-gray-700">
                     <span>Discount</span>
-                    <span>-${discount.toFixed(2)}</span>
+                    <span>-${discountAmount.toFixed(2)}</span>
                   </div>
                   <div className="flex justify-between mb-3 text-md text-gray-700">
                     <span>Delivery Charges</span>

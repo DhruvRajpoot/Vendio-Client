@@ -120,9 +120,12 @@ const AddressStep: React.FC<AddressStepProps> = ({ validateStep }) => {
                         {address.name}
                       </p>
                       <p className="text-gray-700">{address.addressLine}</p>
-                      <p className="text-gray-700">{`${address.area}, ${address.city}, ${address.state} ${address.zip}`}</p>
+                      <p className="text-gray-700">
+                        {`${address.area}, ${address.city}, ${address.state} `}
+                        <span className="font-semibold">{address.zip}</span>
+                      </p>
                       <p className="text-gray-700">{`Landmark: ${address.landmark}`}</p>
-                      <p className="text-gray-700">{`Mobile: ${address.mobileNumber}`}</p>
+                      <p className="text-gray-700 font-semibold">{`Mobile: ${address.mobileNumber}`}</p>
                     </div>
                     <input
                       type="radio"
