@@ -33,7 +33,6 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
       setCouponCode("");
       onApplyCoupon("");
       setIsCouponApplied(false);
-      toast.success("Coupon removed.");
     } else {
       onApplyCoupon(couponCode);
       setIsCouponApplied(true);
@@ -60,7 +59,7 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
           />
           <button
             type="submit"
-            className={`text-white px-4 py-2 rounded-r-md
+            className={`text-white py-2 rounded-r-md w-16
               ${
                 isCouponApplied
                   ? "bg-red-500 hover:bg-red-600"

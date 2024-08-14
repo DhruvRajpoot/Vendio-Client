@@ -5,12 +5,11 @@ import CartItem from "./Components/CartItem";
 import Navbar from "../../Components/Navbar";
 import OrderSummary from "./Components/OrderSummary";
 import EmptyCart from "./Components/EmptyCart";
-import toast from "react-hot-toast";
 
 const Cart: React.FC = () => {
-  const { cartItems, addToCart, removeFromCart } = useCart();
+  const { cartItems, addToCart, removeFromCart, applyCoupon, discount } =
+    useCart();
   const [couponCode, setCouponCode] = useState("");
-  const [discount, setDiscount] = useState(0);
 
   const handleQuantityChange = (id: number, amount: number) => {
     const item = cartItems.find((item) => item.product.id === id);
@@ -26,21 +25,6 @@ const Cart: React.FC = () => {
 
   const handleRemoveItem = (id: number) => {
     removeFromCart(id);
-  };
-
-  const handleApplyCoupon = (code: string) => {
-    if (code === "") {
-      setDiscount(0);
-      return;
-    } else {
-      if (code === "SAVE10") {
-        setDiscount(10);
-        toast.success("Coupon applied!");
-      } else {
-        setDiscount(0);
-        toast.error("Invalid coupon code.");
-      }
-    }
   };
 
   const calculateTotal = () => {
@@ -113,7 +97,7 @@ const Cart: React.FC = () => {
               taxes={taxes}
               total={totalAfterDiscount + deliveryCharges + taxes}
               discount={discount}
-              onApplyCoupon={handleApplyCoupon}
+              onApplyCoupon={applyCoupon}
               couponCode={couponCode}
               setCouponCode={setCouponCode}
             />
