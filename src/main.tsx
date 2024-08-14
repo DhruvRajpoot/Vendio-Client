@@ -5,12 +5,15 @@ import "./index.css";
 import "./App.css";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import ToastProvider from "./Components/ToastProvider.tsx";
+import { AppContextProvider } from "./Context/AppContext.tsx";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID}>
       <ToastProvider />
-      <App />
+      <AppContextProvider>
+        <App />
+      </AppContextProvider>
     </GoogleOAuthProvider>
   </StrictMode>
 );

@@ -7,6 +7,7 @@ import GoogleButton from "../Components/GoogleButton";
 import Navbar from "../Components/Navbar";
 import { serverurl } from "../Config/baseurl";
 import toast from "react-hot-toast";
+import { useAppContext } from "../Context/AppContext";
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState<string>("");
@@ -14,6 +15,7 @@ const Login: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
+  const { login } = useAppContext();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -27,18 +29,15 @@ const Login: React.FC = () => {
       });
 
       if (response.status === 200 || response.status === 201) {
-        const { accessToken, refreshToken } = response.data;
-        localStorage.setItem("access_token", accessToken);
-        document.cookie = `refreshToken=${refreshToken}; Max-Age=${
-          7 * 24 * 60 * 60
-        }; Secure; SameSite=Strict`;
-
+        const { user, token } = response.data;
+        login(user, token.accessToken, token.refreshToken);
+        toast.success("Logged in successfully!");
         navigate("/");
       }
     } catch (err: any) {
       console.log(err);
       const errorMessage =
-        err?.response?.data?.error || "Login failed. Please try again.";
+        err?.response?.data?.message || "Login failed. Please try again.";
       toast.error(errorMessage);
     } finally {
       setLoading(false);
