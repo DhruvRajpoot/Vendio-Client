@@ -113,9 +113,6 @@ const Cart: React.FC = () => {
               taxes={taxes}
               total={totalAfterDiscount + deliveryCharges + taxes}
               discount={discount}
-              onCheckout={() => {
-                /* Handle checkout logic */
-              }}
               onApplyCoupon={handleApplyCoupon}
               couponCode={couponCode}
               setCouponCode={setCouponCode}

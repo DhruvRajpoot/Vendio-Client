@@ -12,8 +12,9 @@ import {
 } from "react-icons/fa";
 import { products } from "../../Store/products";
 import ProductCard from "../../Components/ProductCard";
-import ProductNotFound from "./ProductNotFound";
+import ProductNotFound from "./Components/ProductNotFound";
 import { useCart } from "../../Context/CartContext";
+import RelatedProducts from "./Components/RelatedProducts";
 
 const ProductDetails: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -72,6 +73,42 @@ const ProductDetails: React.FC = () => {
     { label: product.title },
   ];
 
+  const specifications = [
+    {
+      label: "Material",
+      value: "High-quality materials used for durability and longevity.",
+    },
+    {
+      label: "Dimensions",
+      value: "Varies by product. Please refer to the specific product details.",
+    },
+    {
+      label: "Weight",
+      value: "Lightweight and easy to handle.",
+    },
+    {
+      label: "Warranty",
+      value: "Typically includes a manufacturer's warranty for peace of mind.",
+    },
+    {
+      label: "Color Options",
+      value: "Available in multiple colors to suit different preferences.",
+    },
+    {
+      label: "Compatibility",
+      value: "Designed to be compatible with various devices and systems.",
+    },
+    {
+      label: "Features",
+      value:
+        "Includes standard features such as adjustable settings, ergonomic design, etc.",
+    },
+    {
+      label: "Care Instructions",
+      value: "Easy to clean and maintain with standard cleaning methods.",
+    },
+  ];
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [productId]);
@@ -118,7 +155,7 @@ const ProductDetails: React.FC = () => {
           {/* Product Details */}
           <div>
             {/* Wishlist Icon */}
-            <div className="flex justify-between mb-6">
+            <div className="flex gap-2 justify-between mb-6">
               <h1 className="text-3xl font-bold text-gray-900">
                 {product.title}
               </h1>
@@ -161,17 +198,16 @@ const ProductDetails: React.FC = () => {
               <ul className="text-sm list-disc list-inside text-gray-700 space-y-2">
                 <li>
                   <strong>Bank Offer:</strong> 10% Instant Discount upto ₹500 on
-                  first Flipkart Pay Later EMI Transaction.{" "}
+                  first EMI Transaction.{" "}
                   <span className="text-blue-600">T&C</span>
                 </li>
                 <li>
-                  <strong>Bank Offer:</strong> 5% Cashback on Flipkart Axis Bank
-                  Card. <span className="text-blue-600">T&C</span>
+                  <strong>Bank Offer:</strong> 5% Cashback on Axis Bank Card.{" "}
+                  <span className="text-blue-600">T&C</span>
                 </li>
                 <li>
-                  <strong>Special Price:</strong> Get extra ₹5000 off (price
-                  inclusive of cashback/coupon).{" "}
-                  <span className="text-blue-600">T&C</span>
+                  <strong>Special Price:</strong> Get extra 10% off using code -
+                  SAVE 10 . <span className="text-blue-600">T&C</span>
                 </li>
               </ul>
             </div>
@@ -236,34 +272,21 @@ const ProductDetails: React.FC = () => {
             Specifications
           </h2>
           <ul className="list-disc list-inside text-gray-800 space-y-3">
-            <li>
-              <strong className="font-semibold">Material:</strong> Plastic,
-              Rubber
-            </li>
-            <li>
-              <strong className="font-semibold">Dimensions:</strong> 6.5 x 4.5 x
-              2 inches
-            </li>
-            <li>
-              <strong className="font-semibold">Weight:</strong> 0.5 lbs
-            </li>
-            <li>
-              <strong className="font-semibold">Warranty:</strong> 1 year
-            </li>
+            {specifications.map((spec, index) => (
+              <li key={index}>
+                <strong className="font-semibold">{spec.label}:</strong>{" "}
+                {spec.value}
+              </li>
+            ))}
           </ul>
         </div>
 
         {/* Related Products */}
         <div className="my-12">
-          <h2 className="text-3xl font-semibold text-gray-800 mt-16">
-            Related Products
-          </h2>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-8">
-            {relatedProducts.slice(0, 4).map((product) => (
-              <ProductCard key={product.id} product={product} />
-            ))}
-          </div>
+          <RelatedProducts
+            title="Related Products"
+            relatedProducts={relatedProducts}
+          />
         </div>
       </section>
 

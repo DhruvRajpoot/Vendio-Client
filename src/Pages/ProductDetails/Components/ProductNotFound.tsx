@@ -1,11 +1,11 @@
 import React from "react";
-import Navbar from "../../Components/Navbar";
-import Breadcrumb from "../../Components/Breadcrump";
-import Footer from "../../Components/Footer";
-import ProductCard from "../../Components/ProductCard"; // Assuming you have this component
-import { products } from "../../Store/products";
+import Navbar from "../../../Components/Navbar";
+import Breadcrumb from "../../../Components/Breadcrump";
+import Footer from "../../../Components/Footer";
+import { products } from "../../../Store/products";
 import Lottie from "lottie-react";
-import notFoundAnimation from "../../Assets/Lottie/notfound.json";
+import notFoundAnimation from "../../../Assets/Lottie/notfound.json";
+import RelatedProducts from "./RelatedProducts";
 
 const ProductNotFound: React.FC = () => {
   return (
@@ -30,14 +30,11 @@ const ProductNotFound: React.FC = () => {
           </h6>
         </div>
 
-        <h2 className="text-3xl font-semibold text-gray-800 mt-16">
-          Popular Products
-        </h2>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-8">
-          {products.slice(0, 4).map((product) => (
-            <ProductCard key={product.id} product={product} />
-          ))}
+        <div className="mt-8">
+          <RelatedProducts
+            title="Popular Products"
+            relatedProducts={products.slice(0, 6)}
+          />
         </div>
       </main>
       <Footer />

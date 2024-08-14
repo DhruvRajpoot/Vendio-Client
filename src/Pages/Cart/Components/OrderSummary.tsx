@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import toast from "react-hot-toast";
+import { Link } from "react-router-dom";
 
 interface OrderSummaryProps {
   subtotal: number;
@@ -7,7 +8,6 @@ interface OrderSummaryProps {
   taxes: number;
   total: number;
   discount: number;
-  onCheckout: () => void;
   onApplyCoupon: (code: string) => void;
   couponCode: string;
   setCouponCode: React.Dispatch<React.SetStateAction<string>>;
@@ -19,7 +19,6 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
   taxes,
   total,
   discount,
-  onCheckout,
   onApplyCoupon,
   couponCode,
   setCouponCode,
@@ -90,18 +89,21 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
           <span>Taxes:</span>
           <span>₹{taxes.toFixed(2)}</span>
         </div>
+
+        <div className="border-t border-gray-300 my-2" />
+
         <div className="flex justify-between font-semibold">
-          <span>Total:</span>
+          <span>Grand Total:</span>
           <span>₹{total.toFixed(2)}</span>
         </div>
       </div>
 
-      <button
-        onClick={onCheckout}
+      <Link
+        to="/checkout"
         className="bg-teal-600 text-white py-2 rounded-md hover:bg-teal-700 transition-colors"
       >
         Checkout
-      </button>
+      </Link>
     </div>
   );
 };
