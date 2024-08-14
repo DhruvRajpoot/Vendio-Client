@@ -1,6 +1,5 @@
 import React from "react";
 import { products } from "../../../Store/products";
-import { FaTrashAlt } from "react-icons/fa";
 
 interface CartItemReadOnlyProps {
   id: number;
@@ -28,20 +27,28 @@ const ReadOnlyCart: React.FC<CartItemReadOnlyProps> = ({ id, quantity }) => {
   return (
     <tr className="border-b border-gray-200">
       {/* Product */}
-      <td className="py-4 px-6 w-1/2 flex items-center space-x-4">
+      <td className="py-4 pl-6 flex items-center space-x-4 w-1/2">
         <img
           src={images[0]}
           alt={title}
           className="w-16 h-16 object-cover rounded-md shadow-sm"
         />
         <div className="flex flex-col flex-grow">
-          <span className="font-semibold text-lg truncate">{title}</span>
-          <span className="text-gray-600">{category}</span>
+          <span
+            className="font-semibold text-lg truncate w-full"
+            style={{ maxWidth: "15rem" }}
+            title={title}
+          >
+            {title}
+          </span>
+          <span className="text-gray-600 truncate">{category}</span>
         </div>
       </td>
 
       {/* Price */}
-      <td className="py-4 px-6 text-center w-1/6">₹{discountedPrice}</td>
+      <td className="py-4 px-6 text-center w-1/6 whitespace-nowrap">
+        ₹{discountedPrice}
+      </td>
 
       {/* Quantity */}
       <td className="py-4 px-6 text-center w-1/6">

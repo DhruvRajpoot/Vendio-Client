@@ -34,31 +34,38 @@ const CheckoutPage: React.FC = () => {
     <>
       <Navbar />
       <div className="container mx-auto px-4 py-6 bg-gray-50 min-h-screen">
-        <StepProgress currentStep={currentStep} />
+        <div className="flex justify-between">
+          <div className="w-20">
+            {currentStep > 0 && (
+              <button
+                onClick={prevStep}
+                className="flex items-center mr-auto bg-gray-300 text-gray-800 p-3 rounded-md shadow-md hover:bg-gray-400 transition-colors duration-200"
+              >
+                <AiOutlineCaretLeft className="inline mr-1" />
+                Back
+              </button>
+            )}
+          </div>
 
-        <div className="flex justify-between my-8">
-          {currentStep > 0 && (
-            <button
-              onClick={prevStep}
-              className="flex items-center mr-auto bg-gray-300 text-gray-800 p-3 rounded-md shadow-md hover:bg-gray-400 transition-colors duration-200"
-            >
-              <AiOutlineCaretLeft className="inline mr-1" />
-              Back
-            </button>
-          )}
-          {currentStep < 2 && (
-            <button
-              onClick={nextStep}
-              className={`flex items-center ml-auto p-3 rounded-md shadow-md transition-colors duration-200 ${
-                isStepValid
-                  ? "bg-teal-600 text-white hover:bg-teal-700"
-                  : "bg-gray-300 text-gray-500 cursor-not-allowed"
-              }`}
-              disabled={!isStepValid}
-            >
-              Next <AiOutlineCaretRight className="inline ml-1" />
-            </button>
-          )}
+          <div className="flex-1">
+            <StepProgress currentStep={currentStep} />
+          </div>
+
+          <div className="w-20">
+            {currentStep < 2 && (
+              <button
+                onClick={nextStep}
+                className={`flex items-center ml-auto p-3 rounded-md shadow-md transition-colors duration-200 ${
+                  isStepValid
+                    ? "bg-teal-600 text-white hover:bg-teal-700"
+                    : "bg-gray-300 text-gray-500 cursor-not-allowed"
+                }`}
+                disabled={!isStepValid}
+              >
+                Next <AiOutlineCaretRight className="inline ml-1" />
+              </button>
+            )}
+          </div>
         </div>
 
         <div className="bg-white shadow-lg rounded-lg p-4 sm:p-6 mx-auto sm:w-[90%]">

@@ -36,7 +36,10 @@ const PaymentStep: React.FC<PaymentStepProps> = ({ validateStep }) => {
             checked={selectedPayment === "razorpay"}
             readOnly
           />
-          <label htmlFor="razorpay" className="flex-1 flex items-center">
+          <label
+            htmlFor="razorpay"
+            className="flex-1 flex items-center cursor-pointer"
+          >
             <RiSecurePaymentFill className="text-2xl text-teal-600" />
             <div className="ml-4">
               <span className="text-lg font-semibold text-gray-800">
@@ -66,7 +69,10 @@ const PaymentStep: React.FC<PaymentStepProps> = ({ validateStep }) => {
             checked={selectedPayment === "cod"}
             readOnly
           />
-          <label htmlFor="cod" className="flex-1 flex items-center">
+          <label
+            htmlFor="cod"
+            className="flex-1 cursor-pointer flex items-center"
+          >
             <FaMoneyBillWave className="text-2xl text-teal-600" />
             <div className="ml-4">
               <span className="text-lg font-semibold text-gray-800">
