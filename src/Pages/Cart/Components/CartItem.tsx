@@ -18,10 +18,16 @@ const CartItem: React.FC<CartItemProps> = ({
   const product = products.find((p) => p.id === id);
 
   if (!product) {
-    return null;
+    return (
+      <tr>
+        <td colSpan={5} className="py-4 px-6 text-center text-red-500">
+          Product not found
+        </td>
+      </tr>
+    );
   }
 
-  const { images, title, price, discount } = product;
+  const { images, title, price, discount, category } = product;
 
   const discountedPrice = (price - price * (discount / 100)).toFixed(2);
   const itemTotal = (parseFloat(discountedPrice) * quantity).toFixed(2);
@@ -37,7 +43,7 @@ const CartItem: React.FC<CartItemProps> = ({
         />
         <div className="flex flex-col flex-grow">
           <span className="font-semibold text-lg truncate">{title}</span>
-          <span className="text-gray-600">{product.category}</span>
+          <span className="text-gray-600">{category}</span>
         </div>
       </td>
 
@@ -48,16 +54,22 @@ const CartItem: React.FC<CartItemProps> = ({
       <td className="py-4 px-6 text-center w-1/6">
         <div className="flex items-center justify-center space-x-2">
           <button
-            onClick={() => onQuantityChange(-1)}
-            className="bg-teal-600 text-white py-1 px-3 rounded-md hover:bg-teal-700 transition-colors"
+            onClick={() => {
+              if (quantity > 1) {
+                onQuantityChange(-1);
+              } else {
+                console.warn("Cannot decrease quantity below 1");
+              }
+            }}
+            className="bg-teal-600 text-white py-1 px-3 rounded-md disabled:opacity-50"
             disabled={quantity <= 1}
           >
             -
           </button>
-          <span className="text-lg font-medium">{quantity}</span>
+          <span className="text-lg">{quantity}</span>
           <button
             onClick={() => onQuantityChange(1)}
-            className="bg-teal-600 text-white py-1 px-3 rounded-md hover:bg-teal-700 transition-colors"
+            className="bg-teal-600 text-white py-1 px-3 rounded-md"
           >
             +
           </button>
@@ -65,17 +77,12 @@ const CartItem: React.FC<CartItemProps> = ({
       </td>
 
       {/* Total */}
-      <td className="py-4 px-6 text-center font-semibold w-1/6">
-        ₹{itemTotal}
-      </td>
+      <td className="py-4 px-6 text-center w-1/6">₹{itemTotal}</td>
 
-      {/* Remove Button */}
+      {/* Remove */}
       <td className="py-4 px-6 text-center w-1/6">
-        <button
-          onClick={onRemove}
-          className="text-red-600 hover:text-red-800 transition-colors"
-        >
-          <FaTrashAlt className="w-5 h-5" />
+        <button onClick={onRemove} className="text-red-600 hover:text-red-800">
+          <FaTrashAlt size={20} />
         </button>
       </td>
     </tr>

@@ -1,53 +1,55 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { products } from "../../Store/products";
+import { useCart } from "../../Context/CartContext";
 import CartItem from "./Components/CartItem";
 import Navbar from "../../Components/Navbar";
 import OrderSummary from "./Components/OrderSummary";
 import EmptyCart from "./Components/EmptyCart";
-
-interface CartItem {
-  id: number;
-  quantity: number;
-}
+import toast from "react-hot-toast";
 
 const Cart: React.FC = () => {
-  const [cartItems, setCartItems] = useState<CartItem[]>([]);
-
+  const { cartItems, addToCart, removeFromCart } = useCart();
   const [couponCode, setCouponCode] = useState("");
   const [discount, setDiscount] = useState(0);
 
   const handleQuantityChange = (id: number, amount: number) => {
-    setCartItems((prev) =>
-      prev.map((item) =>
-        item.id === id
-          ? { ...item, quantity: Math.max(item.quantity + amount, 1) }
-          : item
-      )
-    );
+    const item = cartItems.find((item) => item.product.id === id);
+    if (item) {
+      const newQuantity = item.quantity + amount;
+      if (newQuantity <= 0) {
+        removeFromCart(id);
+      } else {
+        addToCart(item.product, amount);
+      }
+    }
   };
 
   const handleRemoveItem = (id: number) => {
-    setCartItems((prev) => prev.filter((item) => item.id !== id));
+    removeFromCart(id);
   };
 
   const handleApplyCoupon = (code: string) => {
-    if (code === "SAVE10") {
-      setDiscount(10);
-    } else {
+    if (code === "") {
       setDiscount(0);
+      return;
+    } else {
+      if (code === "SAVE10") {
+        setDiscount(10);
+        toast.success("Coupon applied!");
+      } else {
+        setDiscount(0);
+        toast.error("Invalid coupon code.");
+      }
     }
   };
 
   const calculateTotal = () => {
     return cartItems.reduce((total, item) => {
-      const product = products.find((p) => p.id === item.id);
       return (
         total +
-        (product
-          ? (product.price - product.price * (product.discount / 100)) *
-            item.quantity
-          : 0)
+        (item.product.price -
+          item.product.price * (item.product.discount / 100)) *
+          item.quantity
       );
     }, 0);
   };
@@ -56,16 +58,13 @@ const Cart: React.FC = () => {
   const discountAmount = (totalBeforeDiscount * discount) / 100;
   const totalAfterDiscount = totalBeforeDiscount - discountAmount;
 
-  // Additional calculations
-  const deliveryCharges = 50; // Example delivery charges
-  const taxes = totalAfterDiscount * 0.05; // Example taxes (5%)
+  const deliveryCharges = 50;
+  const taxes = totalAfterDiscount * 0.05;
 
   return (
     <div className="min-h-screen bg-gray-100">
       <Navbar />
-
       <div className="container mx-auto px-4 py-12">
-        {/* Cart Heading */}
         <div className="mb-8 flex justify-between items-center">
           <h1 className="text-3xl font-bold">Your Cart</h1>
           <span className="text-lg text-gray-600">
@@ -74,14 +73,13 @@ const Cart: React.FC = () => {
         </div>
 
         <div className="flex gap-6">
-          {/* Cart Items or Empty Cart */}
           <div className="flex-1 bg-white shadow-md rounded-lg">
             {cartItems.length === 0 ? (
               <EmptyCart />
             ) : (
               <div>
                 <table className="w-full border-collapse">
-                  <thead className="bg-gray-200 text-left ">
+                  <thead className="bg-gray-200 text-left">
                     <tr>
                       <th className="py-3 px-6 w-1/2">Product</th>
                       <th className="text-center py-3 px-6 w-1/6">Price</th>
@@ -93,13 +91,13 @@ const Cart: React.FC = () => {
                   <tbody>
                     {cartItems.map((item) => (
                       <CartItem
-                        key={item.id}
-                        id={item.id}
+                        key={item.product.id}
+                        id={item.product.id}
                         quantity={item.quantity}
                         onQuantityChange={(amount) =>
-                          handleQuantityChange(item.id, amount)
+                          handleQuantityChange(item.product.id, amount)
                         }
-                        onRemove={() => handleRemoveItem(item.id)}
+                        onRemove={() => handleRemoveItem(item.product.id)}
                       />
                     ))}
                   </tbody>
@@ -108,7 +106,6 @@ const Cart: React.FC = () => {
             )}
           </div>
 
-          {/* Order Summary */}
           {cartItems.length > 0 && (
             <OrderSummary
               subtotal={totalBeforeDiscount}
@@ -126,7 +123,6 @@ const Cart: React.FC = () => {
           )}
         </div>
 
-        {/* Continue Shopping Button */}
         {cartItems.length > 0 && (
           <div className="mt-8 text-center">
             <p className="text-gray-700 mb-4">

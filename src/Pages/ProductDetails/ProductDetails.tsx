@@ -13,12 +13,15 @@ import {
 import { products } from "../../Store/products";
 import ProductCard from "../../Components/ProductCard";
 import ProductNotFound from "./ProductNotFound";
+import { useCart } from "../../Context/CartContext";
 
 const ProductDetails: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const productId = Number(id);
 
   const product = products.find((product) => product.id === productId);
+
+  const { addToCart } = useCart();
 
   if (!product) {
     return <ProductNotFound />;
@@ -72,6 +75,10 @@ const ProductDetails: React.FC = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [productId]);
+
+  const handleAddToCart = () => {
+    addToCart(product, quantity);
+  };
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -189,7 +196,10 @@ const ProductDetails: React.FC = () => {
             {/* Action Buttons */}
             <div className="flex items-center space-x-4 mb-6">
               {/* Add to Cart Button */}
-              <button className="bg-teal-600 text-white py-2 px-6 rounded-md shadow-lg hover:bg-teal-700 transition-colors flex items-center space-x-2">
+              <button
+                onClick={handleAddToCart}
+                className="bg-teal-600 text-white py-2 px-6 rounded-md shadow-lg hover:bg-teal-700 transition-colors flex items-center space-x-2"
+              >
                 <FaShoppingCart className="text-xl" />
                 <span>Add to Cart</span>
               </button>
