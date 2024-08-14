@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Navbar from "../../Components/Navbar";
 import Breadcrumb from "../../Components/Breadcrump";
@@ -68,6 +68,10 @@ const ProductDetails: React.FC = () => {
     { label: "Products", link: "/products" },
     { label: product.title },
   ];
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [productId]);
 
   return (
     <div className="flex flex-col min-h-screen">

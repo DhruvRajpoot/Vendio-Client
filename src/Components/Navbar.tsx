@@ -1,10 +1,17 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { RiSearch2Line } from "react-icons/ri";
 import { LiaShoppingCartSolid } from "react-icons/lia";
-import { CiLogin } from "react-icons/ci";
+import { CiLogin, CiLogout } from "react-icons/ci";
 import logo from "../Assets/Images/logo.png";
+import defaultuser from "../Assets/Images/defaultuser.png";
+import { useAppContext } from "../Context/AppContext";
 
 const Navbar = () => {
+  const { isAuthenticated, user, logout } = useAppContext();
+  const location = useLocation();
+
+  const isLoginPage = location.pathname === "/login";
+
   return (
     <div className="w-full h-16 p-3 bg-white flex items-center justify-between px-20 border-b border-b-stone-200">
       {/* Logo */}
@@ -38,16 +45,45 @@ const Navbar = () => {
         </form>
       </div>
 
-      {/* Others */}
+      {/* User Section */}
       <div className="flex items-center gap-6 text-2xl">
-        <Link
-          to="/login"
-          title="login"
-          className="flex items-center gap-2 text-sm font-semibold hover:font-bold text-gray-600 hover:text-gray-900"
-        >
-          <span>Login</span>
-          <CiLogin className="text-xl" />
-        </Link>
+        {isAuthenticated ? (
+          <>
+            <div className="flex items-center gap-2 text-sm font-semibold text-gray-600">
+              <span className="text-gray-800">Welcome, {user?.firstName}</span>
+              <img
+                src={user?.profilePic || defaultuser}
+                alt="Profile"
+                className="w-8 h-8 rounded-full"
+              />
+            </div>
+            <button
+              onClick={logout}
+              className="flex items-center gap-2 text-sm font-semibold hover:font-bold text-gray-600 hover:text-gray-900"
+            >
+              Logout
+              <CiLogout className="text-xl" />
+            </button>
+          </>
+        ) : isLoginPage ? (
+          <Link
+            to="/signup"
+            title="signup"
+            className="flex items-center gap-2 text-sm font-semibold hover:font-bold text-gray-600 hover:text-gray-900"
+          >
+            <span>Sign Up</span>
+            <CiLogin className="text-xl" />
+          </Link>
+        ) : (
+          <Link
+            to="/login"
+            title="login"
+            className="flex items-center gap-2 text-sm font-semibold hover:font-bold text-gray-600 hover:text-gray-900"
+          >
+            <span>Login</span>
+            <CiLogin className="text-xl" />
+          </Link>
+        )}
 
         <Link
           to="/cart"

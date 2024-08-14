@@ -7,6 +7,7 @@ import animationData from "../assets/Lottie/googlelogin.json";
 import loadingimg from "../assets/images/loading.gif";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
+import { useAppContext } from "../Context/AppContext";
 
 interface GoogleButtonProps {
   type: "login" | "signup";
@@ -15,6 +16,7 @@ interface GoogleButtonProps {
 const GoogleButton: React.FC<GoogleButtonProps> = ({ type }) => {
   const [loading, setLoading] = useState<boolean>(false);
   const navigate = useNavigate();
+  const { login } = useAppContext();
 
   const googleLogin = useGoogleLogin({
     onSuccess: (tokenResponse) => handleSuccess(tokenResponse.access_token),
@@ -32,13 +34,11 @@ const GoogleButton: React.FC<GoogleButtonProps> = ({ type }) => {
       );
 
       if (response.status === 200 || response.status === 201) {
-        const { accessToken, refreshToken } = response.data.token;
-
-        localStorage.setItem("access_token", accessToken);
-        document.cookie = `refreshToken=${refreshToken}; Max-Age=${
-          7 * 24 * 60 * 60
-        }; Secure; HttpOnly`;
-
+        const { user, token } = response.data;
+        login(user, token.accessToken, token.refreshToken);
+        toast.success(
+          `${type === "login" ? "Logged in" : "Signed up"} successfully!`
+        );
         navigate("/");
       } else {
         console.error("Unexpected response status:", response.status);
@@ -46,7 +46,7 @@ const GoogleButton: React.FC<GoogleButtonProps> = ({ type }) => {
     } catch (error: any) {
       console.error("Error during Google authentication:", error);
       const errorMessage =
-        error?.response?.data?.error ||
+        error?.response?.data?.message ||
         "Something went wrong. Please try again.";
       toast.error(errorMessage);
     } finally {
