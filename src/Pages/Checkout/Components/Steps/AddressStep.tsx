@@ -1,56 +1,46 @@
 import React, { useState, useEffect } from "react";
 import toast from "react-hot-toast";
-
-interface Address {
-  name: string;
-  mobileNumber: string;
-  addressLine: string;
-  area: string;
-  landmark: string;
-  city: string;
-  state: string;
-  zip: string;
-}
+import { ShippingAddress } from "../../../../Context/OrderContext";
 
 interface AddressStepProps {
   validateStep: (isValid: boolean) => void;
 }
 
 const AddressStep: React.FC<AddressStepProps> = ({ validateStep }) => {
-  const [addresses, setAddresses] = useState<Address[]>([
+  const [addresses, setAddresses] = useState<ShippingAddress[]>([
     {
       name: "Robert Fox",
-      mobileNumber: "123-456-7890",
+      phone: "1234567890",
       addressLine: "4257 Washington Ave.",
       area: "Manchester",
       landmark: "Near Park",
       city: "Manchester",
       state: "Kentucky",
-      zip: "39495",
+      pincode: "394956",
     },
     {
       name: "John Williams",
-      mobileNumber: "987-654-3210",
+      phone: "9876543210",
       addressLine: "3817 Penhurst Dr.",
       area: "Richardson",
       landmark: "Near School",
       city: "Richardson",
       state: "California",
-      zip: "62639",
+      pincode: "626397",
     },
   ]);
 
   const [selectedAddress, setSelectedAddress] = useState<number | null>(null);
 
-  const [newAddress, setNewAddress] = useState<Address>({
+  const [newAddress, setNewAddress] = useState<ShippingAddress>({
     name: "",
-    mobileNumber: "",
+    phone: "",
     addressLine: "",
     area: "",
     landmark: "",
     city: "",
     state: "",
-    zip: "",
+    pincode: "",
   });
 
   const selectAddress = (index: number) => {
@@ -73,13 +63,13 @@ const AddressStep: React.FC<AddressStepProps> = ({ validateStep }) => {
       toast.success("Address added successfully!");
       setNewAddress({
         name: "",
-        mobileNumber: "",
+        phone: "",
         addressLine: "",
         area: "",
         landmark: "",
         city: "",
         state: "",
-        zip: "",
+        pincode: "",
       });
     } catch (error) {
       toast.error("Failed to add address. Please try again.");
@@ -122,10 +112,10 @@ const AddressStep: React.FC<AddressStepProps> = ({ validateStep }) => {
                       <p className="text-gray-700">{address.addressLine}</p>
                       <p className="text-gray-700">
                         {`${address.area}, ${address.city}, ${address.state} `}
-                        <span className="font-semibold">{address.zip}</span>
+                        <span className="font-semibold">{address.pincode}</span>
                       </p>
                       <p className="text-gray-700">{`Landmark: ${address.landmark}`}</p>
-                      <p className="text-gray-700 font-semibold">{`Mobile: ${address.mobileNumber}`}</p>
+                      <p className="text-gray-700 font-semibold">{`Mobile: ${address.phone}`}</p>
                     </div>
                     <input
                       type="radio"
@@ -160,8 +150,8 @@ const AddressStep: React.FC<AddressStepProps> = ({ validateStep }) => {
               <input
                 className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent outline-none"
                 type="text"
-                name="mobileNumber"
-                value={newAddress.mobileNumber}
+                name="phone"
+                value={newAddress.phone}
                 onChange={handleInputChange}
                 placeholder="Mobile Number"
                 required
@@ -214,8 +204,8 @@ const AddressStep: React.FC<AddressStepProps> = ({ validateStep }) => {
               <input
                 className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent outline-none"
                 type="text"
-                name="zip"
-                value={newAddress.zip}
+                name="pincode"
+                value={newAddress.pincode}
                 onChange={handleInputChange}
                 placeholder="Pincode"
                 required

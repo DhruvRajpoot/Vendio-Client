@@ -1,6 +1,7 @@
 import React from "react";
 import { useCart } from "../../../../Context/CartContext";
 import CartTable from "../CartTable";
+import { useOrder } from "../../../../Context/OrderContext";
 
 interface ReviewStepProps {
   selectedPayment: string | null;
@@ -26,18 +27,35 @@ const ReviewStep: React.FC<ReviewStepProps> = ({ selectedPayment }) => {
 
   const shippingAddress = {
     name: "Robert Fox",
-    mobileNumber: "1234567890",
+    phone: "123-456-7890",
     addressLine: "4257 Washington Ave.",
     area: "Manchester",
     landmark: "Near Park",
     city: "Manchester",
     state: "Kentucky",
-    zip: "39495",
+    pincode: "394956",
   };
 
   // Placeholder delivery date
   const estimatedDeliveryDate = new Date();
   estimatedDeliveryDate.setDate(estimatedDeliveryDate.getDate() + 5);
+
+  // Place Order function
+  const { createOrder } = useOrder();
+
+  const handlePlaceOrder = async () => {
+    if (shippingAddress && selectedPayment) {
+      try {
+        await createOrder({
+          shippingAddress,
+          paymentMethod: selectedPayment,
+          discountAmount,
+        });
+      } catch (err: any) {
+        console.log(err);
+      }
+    }
+  };
 
   return (
     <div className="rounded-lg">
@@ -66,10 +84,12 @@ const ReviewStep: React.FC<ReviewStepProps> = ({ selectedPayment }) => {
                 <p className="text-gray-700">{shippingAddress.addressLine}</p>
                 <p className="text-gray-700">
                   {`${shippingAddress.area}, ${shippingAddress.city}, ${shippingAddress.state} `}
-                  <span className="font-semibold">{shippingAddress.zip}</span>
+                  <span className="font-semibold">
+                    {shippingAddress.pincode}
+                  </span>
                 </p>
                 <p className="text-gray-700">{`Landmark: ${shippingAddress.landmark}`}</p>
-                <p className="text-gray-700 font-semibold">{`Mobile: ${shippingAddress.mobileNumber}`}</p>
+                <p className="text-gray-700 font-semibold">{`Mobile: ${shippingAddress.phone}`}</p>
               </div>
             </div>
 
@@ -124,6 +144,7 @@ const ReviewStep: React.FC<ReviewStepProps> = ({ selectedPayment }) => {
           <button
             type="button"
             className="bg-teal-600 text-white py-2 px-6 rounded-md shadow-md hover:bg-teal-700 transition-colors duration-200"
+            onClick={handlePlaceOrder}
           >
             Place Order
           </button>

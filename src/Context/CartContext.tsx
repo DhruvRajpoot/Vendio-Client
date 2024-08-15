@@ -32,6 +32,7 @@ interface CartContextType {
   setCouponCode: React.Dispatch<React.SetStateAction<string>>;
   applyCoupon: (code: string) => number;
   discount: number;
+  clearCart: () => void;
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
@@ -192,6 +193,11 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({
     }
   };
 
+  const clearCart = () => {
+    setCartItems([]);
+    localStorage.removeItem("cart");
+  };
+
   return (
     <CartContext.Provider
       value={{
@@ -204,6 +210,7 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({
         discount,
         couponCode,
         setCouponCode,
+        clearCart,
       }}
     >
       {children}
