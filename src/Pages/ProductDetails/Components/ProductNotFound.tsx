@@ -1,6 +1,6 @@
 import React from "react";
 import Navbar from "../../../Components/Navbar";
-import Breadcrumb from "../../../Components/Breadcrump";
+import Breadcrumb from "../../../Components/Breadcrumb";
 import Footer from "../../../Components/Footer";
 import { products } from "../../../Store/products";
 import Lottie from "lottie-react";

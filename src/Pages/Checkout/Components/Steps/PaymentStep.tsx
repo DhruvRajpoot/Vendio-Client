@@ -7,8 +7,13 @@ interface PaymentStepProps {
   setSelectedPayment: (paymentMethod: string | null) => void;
 }
 
-const PaymentStep: React.FC<PaymentStepProps> = ({ validateStep, setSelectedPayment }) => {
-  const [selectedPayment, setSelectedPaymentState] = useState<string | null>(null);
+const PaymentStep: React.FC<PaymentStepProps> = ({
+  validateStep,
+  setSelectedPayment,
+}) => {
+  const [selectedPayment, setSelectedPaymentState] = useState<string | null>(
+    null
+  );
 
   useEffect(() => {
     validateStep(selectedPayment !== null);
@@ -20,8 +25,8 @@ const PaymentStep: React.FC<PaymentStepProps> = ({ validateStep, setSelectedPaym
   };
 
   return (
-    <div className="container mx-auto p-4 sm:p-6 bg-gray-50 rounded-lg shadow-lg">
-      <h2 className="text-3xl font-bold text-teal-600 mb-6 text-center">
+    <div className="mx-auto p-4 sm:p-6 bg-gray-50 rounded-lg shadow-lg">
+      <h2 className="text-2xl sm:text-3xl font-bold text-teal-600 mb-6 text-center">
         Payment Method
       </h2>
       <div className="flex flex-col items-center space-y-6">

@@ -1,3 +1,4 @@
+// src/Router.tsx
 import { Routes, Route } from "react-router-dom";
 import SignUp from "../Pages/SignUp";
 import Login from "../Pages/Login";
@@ -8,6 +9,11 @@ import Cart from "../Pages/Cart/Cart";
 import NotFoundPage from "../Pages/Error/404";
 import Checkout from "../Pages/Checkout/Checkout";
 import PrivateRoute from "./PrivateRoutes";
+import MyAccount from "../Pages/Account/Account";
+import Profile from "../Pages/Account/Nested/Profile";
+import Address from "../Pages/Account/Nested/Address";
+import Wishlist from "../Pages/Account/Nested/Wishlist";
+import Orders from "../Pages/Account/Nested/Orders";
 
 export const Router = () => {
   return (
@@ -22,6 +28,13 @@ export const Router = () => {
         path="/checkout"
         element={<PrivateRoute element={<Checkout />} />}
       />
+      <Route path="/account" element={<MyAccount />}>
+        <Route index element={<Profile />} />
+        <Route path="profile" element={<Profile />} />
+        <Route path="orders" element={<Orders />} />
+        <Route path="address" element={<Address />} />
+        <Route path="wishlist" element={<Wishlist />} />
+      </Route>
       <Route path="*" element={<NotFoundPage />} />
     </Routes>
   );

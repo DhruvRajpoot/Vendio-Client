@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { RiSearch2Line } from "react-icons/ri";
 import { LiaShoppingCartSolid } from "react-icons/lia";
 import { CiLogin, CiLogout } from "react-icons/ci";
@@ -12,6 +12,7 @@ const Navbar = () => {
   const { isAuthenticated, user, logout } = useAppContext();
   const { cartItems } = useCart();
   const location = useLocation();
+  const navigate = useNavigate();
 
   const isLoginPage = location.pathname === "/login";
 
@@ -19,6 +20,10 @@ const Navbar = () => {
     { title: "Home", path: "/" },
     { title: "Products", path: "/products" },
   ];
+
+  const handleProfileClick = () => {
+    navigate("/account/profile");
+  };
 
   return (
     <div className="w-full h-16 p-3 bg-white flex items-center justify-between px-20 border-b border-b-stone-200">
@@ -72,16 +77,26 @@ const Navbar = () => {
 
       {/* User Section */}
       <div className="flex items-center gap-6 text-2xl">
+        <div
+          className="flex items-center gap-2 text-sm font-semibold text-gray-600 cursor-pointer"
+          title="account"
+          onClick={handleProfileClick}
+        >
+          <span className="text-gray-800">
+            {isAuthenticated ? user?.firstName : "Hi, Guest"}
+          </span>
+
+          <div className="bg-gray-100 rounded-full">
+            <img
+              src={user?.profilePic || defaultuser}
+              alt="Profile"
+              className="w-8 h-8 rounded-full"
+            />
+          </div>
+        </div>
+
         {isAuthenticated ? (
           <>
-            <div className="flex items-center gap-2 text-sm font-semibold text-gray-600">
-              <span className="text-gray-800">{user?.firstName}</span>
-              <img
-                src={user?.profilePic || defaultuser}
-                alt="Profile"
-                className="w-8 h-8 rounded-full"
-              />
-            </div>
             <button
               onClick={logout}
               className="flex items-center gap-2 text-sm font-semibold hover:font-bold text-gray-600 hover:text-gray-900"
@@ -92,7 +107,7 @@ const Navbar = () => {
           </>
         ) : isLoginPage ? (
           <Link
-            to="/signup"
+            to={`/signup?redirect=${location.pathname}`}
             title="signup"
             className="flex items-center gap-2 text-sm font-semibold hover:font-bold text-gray-600 hover:text-gray-900"
           >
@@ -101,7 +116,7 @@ const Navbar = () => {
           </Link>
         ) : (
           <Link
-            to="/login"
+            to={`/login?redirect=${location.pathname}`}
             title="login"
             className="flex items-center gap-2 text-sm font-semibold hover:font-bold text-gray-600 hover:text-gray-900"
           >

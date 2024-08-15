@@ -17,7 +17,8 @@ const Login: React.FC = () => {
   const navigate = useNavigate();
   const { login } = useAppContext();
   const location = useLocation();
-  const from = location.state?.from?.pathname || "/";
+  const params = new URLSearchParams(location.search);
+  const redirectPath = params.get("redirect") || "/";
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -34,7 +35,7 @@ const Login: React.FC = () => {
         const { user, token } = response.data;
         login(user, token.accessToken, token.refreshToken);
         toast.success("Logged in successfully!");
-        navigate(from, { replace: true });
+        navigate(redirectPath, { replace: true });
       }
     } catch (err: any) {
       console.log(err);
@@ -140,7 +141,10 @@ const Login: React.FC = () => {
 
               <div className="text-center">
                 Don't have an account?{" "}
-                <Link to="/signup" className="text-sm text-indigo-600">
+                <Link
+                  to={`/signup?redirect=${redirectPath}`}
+                  className="text-sm text-indigo-600"
+                >
                   Sign Up
                 </Link>
               </div>

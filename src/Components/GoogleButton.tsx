@@ -18,6 +18,8 @@ const GoogleButton: React.FC<GoogleButtonProps> = ({ type }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const { login } = useAppContext();
+  const params = new URLSearchParams(location.search);
+  const redirectPath = params.get("redirect") || "/";
 
   const googleLogin = useGoogleLogin({
     onSuccess: (tokenResponse) => handleSuccess(tokenResponse.access_token),
@@ -41,8 +43,7 @@ const GoogleButton: React.FC<GoogleButtonProps> = ({ type }) => {
           `${type === "login" ? "Logged in" : "Signed up"} successfully!`
         );
 
-        const { from } = (location.state as any) || { from: { pathname: "/" } };
-        navigate(from.pathname || "/", { replace: true });
+        navigate(redirectPath, { replace: true });
       } else {
         throw new Error("Unexpected response status");
       }

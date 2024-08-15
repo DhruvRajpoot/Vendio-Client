@@ -8,6 +8,7 @@ import React, {
 import toast from "react-hot-toast";
 import axiosInstance from "../Config/axiosInstance";
 import { useAppContext } from "./AppContext";
+import { couponCodes } from "../Constants/Constants";
 
 export interface Product {
   id: number;
@@ -181,10 +182,10 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({
       setDiscount(0);
       return 0;
     } else {
-      if (code === "SAVE10") {
-        setDiscount(10);
+      if (couponCodes[code]) {
+        setDiscount(couponCodes[code] * 100);
         toast.success("Coupon applied!");
-        return 10;
+        return couponCodes[code] * 100;
       } else {
         setDiscount(0);
         toast.error("Invalid coupon code.");
@@ -195,6 +196,8 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({
 
   const clearCart = () => {
     setCartItems([]);
+    setDiscount(0);
+    setCouponCode("");
     localStorage.removeItem("cart");
   };
 

@@ -46,7 +46,7 @@ const CartTable: React.FC<CartTableProps> = ({ cartItems }) => {
             return (
               <tr key={index} className="border-b border-gray-200">
                 {/* Product */}
-                <td className="py-4 px-4 flex items-center space-x-4">
+                <td className="py-4 px-4 flex items-center space-x-4 mr-6">
                   <img
                     src={images[0]}
                     alt={title}
@@ -54,8 +54,7 @@ const CartTable: React.FC<CartTableProps> = ({ cartItems }) => {
                   />
                   <div className="flex flex-col flex-grow">
                     <span
-                      className="font-semibold text-sm truncate"
-                      style={{ maxWidth: "12rem" }}
+                      className="font-semibold text-sm truncate max-w-[12rem]"
                       title={title}
                     >
                       {title}

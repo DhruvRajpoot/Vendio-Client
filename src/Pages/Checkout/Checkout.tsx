@@ -37,16 +37,16 @@ const CheckoutPage: React.FC = () => {
   return (
     <>
       <Navbar />
-      <div className="mx-auto px-4 py-6 bg-gray-50 min-h-screen">
-        <div className="flex justify-between">
-          <div className="w-20">
+      <div className="px-4 sm:px-10 py-6 bg-gray-50 min-h-screen">
+        <div className="flex justify-between gap-6">
+          <div className="w-fit sm:w-20">
             {currentStep > 0 && (
               <button
                 onClick={prevStep}
                 className="flex items-center mr-auto bg-gray-300 text-gray-800 p-3 rounded-md shadow-md hover:bg-gray-400 transition-colors duration-200"
               >
                 <AiOutlineCaretLeft className="inline mr-1" />
-                Back
+                <span className="hidden sm:inline-block">Back</span>
               </button>
             )}
           </div>
@@ -55,7 +55,7 @@ const CheckoutPage: React.FC = () => {
             <StepProgress currentStep={currentStep} />
           </div>
 
-          <div className="w-20">
+          <div className="w-fit sm:w-20">
             {currentStep < 2 && (
               <button
                 onClick={nextStep}
@@ -66,13 +66,14 @@ const CheckoutPage: React.FC = () => {
                 }`}
                 disabled={!isStepValid}
               >
-                Next <AiOutlineCaretRight className="inline ml-1" />
+                <span className="hidden sm:inline-block">Next</span>{" "}
+                <AiOutlineCaretRight className="inline ml-1" />
               </button>
             )}
           </div>
         </div>
 
-        <div className="bg-white shadow-lg rounded-lg p-4 sm:p-6 mx-auto sm:w-[90%]">
+        <div className="bg-white shadow-lg rounded-lg p-4 sm:p-6 mx-auto ">
           {currentStep === 0 && (
             <AddressStep
               validateStep={validateStep}

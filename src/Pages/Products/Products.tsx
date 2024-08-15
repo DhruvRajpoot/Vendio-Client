@@ -2,7 +2,7 @@ import React from "react";
 import ProductCard from "../../Components/ProductCard";
 import { products } from "../../Store/products";
 import Navbar from "../../Components/Navbar";
-import Breadcrumb from "../../Components/Breadcrump";
+import Breadcrumb from "../../Components/Breadcrumb";
 import Footer from "../../Components/Footer";
 
 const ProductsPage: React.FC = () => {

@@ -1,11 +1,11 @@
 import React, { createContext, useState, useContext, ReactNode } from "react";
 import axiosInstance from "../Config/axiosInstance";
 import toast from "react-hot-toast";
-import { useCart } from "./CartContext";
+import { Product, useCart } from "./CartContext";
 import { useNavigate } from "react-router-dom";
 
 interface OrderItem {
-  product: { id: number; title: string; price: number };
+  product: Product;
   quantity: number;
   totalPrice: number;
 }
@@ -21,7 +21,7 @@ export interface ShippingAddress {
   pincode: string;
 }
 
-interface Order {
+export interface Order {
   _id: string;
   userId: string;
   items: OrderItem[];
@@ -31,6 +31,8 @@ interface Order {
   discountAmount: number;
   totalItems: number;
   totalPrice: number;
+  deliveryCharges: number;
+  taxes: number;
   finalPrice: number;
   isDelivered: boolean;
   deliveredAt: Date | null;
@@ -44,7 +46,7 @@ interface OrderContextType {
   createOrder: (orderData: {
     shippingAddress: ShippingAddress;
     paymentMethod: string;
-    discountAmount: number;
+    couponCode: string | null;
   }) => Promise<void>;
   fetchOrders: () => void;
   updateOrderStatus: (orderId: string, status: string) => Promise<void>;
@@ -80,15 +82,15 @@ export const OrderProvider: React.FC<{ children: ReactNode }> = ({
   const createOrder = async (orderData: {
     shippingAddress: ShippingAddress;
     paymentMethod: string;
-    discountAmount: number;
+    couponCode: string | null;
   }) => {
     setOrderLoading(true);
     try {
       const response = await axiosInstance.post("/order", orderData);
       setOrders((prevOrders) => [...prevOrders, response.data.order]);
       toast.success("Order placed successfully");
-      navigate("/");
       clearCart();
+      navigate("/");
     } catch (err) {
       setOrderError("Failed to place order");
       console.error("Error creating order:", err);

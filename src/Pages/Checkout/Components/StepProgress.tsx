@@ -24,7 +24,7 @@ const StepProgress: React.FC<StepProgressProps> = ({ currentStep }) => {
               </div>
 
               <p
-                className={`absolute -bottom-5 whitespace-nowrap mt-2 text-sm ${
+                className={`hidden sm:block absolute -bottom-5 whitespace-nowrap mt-2 text-sm ${
                   index <= currentStep ? "text-teal-600" : "text-gray-600"
                 }`}
               >
