@@ -14,6 +14,7 @@ import { products } from "../../Store/products";
 import ProductNotFound from "./Components/ProductNotFound";
 import { useCart } from "../../Context/CartContext";
 import RelatedProducts from "./Components/RelatedProducts";
+import { useWishlist } from "../../Context/WishlistContext";
 
 const ProductDetails: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -21,11 +22,13 @@ const ProductDetails: React.FC = () => {
 
   const product = products.find((product) => product.id === productId);
 
-  const { addToCart } = useCart();
-
   if (!product) {
     return <ProductNotFound />;
   }
+
+  const { addToCart } = useCart();
+
+  const { checkInWishlist, handleWishlistClick } = useWishlist();
 
   const relatedProducts = products.filter(
     (p) => p.category === product.category && p.id !== product.id
@@ -160,7 +163,16 @@ const ProductDetails: React.FC = () => {
                 {product.title}
               </h1>
 
-              <button className="w-fit h-fit bg-gray-300 text-gray-800 p-2 rounded-md shadow-lg hover:bg-gray-400">
+              <button
+                className={`w-fit h-fit p-2 rounded-md shadow-lg flex items-center justify-center transition-all duration-300 ease-in-out ${
+                  checkInWishlist(product.id)
+                    ? "bg-red-100 text-red-500 hover:bg-red-200"
+                    : "bg-gray-200 text-gray-500 hover:bg-gray-300 hover:text-gray-600"
+                }`}
+                onClick={() => {
+                  handleWishlistClick(product.id);
+                }}
+              >
                 <FaHeart size={20} />
               </button>
             </div>

@@ -1,9 +1,11 @@
 import React from "react";
 import { FaHeart, FaStar, FaStarHalfAlt } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
+import { useWishlist } from "../Context/WishlistContext";
 
 const ProductCard: React.FC<{ product: any }> = ({ product }) => {
   const navigate = useNavigate();
+  const { checkInWishlist, handleWishlistClick } = useWishlist();
 
   const discountedPrice = (
     product.price -
@@ -47,8 +49,15 @@ const ProductCard: React.FC<{ product: any }> = ({ product }) => {
       />
       <div className="absolute top-4 right-4">
         <button
-          className="p-2 bg-white rounded-full border border-gray-300 shadow-md text-gray-500 hover:text-red-600 hover:bg-gray-100 transition-colors"
-          onClick={(e) => e.stopPropagation()}
+          className={`w-fit h-fit p-2 rounded-full shadow-lg flex items-center justify-center transition-all duration-300 ease-in-out ${
+            checkInWishlist(product.id)
+              ? "bg-red-100 text-red-500 hover:bg-red-200"
+              : "bg-gray-200 text-gray-500 hover:bg-gray-300 hover:text-gray-600"
+          }`}
+          onClick={(e) => {
+            e.stopPropagation();
+            handleWishlistClick(product.id);
+          }}
         >
           <FaHeart className="w-4 h-4" />
         </button>

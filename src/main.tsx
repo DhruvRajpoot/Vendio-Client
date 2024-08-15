@@ -9,6 +9,7 @@ import { AppContextProvider } from "./Context/AppContext.tsx";
 import { BrowserRouter } from "react-router-dom";
 import { CartProvider } from "./Context/CartContext.tsx";
 import { OrderProvider } from "./Context/OrderContext.tsx";
+import { WishlistProvider } from "./Context/WishlistContext.tsx";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
@@ -18,7 +19,9 @@ createRoot(document.getElementById("root")!).render(
         <AppContextProvider>
           <CartProvider>
             <OrderProvider>
-              <App />
+              <WishlistProvider>
+                <App />
+              </WishlistProvider>
             </OrderProvider>
           </CartProvider>
         </AppContextProvider>
