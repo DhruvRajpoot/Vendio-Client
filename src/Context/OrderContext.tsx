@@ -1,11 +1,11 @@
 import React, { createContext, useState, useContext, ReactNode } from "react";
 import axiosInstance from "../Config/axiosInstance";
 import toast from "react-hot-toast";
-import { useCart } from "./CartContext";
+import { Product, useCart } from "./CartContext";
 import { useNavigate } from "react-router-dom";
 
 interface OrderItem {
-  product: { id: number; title: string; price: number };
+  product: Product;
   quantity: number;
   totalPrice: number;
 }
@@ -21,7 +21,7 @@ export interface ShippingAddress {
   pincode: string;
 }
 
-interface Order {
+export interface Order {
   _id: string;
   userId: string;
   items: OrderItem[];
