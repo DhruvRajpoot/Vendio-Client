@@ -9,11 +9,12 @@ interface PrivateRouteProps {
 const PrivateRoute: React.FC<PrivateRouteProps> = ({ element }) => {
   const { isAuthenticated } = useAppContext();
   const location = useLocation();
+  const from = location.pathname;
 
   return isAuthenticated ? (
     element
   ) : (
-    <Navigate to="/login" state={{ from: location }} replace />
+    <Navigate to={`/login?redirect=${from}`} replace />
   );
 };
 
