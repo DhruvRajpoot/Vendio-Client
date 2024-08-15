@@ -70,10 +70,6 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
           <span>₹{subtotal.toFixed(2)}</span>
         </div>
         <div className="flex justify-between mb-2">
-          <span>Discount:</span>
-          <span>-₹{discountAmount}</span>
-        </div>
-        <div className="flex justify-between mb-2">
           <span>Delivery Charges:</span>
           <span>₹{deliveryCharges}</span>
         </div>
@@ -81,10 +77,16 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
           <span>Taxes:</span>
           <span>₹{taxes.toFixed(2)}</span>
         </div>
+        {isCouponApplied && (
+          <div className="flex justify-between mb-2 text-red-500 font-semibold">
+            <span>Discount:</span>
+            <span>-₹{discountAmount}</span>
+          </div>
+        )}
 
         <div className="border-t border-gray-300 my-2" />
 
-        <div className="flex justify-between font-semibold">
+        <div className="flex justify-between font-semibold text-lg">
           <span>Grand Total:</span>
           <span>₹{total.toFixed(2)}</span>
         </div>

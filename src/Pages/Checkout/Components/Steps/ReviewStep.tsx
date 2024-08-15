@@ -2,10 +2,8 @@ import React from "react";
 import { useCart } from "../../../../Context/CartContext";
 import CartTable from "../CartTable";
 import { ShippingAddress, useOrder } from "../../../../Context/OrderContext";
-import { IoLocation } from "react-icons/io5";
-import { MdPayments } from "react-icons/md";
-import { RiPriceTag2Fill } from "react-icons/ri";
 import { deliveryCharges, taxRate } from "../../../../Constants/Constants";
+import { FaCreditCard, FaMapMarkerAlt, FaMoneyBillAlt } from "react-icons/fa";
 
 interface ReviewStepProps {
   selectedPayment: string | null;
@@ -76,7 +74,7 @@ const ReviewStep: React.FC<ReviewStepProps> = ({
           <div className="flex-1 bg-white rounded-lg shadow-md p-6">
             <div className="mb-8">
               <h2 className="flex items-center gap-1.5 text-xl font-semibold mb-3 text-gray-800">
-                <IoLocation />
+                <FaMapMarkerAlt />
                 Shipping Address
               </h2>
               <div className="bg-gray-50 p-4 rounded-lg shadow-sm mb-4">
@@ -97,11 +95,11 @@ const ReviewStep: React.FC<ReviewStepProps> = ({
 
             <div className="mb-8">
               <h2 className="flex items-center gap-1.5 text-xl font-semibold mb-3 text-gray-800">
-                <MdPayments />
+                <FaCreditCard />
                 Payment Method
               </h2>
               <div className="bg-gray-50 p-4 rounded-lg shadow-sm mb-4">
-                <p className="text-md font-medium text-gray-700">
+                <p className="font-medium text-gray-700">
                   {selectedPayment === "cod" ? "Cash on Delivery" : "Razorpay"}
                 </p>
                 {selectedPayment === null && (
@@ -114,27 +112,29 @@ const ReviewStep: React.FC<ReviewStepProps> = ({
 
             <div>
               <h2 className="flex items-center gap-1.5 text-xl font-semibold mb-3 text-gray-800">
-                <RiPriceTag2Fill />
+                <FaMoneyBillAlt />
                 Order Summary
               </h2>
               <div className="bg-gray-50 p-4 rounded-lg shadow-sm">
                 <div>
-                  <div className="flex justify-between mb-3 text-md text-gray-700">
+                  <div className="flex justify-between mb-2 text-gray-700">
                     <span>Subtotal</span>
                     <span>${subtotal.toFixed(2)}</span>
                   </div>
-                  <div className="flex justify-between mb-3 text-md text-gray-700">
-                    <span>Discount</span>
-                    <span>-${discountAmount.toFixed(2)}</span>
-                  </div>
-                  <div className="flex justify-between mb-3 text-md text-gray-700">
+                  <div className="flex justify-between mb-2 text-gray-700">
                     <span>Delivery Charges</span>
                     <span>${deliveryCharges.toFixed(2)}</span>
                   </div>
-                  <div className="flex justify-between mb-3 text-md text-gray-700">
+                  <div className="flex justify-between mb-2 text-gray-700">
                     <span>Taxes</span>
                     <span>${taxes.toFixed(2)}</span>
                   </div>
+                  {discountAmount > 0 && (
+                    <div className="flex justify-between mb-2 text-red-500 font-semibold">
+                      <span>Discount</span>
+                      <span>-${discountAmount.toFixed(2)}</span>
+                    </div>
+                  )}
                   <div className="border-t border-gray-300 pt-4 flex justify-between font-semibold text-lg text-gray-800">
                     <span>Grand Total</span>
                     <span>${grandTotal.toFixed(2)}</span>
