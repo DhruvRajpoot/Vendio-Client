@@ -4,11 +4,25 @@ import App from "./App.tsx";
 import "./index.css";
 import "./App.css";
 import { GoogleOAuthProvider } from "@react-oauth/google";
+import ToastProvider from "./Components/ToastProvider.tsx";
+import { AppContextProvider } from "./Context/AppContext.tsx";
+import { BrowserRouter } from "react-router-dom";
+import { CartProvider } from "./Context/CartContext.tsx";
+import { OrderProvider } from "./Context/OrderContext.tsx";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID}>
-      <App />
+      <ToastProvider />
+      <BrowserRouter>
+        <AppContextProvider>
+          <CartProvider>
+            <OrderProvider>
+              <App />
+            </OrderProvider>
+          </CartProvider>
+        </AppContextProvider>
+      </BrowserRouter>
     </GoogleOAuthProvider>
   </StrictMode>
 );
