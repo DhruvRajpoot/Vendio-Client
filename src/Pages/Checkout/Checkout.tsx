@@ -5,11 +5,14 @@ import PaymentStep from "./Components/Steps/PaymentStep";
 import ReviewStep from "./Components/Steps/ReviewStep";
 import Navbar from "../../Components/Navbar";
 import { AiOutlineCaretLeft, AiOutlineCaretRight } from "react-icons/ai";
+import { ShippingAddress } from "../../Context/OrderContext";
 
 const CheckoutPage: React.FC = () => {
   const [currentStep, setCurrentStep] = useState(0);
   const [isStepValid, setIsStepValid] = useState(false);
   const [selectedPayment, setSelectedPayment] = useState<string | null>(null);
+  const [selectedAddress, setSelectedAddress] =
+    useState<ShippingAddress | null>(null);
 
   const validateStep = (isValid: boolean) => {
     setIsStepValid(isValid);
@@ -70,7 +73,13 @@ const CheckoutPage: React.FC = () => {
         </div>
 
         <div className="bg-white shadow-lg rounded-lg p-4 sm:p-6 mx-auto sm:w-[90%]">
-          {currentStep === 0 && <AddressStep validateStep={validateStep} />}
+          {currentStep === 0 && (
+            <AddressStep
+              validateStep={validateStep}
+              selectedAddress={selectedAddress}
+              setSelectedAddress={setSelectedAddress}
+            />
+          )}
           {currentStep === 1 && (
             <PaymentStep
               validateStep={validateStep}
@@ -78,7 +87,10 @@ const CheckoutPage: React.FC = () => {
             />
           )}
           {currentStep === 2 && (
-            <ReviewStep selectedPayment={selectedPayment} />
+            <ReviewStep
+              selectedPayment={selectedPayment}
+              selectedAddress={selectedAddress}
+            />
           )}
         </div>
       </div>

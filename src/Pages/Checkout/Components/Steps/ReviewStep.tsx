@@ -1,13 +1,17 @@
 import React from "react";
 import { useCart } from "../../../../Context/CartContext";
 import CartTable from "../CartTable";
-import { useOrder } from "../../../../Context/OrderContext";
+import { ShippingAddress, useOrder } from "../../../../Context/OrderContext";
 
 interface ReviewStepProps {
   selectedPayment: string | null;
+  selectedAddress: ShippingAddress | null;
 }
 
-const ReviewStep: React.FC<ReviewStepProps> = ({ selectedPayment }) => {
+const ReviewStep: React.FC<ReviewStepProps> = ({
+  selectedPayment,
+  selectedAddress: shippingAddress,
+}) => {
   const { cartItems, discount } = useCart();
 
   // Calculate subtotal, discount, delivery charges, taxes, and grand total
@@ -25,18 +29,7 @@ const ReviewStep: React.FC<ReviewStepProps> = ({ selectedPayment }) => {
   const taxes = (subtotal - discountAmount) * 0.05;
   const grandTotal = subtotal - discountAmount + deliveryCharges + taxes;
 
-  const shippingAddress = {
-    name: "Robert Fox",
-    phone: "123-456-7890",
-    addressLine: "4257 Washington Ave.",
-    area: "Manchester",
-    landmark: "Near Park",
-    city: "Manchester",
-    state: "Kentucky",
-    pincode: "394956",
-  };
-
-  // Placeholder delivery date
+  // Estimated delivery date
   const estimatedDeliveryDate = new Date();
   estimatedDeliveryDate.setDate(estimatedDeliveryDate.getDate() + 5);
 
@@ -79,17 +72,17 @@ const ReviewStep: React.FC<ReviewStepProps> = ({ selectedPayment }) => {
               </h2>
               <div className="bg-gray-50 p-4 rounded-lg shadow-sm mb-4">
                 <p className="text-lg font-semibold text-gray-800">
-                  {shippingAddress.name}
+                  {shippingAddress?.name}
                 </p>
-                <p className="text-gray-700">{shippingAddress.addressLine}</p>
+                <p className="text-gray-700">{shippingAddress?.addressLine}</p>
                 <p className="text-gray-700">
-                  {`${shippingAddress.area}, ${shippingAddress.city}, ${shippingAddress.state} `}
+                  {`${shippingAddress?.area}, ${shippingAddress?.city}, ${shippingAddress?.state} `}
                   <span className="font-semibold">
-                    {shippingAddress.pincode}
+                    {shippingAddress?.pincode}
                   </span>
                 </p>
-                <p className="text-gray-700">{`Landmark: ${shippingAddress.landmark}`}</p>
-                <p className="text-gray-700 font-semibold">{`Mobile: ${shippingAddress.phone}`}</p>
+                <p className="text-gray-700">{`Landmark: ${shippingAddress?.landmark}`}</p>
+                <p className="text-gray-700 font-semibold">{`Mobile: ${shippingAddress?.phone}`}</p>
               </div>
             </div>
 

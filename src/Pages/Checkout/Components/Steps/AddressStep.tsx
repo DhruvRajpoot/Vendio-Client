@@ -3,34 +3,21 @@ import toast from "react-hot-toast";
 import { ShippingAddress } from "../../../../Context/OrderContext";
 
 interface AddressStepProps {
-  validateStep: (isValid: boolean) => void;
+  validateStep: (
+    isValid: boolean,
+    selectedAddress: ShippingAddress | null
+  ) => void;
+
+  selectedAddress: ShippingAddress | null;
+  setSelectedAddress: (address: ShippingAddress) => void;
 }
 
-const AddressStep: React.FC<AddressStepProps> = ({ validateStep }) => {
-  const [addresses, setAddresses] = useState<ShippingAddress[]>([
-    {
-      name: "Robert Fox",
-      phone: "1234567890",
-      addressLine: "4257 Washington Ave.",
-      area: "Manchester",
-      landmark: "Near Park",
-      city: "Manchester",
-      state: "Kentucky",
-      pincode: "394956",
-    },
-    {
-      name: "John Williams",
-      phone: "9876543210",
-      addressLine: "3817 Penhurst Dr.",
-      area: "Richardson",
-      landmark: "Near School",
-      city: "Richardson",
-      state: "California",
-      pincode: "626397",
-    },
-  ]);
-
-  const [selectedAddress, setSelectedAddress] = useState<number | null>(null);
+const AddressStep: React.FC<AddressStepProps> = ({
+  validateStep,
+  selectedAddress,
+  setSelectedAddress,
+}) => {
+  const [addresses, setAddresses] = useState<ShippingAddress[]>([]);
 
   const [newAddress, setNewAddress] = useState<ShippingAddress>({
     name: "",
@@ -43,13 +30,13 @@ const AddressStep: React.FC<AddressStepProps> = ({ validateStep }) => {
     pincode: "",
   });
 
-  const selectAddress = (index: number) => {
-    setSelectedAddress(index);
-  };
-
   useEffect(() => {
-    validateStep(selectedAddress !== null);
+    validateStep(selectedAddress !== null, selectedAddress);
   }, [selectedAddress, validateStep]);
+
+  const selectAddress = (address: ShippingAddress) => {
+    setSelectedAddress(address);
+  };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -87,7 +74,7 @@ const AddressStep: React.FC<AddressStepProps> = ({ validateStep }) => {
           <h3 className="text-xl font-semibold text-gray-800 mb-4">
             Select a delivery address
           </h3>
-          <div className="space-y-6">
+          <div className="flex flex-col-reverse gap-6">
             {addresses.length === 0 ? (
               <div className="text-left text-gray-600">
                 <p className="text-lg">No addresses available.</p>
@@ -98,11 +85,11 @@ const AddressStep: React.FC<AddressStepProps> = ({ validateStep }) => {
                 <div
                   key={index}
                   className={`border rounded-lg p-5 cursor-pointer transition-shadow duration-300 ease-in-out hover:shadow-md ${
-                    selectedAddress === index
+                    selectedAddress === address
                       ? "border-teal-600 bg-teal-50"
                       : "border-gray-300 bg-white"
                   }`}
-                  onClick={() => selectAddress(index)}
+                  onClick={() => selectAddress(address)}
                 >
                   <div className="flex justify-between items-center">
                     <div>
@@ -120,8 +107,8 @@ const AddressStep: React.FC<AddressStepProps> = ({ validateStep }) => {
                     <input
                       type="radio"
                       name="selectedAddress"
-                      checked={selectedAddress === index}
-                      onChange={() => selectAddress(index)}
+                      checked={selectedAddress === address}
+                      onChange={() => selectAddress(address)}
                       className="hidden"
                     />
                   </div>
@@ -138,6 +125,7 @@ const AddressStep: React.FC<AddressStepProps> = ({ validateStep }) => {
           </h3>
           <form onSubmit={handleAddAddress}>
             <div className="space-y-4">
+              {/* Form Inputs */}
               <input
                 className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent outline-none"
                 type="text"
@@ -154,6 +142,7 @@ const AddressStep: React.FC<AddressStepProps> = ({ validateStep }) => {
                 value={newAddress.phone}
                 onChange={handleInputChange}
                 placeholder="Mobile Number"
+                pattern="[0-9]{10}"
                 required
               />
               <input
@@ -208,9 +197,10 @@ const AddressStep: React.FC<AddressStepProps> = ({ validateStep }) => {
                 value={newAddress.pincode}
                 onChange={handleInputChange}
                 placeholder="Pincode"
+                pattern="[0-9]{6}"
                 required
               />
-              <div className="flex items-center mt-4">
+              {/* <div className="flex items-center mt-4">
                 <input
                   type="checkbox"
                   id="default"
@@ -220,7 +210,7 @@ const AddressStep: React.FC<AddressStepProps> = ({ validateStep }) => {
                 <label htmlFor="default" className="ml-2 text-gray-700">
                   Use as my default address
                 </label>
-              </div>
+              </div> */}
               <button className="mt-6 w-full bg-teal-600 text-white p-3 rounded-lg shadow-md hover:bg-teal-700 transition-colors duration-300">
                 Save Address
               </button>
