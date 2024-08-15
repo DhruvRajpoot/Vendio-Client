@@ -141,7 +141,10 @@ const Login: React.FC = () => {
 
               <div className="text-center">
                 Don't have an account?{" "}
-                <Link to="/signup" className="text-sm text-indigo-600">
+                <Link
+                  to={`/signup?redirect=${redirectPath}`}
+                  className="text-sm text-indigo-600"
+                >
                   Sign Up
                 </Link>
               </div>
