@@ -34,8 +34,10 @@ const Sidebar: React.FC = () => {
             <li key={item.name}>
               <Link
                 to={item.path}
-                className={`flex items-center p-4 rounded-lg text-gray-700 hover:bg-teal-100 hover:text-teal-600 transition-colors ${
-                  isActive(item.path) ? "bg-teal-50 text-teal-600" : ""
+                className={`flex items-center p-4 rounded-lg text-gray-700 hover:bg-teal-100 transition-colors ${
+                  isActive(item.path)
+                    ? "bg-teal-200 hover:bg-teal-200"
+                    : ""
                 }`}
               >
                 <span className="text-xl mr-3">{item.icon}</span>
