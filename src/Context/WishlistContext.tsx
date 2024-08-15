@@ -5,6 +5,8 @@ import { useAppContext } from "../Context/AppContext";
 
 interface WishlistContextType {
   wishlist: Set<number>;
+  wishlistLoading: boolean;
+  wishlistError: string | null;
   fetchWishlist: () => Promise<void>;
   addProductToWishlist: (productId: number) => Promise<void>;
   removeProductFromWishlist: (productId: number) => Promise<void>;
@@ -22,6 +24,8 @@ export const WishlistProvider: React.FC<{ children: React.ReactNode }> = ({
 }) => {
   const { isAuthenticated } = useAppContext();
   const [wishlist, setWishlist] = useState<Set<number>>(new Set());
+  const [wishlistLoading, setWishlistLoading] = useState<boolean>(false);
+  const [wishlistError, setWishlistError] = useState<string | null>(null);
 
   // Check if product is in wishlist
   const checkInWishlist = (productId: number) => {
@@ -32,12 +36,18 @@ export const WishlistProvider: React.FC<{ children: React.ReactNode }> = ({
   const fetchWishlist = async () => {
     if (!isAuthenticated) return;
 
+    setWishlistLoading(true);
+    setWishlistError(null);
+
     try {
       const response = await axiosInstance.get("/wishlist");
       const wishlistProducts = response.data.wishlist.products;
       setWishlist(new Set(wishlistProducts));
     } catch (error) {
+      setWishlistError("Failed to fetch wishlist");
       console.log("Failed to fetch wishlist", error);
+    } finally {
+      setWishlistLoading(false);
     }
   };
 
@@ -52,12 +62,18 @@ export const WishlistProvider: React.FC<{ children: React.ReactNode }> = ({
       return;
     }
 
+    setWishlistLoading(true);
+    setWishlistError(null);
+
     try {
       const response = await axiosInstance.post("/wishlist", { productId });
       setWishlist(new Set(response.data.wishlist.products));
       toast.success("Product added to wishlist");
     } catch (error) {
+      setWishlistError("Failed to add product to wishlist");
       toast.error("Failed to add product to wishlist");
+    } finally {
+      setWishlistLoading(false);
     }
   };
 
@@ -68,6 +84,9 @@ export const WishlistProvider: React.FC<{ children: React.ReactNode }> = ({
       return;
     }
 
+    setWishlistLoading(true);
+    setWishlistError(null);
+
     try {
       const response = await axiosInstance.delete("/wishlist", {
         data: { productId },
@@ -75,7 +94,10 @@ export const WishlistProvider: React.FC<{ children: React.ReactNode }> = ({
       setWishlist(new Set(response.data.wishlist.products));
       toast.success("Product removed from wishlist");
     } catch (error) {
+      setWishlistError("Failed to remove product from wishlist");
       toast.error("Failed to remove product from wishlist");
+    } finally {
+      setWishlistLoading(false);
     }
   };
 
@@ -86,12 +108,18 @@ export const WishlistProvider: React.FC<{ children: React.ReactNode }> = ({
       return;
     }
 
+    setWishlistLoading(true);
+    setWishlistError(null);
+
     try {
       await axiosInstance.delete("/wishlist/clear");
       setWishlist(new Set());
       toast.success("Wishlist cleared");
     } catch (error) {
+      setWishlistError("Failed to clear wishlist");
       toast.error("Failed to clear wishlist");
+    } finally {
+      setWishlistLoading(false);
     }
   };
 
@@ -108,6 +136,8 @@ export const WishlistProvider: React.FC<{ children: React.ReactNode }> = ({
     <WishlistContext.Provider
       value={{
         wishlist,
+        wishlistLoading,
+        wishlistError,
         fetchWishlist,
         addProductToWishlist,
         removeProductFromWishlist,
