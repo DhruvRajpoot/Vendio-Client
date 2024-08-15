@@ -5,6 +5,7 @@ import CartItem from "./Components/CartItem";
 import Navbar from "../../Components/Navbar";
 import OrderSummary from "./Components/OrderSummary";
 import EmptyCart from "./Components/EmptyCart";
+import { deliveryCharges, taxRate } from "../../Constants/Constants";
 
 const Cart: React.FC = () => {
   const { cartItems, addToCart, removeFromCart, discount } = useCart();
@@ -36,8 +37,7 @@ const Cart: React.FC = () => {
   }, 0);
 
   const discountAmount = (subtotal * discount) / 100;
-  const deliveryCharges = 50;
-  const taxes = (subtotal - discountAmount) * 0.05;
+  const taxes = (subtotal - discountAmount) * taxRate;
   const grandTotal = subtotal - discountAmount + deliveryCharges + taxes;
 
   return (

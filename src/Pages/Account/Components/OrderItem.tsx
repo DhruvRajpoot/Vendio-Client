@@ -6,6 +6,7 @@ import {
   FaCreditCard,
   FaCheckCircle,
   FaStar,
+  FaMoneyBillAlt,
 } from "react-icons/fa";
 
 interface OrderItemProps {
@@ -30,7 +31,7 @@ const OrderItem: React.FC<OrderItemProps> = ({ order }) => {
 
       <div className="flex justify-between mb-4">
         <p className="text-lg font-semibold text-gray-800">
-          Total: ${order.finalPrice.toFixed(2)}
+          Total: ${order?.finalPrice.toFixed(2)}
         </p>
         <p className="text-md font-medium">
           Status:{" "}
@@ -63,12 +64,12 @@ const OrderItem: React.FC<OrderItemProps> = ({ order }) => {
                   className="w-16 h-16 object-cover rounded-lg"
                 />
                 <div>
-                  <h4 className="text-md font-medium text-gray-800">
+                  <h4 className="text-md font-medium text-gray-800 h-6 overflow-hidden">
                     {item.product.title}
                   </h4>
-                  <p className="text-gray-500">
+                  <p className="text-gray-500 flex gap-1">
                     {item.product.category} -{" "}
-                    <span className="text-yellow-500">
+                    <span className="text-yellow-500 flex items-center">
                       <FaStar className="inline mr-1" />
                       {item.product.rating}
                     </span>
@@ -91,6 +92,37 @@ const OrderItem: React.FC<OrderItemProps> = ({ order }) => {
             </li>
           ))}
         </ul>
+      </div>
+
+      <div className="border-t border-gray-200 pt-4 mt-4">
+        <h3 className="text-md font-semibold text-teal-700 flex items-center mb-3">
+          <FaMoneyBillAlt className="mr-2" /> Order Summary
+        </h3>
+        <div className="space-y-2">
+          <p className="text-gray-700 flex justify-between">
+            <span>Subtotal:</span>
+            <span>${order.totalPrice.toFixed(2)}</span>
+          </p>
+          <p className="text-gray-700 flex justify-between">
+            <span>Taxes:</span>
+            <span>${order.taxes.toFixed(2)}</span>
+          </p>
+          <p className="text-gray-700 flex justify-between">
+            <span>Delivery Charge:</span>
+            <span>${order.deliveryCharges.toFixed(2)}</span>
+          </p>
+          {order.discountAmount > 0 && (
+            <p className="text-red-500 flex justify-between font-semibold">
+              <span>Discount:</span>
+              <span>- ${order.discountAmount.toFixed(2)}</span>
+            </p>
+          )}
+          <hr className="border-gray-200 my-2" />
+          <p className="text-gray-800 flex justify-between font-semibold text-lg">
+            <span>Grand Total:</span>
+            <span>${order.finalPrice.toFixed(2)}</span>
+          </p>
+        </div>
       </div>
 
       <div className="border-t border-gray-200 pt-4 mt-4">

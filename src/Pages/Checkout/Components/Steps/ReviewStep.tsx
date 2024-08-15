@@ -5,6 +5,7 @@ import { ShippingAddress, useOrder } from "../../../../Context/OrderContext";
 import { IoLocation } from "react-icons/io5";
 import { MdPayments } from "react-icons/md";
 import { RiPriceTag2Fill } from "react-icons/ri";
+import { deliveryCharges, taxRate } from "../../../../Constants/Constants";
 
 interface ReviewStepProps {
   selectedPayment: string | null;
@@ -15,7 +16,7 @@ const ReviewStep: React.FC<ReviewStepProps> = ({
   selectedPayment,
   selectedAddress: shippingAddress,
 }) => {
-  const { cartItems, discount } = useCart();
+  const { cartItems, discount, couponCode } = useCart();
 
   // Calculate subtotal, discount, delivery charges, taxes, and grand total
   const subtotal = cartItems.reduce((total, item) => {
@@ -28,8 +29,7 @@ const ReviewStep: React.FC<ReviewStepProps> = ({
   }, 0);
 
   const discountAmount = (subtotal * discount) / 100;
-  const deliveryCharges = 50;
-  const taxes = (subtotal - discountAmount) * 0.05;
+  const taxes = (subtotal - discountAmount) * taxRate;
   const grandTotal = subtotal - discountAmount + deliveryCharges + taxes;
 
   // Estimated delivery date
@@ -45,7 +45,7 @@ const ReviewStep: React.FC<ReviewStepProps> = ({
         await createOrder({
           shippingAddress,
           paymentMethod: selectedPayment,
-          discountAmount,
+          couponCode,
         });
       } catch (err: any) {
         console.log(err);

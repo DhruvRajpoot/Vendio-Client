@@ -31,6 +31,8 @@ export interface Order {
   discountAmount: number;
   totalItems: number;
   totalPrice: number;
+  deliveryCharges: number;
+  taxes: number;
   finalPrice: number;
   isDelivered: boolean;
   deliveredAt: Date | null;
@@ -44,7 +46,7 @@ interface OrderContextType {
   createOrder: (orderData: {
     shippingAddress: ShippingAddress;
     paymentMethod: string;
-    discountAmount: number;
+    couponCode: string | null;
   }) => Promise<void>;
   fetchOrders: () => void;
   updateOrderStatus: (orderId: string, status: string) => Promise<void>;
@@ -80,15 +82,15 @@ export const OrderProvider: React.FC<{ children: ReactNode }> = ({
   const createOrder = async (orderData: {
     shippingAddress: ShippingAddress;
     paymentMethod: string;
-    discountAmount: number;
+    couponCode: string | null;
   }) => {
     setOrderLoading(true);
     try {
       const response = await axiosInstance.post("/order", orderData);
       setOrders((prevOrders) => [...prevOrders, response.data.order]);
       toast.success("Order placed successfully");
-      navigate("/");
       clearCart();
+      navigate("/");
     } catch (err) {
       setOrderError("Failed to place order");
       console.error("Error creating order:", err);
