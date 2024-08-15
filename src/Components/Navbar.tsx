@@ -22,7 +22,7 @@ const Navbar = () => {
   ];
 
   const handleProfileClick = () => {
-    navigate("/my-account");
+    navigate("/account/profile");
   };
 
   return (
@@ -77,22 +77,26 @@ const Navbar = () => {
 
       {/* User Section */}
       <div className="flex items-center gap-6 text-2xl">
+        <div
+          className="flex items-center gap-2 text-sm font-semibold text-gray-600 cursor-pointer"
+          title="account"
+          onClick={handleProfileClick}
+        >
+          <span className="text-gray-800">
+            {isAuthenticated ? user?.firstName : "Hi, Guest"}
+          </span>
+
+          <div className="bg-gray-100 rounded-full">
+            <img
+              src={user?.profilePic || defaultuser}
+              alt="Profile"
+              className="w-8 h-8 rounded-full"
+            />
+          </div>
+        </div>
+
         {isAuthenticated ? (
           <>
-            <div
-              className="flex items-center gap-2 text-sm font-semibold text-gray-600 cursor-pointer"
-              onClick={handleProfileClick}
-            >
-              <span className="text-gray-800">{user?.firstName}</span>
-              <div className="bg-gray-100 rounded-full">
-                <img
-                  src={user?.profilePic || defaultuser}
-                  alt="Profile"
-                  className="w-8 h-8 rounded-full"
-                />
-              </div>
-            </div>
-
             <button
               onClick={logout}
               className="flex items-center gap-2 text-sm font-semibold hover:font-bold text-gray-600 hover:text-gray-900"
