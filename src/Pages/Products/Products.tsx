@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import ProductCard from "../../Components/ProductCard";
 import { products } from "../../Store/products";
 import Navbar from "../../Components/Navbar";
@@ -10,10 +10,6 @@ const ProductsPage: React.FC = () => {
     { label: "Home", link: "/" },
     { label: "All Products" },
   ];
-
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
 
   return (
     <div className="bg-neutral-50">

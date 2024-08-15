@@ -11,7 +11,6 @@ import {
   FaShoppingBag,
 } from "react-icons/fa";
 import { products } from "../../Store/products";
-import ProductCard from "../../Components/ProductCard";
 import ProductNotFound from "./Components/ProductNotFound";
 import { useCart } from "../../Context/CartContext";
 import RelatedProducts from "./Components/RelatedProducts";
@@ -33,6 +32,11 @@ const ProductDetails: React.FC = () => {
   );
 
   const [selectedImage, setSelectedImage] = useState(product.images[0]);
+
+  useEffect(() => {
+    setSelectedImage(product.images[0]);
+  }, [productId]);
+
   const [quantity, setQuantity] = useState(1);
 
   const handleQuantityChange = (amount: number) => {
@@ -108,10 +112,6 @@ const ProductDetails: React.FC = () => {
       value: "Easy to clean and maintain with standard cleaning methods.",
     },
   ];
-
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [productId]);
 
   const handleAddToCart = () => {
     addToCart(product, quantity);
