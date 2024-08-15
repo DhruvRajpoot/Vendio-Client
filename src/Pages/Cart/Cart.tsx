@@ -41,9 +41,10 @@ const Cart: React.FC = () => {
   const grandTotal = subtotal - discountAmount + deliveryCharges + taxes;
 
   return (
-    <div className="min-h-screen bg-gray-100">
+    <>
       <Navbar />
-      <div className="container mx-auto px-4 py-12">
+
+      <div className="px-4 md:px-10 py-6 bg-gray-50 min-h-screen">
         <div className="mb-8 flex justify-between items-center">
           <h1 className="text-3xl font-bold">Your Cart</h1>
           <span className="text-lg text-gray-600">
@@ -51,14 +52,14 @@ const Cart: React.FC = () => {
           </span>
         </div>
 
-        <div className="flex gap-6">
+        <div className="flex flex-col lg:flex-row gap-6">
           <div className="flex-1 bg-white shadow-md rounded-lg">
             {cartItems.length === 0 ? (
               <EmptyCart />
             ) : (
               <div>
                 <table className="w-full border-collapse">
-                  <thead className="bg-gray-200 text-left">
+                  <thead className="bg-gray-200 text-left hidden sm:table-header-group">
                     <tr>
                       <th className="py-3 px-6 w-1/2">Product</th>
                       <th className="text-center py-3 px-6 w-1/6">Price</th>
@@ -110,7 +111,7 @@ const Cart: React.FC = () => {
           </div>
         )}
       </div>
-    </div>
+    </>
   );
 };
 
