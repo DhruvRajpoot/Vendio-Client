@@ -17,7 +17,18 @@ const AddressStep: React.FC<AddressStepProps> = ({
   selectedAddress,
   setSelectedAddress,
 }) => {
-  const [addresses, setAddresses] = useState<ShippingAddress[]>([]);
+  const [addresses, setAddresses] = useState<ShippingAddress[]>([
+    {
+      name: "John Doe",
+      phone: "9876543210",
+      addressLine: "Flat no. 123, ABC Apartments",
+      area: "XYZ Colony",
+      landmark: "Near PQR Park",
+      city: "City",
+      state: "State",
+      pincode: "123456",
+    },
+  ]);
 
   const [newAddress, setNewAddress] = useState<ShippingAddress>({
     name: "",
@@ -64,14 +75,14 @@ const AddressStep: React.FC<AddressStepProps> = ({
   };
 
   return (
-    <div className="container mx-auto p-3 sm:p-6 bg-gray-50 rounded-lg shadow-lg">
-      <h2 className="text-3xl font-bold text-teal-600 mb-6 text-center">
+    <div className="mx-auto p-3 sm:p-6 bg-gray-50 rounded-lg shadow-lg">
+      <h2 className="text-2xl sm:text-3xl font-bold text-teal-600 mb-6 text-center">
         Shipping Address
       </h2>
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Column 1: Address List */}
         <div>
-          <h3 className="text-xl font-semibold text-gray-800 mb-4">
+          <h3 className="text-lg sm:text-xl font-semibold text-gray-800 mb-4">
             Select a delivery address
           </h3>
           <div className="flex flex-col-reverse gap-6">

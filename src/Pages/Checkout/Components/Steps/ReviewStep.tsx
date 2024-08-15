@@ -2,6 +2,9 @@ import React from "react";
 import { useCart } from "../../../../Context/CartContext";
 import CartTable from "../CartTable";
 import { ShippingAddress, useOrder } from "../../../../Context/OrderContext";
+import { IoLocation } from "react-icons/io5";
+import { MdPayments } from "react-icons/md";
+import { RiPriceTag2Fill } from "react-icons/ri";
 
 interface ReviewStepProps {
   selectedPayment: string | null;
@@ -52,22 +55,28 @@ const ReviewStep: React.FC<ReviewStepProps> = ({
 
   return (
     <div className="rounded-lg">
-      <div className="container mx-auto p-4 sm:p-6 bg-gray-50 rounded-lg shadow-lg">
-        <div className="mb-8 flex justify-between items-center">
-          <h1 className="text-3xl font-bold">Review Your Order</h1>
-          <span className="text-lg text-gray-600">
+      <div className="mx-auto p-4 sm:p-6 bg-gray-50 rounded-lg shadow-lg">
+        <h2 className="text-2xl sm:text-3xl font-bold text-teal-600 mb-6 text-center">
+          Review Your Order
+        </h2>
+
+        {/* <div className="flex flex-col">
+          <span className="text-lg text-gray-600 text-right">
             {cartItems.length} {cartItems.length === 1 ? "item" : "items"}
           </span>
-        </div>
+        </div> */}
 
-        <div className="flex gap-6">
+        <div className="flex flex-col lg:flex-row gap-6">
           {/* Left side: Order list */}
-          <CartTable cartItems={cartItems} />
+          <div className="flex-1">
+            <CartTable cartItems={cartItems} />
+          </div>
 
           {/* Right side: Address, Payment, and Order Summary */}
           <div className="flex-1 bg-white rounded-lg shadow-md p-6">
             <div className="mb-8">
-              <h2 className="text-xl font-semibold mb-3 text-gray-800">
+              <h2 className="flex items-center gap-1.5 text-xl font-semibold mb-3 text-gray-800">
+                <IoLocation />
                 Shipping Address
               </h2>
               <div className="bg-gray-50 p-4 rounded-lg shadow-sm mb-4">
@@ -87,7 +96,8 @@ const ReviewStep: React.FC<ReviewStepProps> = ({
             </div>
 
             <div className="mb-8">
-              <h2 className="text-xl font-semibold mb-3 text-gray-800">
+              <h2 className="flex items-center gap-1.5 text-xl font-semibold mb-3 text-gray-800">
+                <MdPayments />
                 Payment Method
               </h2>
               <div className="bg-gray-50 p-4 rounded-lg shadow-sm mb-4">
@@ -103,7 +113,8 @@ const ReviewStep: React.FC<ReviewStepProps> = ({
             </div>
 
             <div>
-              <h2 className="text-xl font-semibold mb-3 text-gray-800">
+              <h2 className="flex items-center gap-1.5 text-xl font-semibold mb-3 text-gray-800">
+                <RiPriceTag2Fill />
                 Order Summary
               </h2>
               <div className="bg-gray-50 p-4 rounded-lg shadow-sm">
@@ -133,6 +144,7 @@ const ReviewStep: React.FC<ReviewStepProps> = ({
             </div>
           </div>
         </div>
+
         <div className="flex justify-end mt-6">
           <button
             type="button"
