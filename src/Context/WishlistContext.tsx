@@ -27,6 +27,10 @@ export const WishlistProvider: React.FC<{ children: React.ReactNode }> = ({
   const [wishlistLoading, setWishlistLoading] = useState<boolean>(false);
   const [wishlistError, setWishlistError] = useState<string | null>(null);
 
+  useEffect(() => {
+    setWishlist(new Set());
+  }, [isAuthenticated]);
+
   // Check if product is in wishlist
   const checkInWishlist = (productId: number) => {
     return wishlist.has(productId);

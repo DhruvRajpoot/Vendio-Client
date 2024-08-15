@@ -1,6 +1,4 @@
-import React from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { RiSearch2Line } from "react-icons/ri";
 import { LiaShoppingCartSolid } from "react-icons/lia";
 import { CiLogin, CiLogout } from "react-icons/ci";
 import logo from "../Assets/Images/logo.png";
@@ -15,6 +13,8 @@ const Navbar = () => {
   const navigate = useNavigate();
 
   const isLoginPage = location.pathname === "/login";
+  const redirectUrl =
+    new URLSearchParams(location.search).get("redirect") || "/";
 
   const navlinks = [
     { title: "Home", path: "/" },
@@ -40,23 +40,6 @@ const Navbar = () => {
           </span>
         </div>
       </Link>
-
-      {/* Search */}
-      {/* <div className="rounded-full bg-gray-100 text-gray-800 px-6 py-1 w-full max-w-96 h-10">
-        <form
-          className="flex items-center gap-3 w-full h-full"
-          onSubmit={(e) => e.preventDefault()}
-        >
-          <input
-            type="text"
-            placeholder="Search in products..."
-            className="bg-transparent w-full h-full outline-none text-sm"
-          />
-          <button type="submit">
-            <RiSearch2Line className="text-xl" />
-          </button>
-        </form>
-      </div> */}
 
       {/* Links */}
       {
@@ -96,18 +79,16 @@ const Navbar = () => {
         </div>
 
         {isAuthenticated ? (
-          <>
-            <button
-              onClick={logout}
-              className="flex items-center gap-2 text-sm font-semibold hover:font-bold text-gray-600 hover:text-gray-900"
-            >
-              Logout
-              <CiLogout className="text-xl" />
-            </button>
-          </>
+          <button
+            onClick={logout}
+            className="flex items-center gap-2 text-sm font-semibold hover:font-bold text-gray-600 hover:text-gray-900"
+          >
+            Logout
+            <CiLogout className="text-xl" />
+          </button>
         ) : isLoginPage ? (
           <Link
-            to={`/signup?redirect=${location.pathname}`}
+            to={`/signup?redirect=${redirectUrl}`}
             title="signup"
             className="flex items-center gap-2 text-sm font-semibold hover:font-bold text-gray-600 hover:text-gray-900"
           >
@@ -116,7 +97,7 @@ const Navbar = () => {
           </Link>
         ) : (
           <Link
-            to={`/login?redirect=${location.pathname}`}
+            to={`/login?redirect=${redirectUrl}`}
             title="login"
             className="flex items-center gap-2 text-sm font-semibold hover:font-bold text-gray-600 hover:text-gray-900"
           >
