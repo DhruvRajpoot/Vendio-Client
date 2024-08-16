@@ -9,11 +9,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import toast from "react-hot-toast";
 import { useAppContext } from "../Context/AppContext";
 
-interface GoogleButtonProps {
-  type: "login" | "signup";
-}
-
-const GoogleButton: React.FC<GoogleButtonProps> = ({ type }) => {
+const GoogleButton: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const navigate = useNavigate();
   const location = useLocation();
@@ -29,18 +25,15 @@ const GoogleButton: React.FC<GoogleButtonProps> = ({ type }) => {
   const handleSuccess = async (accessToken: string) => {
     setLoading(true);
     try {
-      const response = await axios.post(
-        `${serverurl}/auth/google/${type === "signup" ? "signup" : "login"}`,
-        {
-          googleToken: accessToken,
-        }
-      );
+      const response = await axios.post(`${serverurl}/auth/google`, {
+        googleToken: accessToken,
+      });
 
       if (response.status === 200 || response.status === 201) {
         const { user, token } = response.data;
         login(user, token.accessToken, token.refreshToken);
         toast.success(
-          `${type === "login" ? "Logged in" : "Signed up"} successfully!`
+          `${response.status == 200 ? "Logged in" : "Signed up"} successfully!`
         );
 
         navigate(redirectPath, { replace: true });
@@ -68,12 +61,12 @@ const GoogleButton: React.FC<GoogleButtonProps> = ({ type }) => {
       className="px-4 md:px-6 bg-white border border-gray-300 hover:bg-gray-50 transition-all duration-200 rounded-md shadow-sm flex items-center justify-center w-full"
       onClick={() => googleLogin()}
       disabled={loading}
-      aria-label={type === "login" ? "Login with Google" : "Signup with Google"}
+      aria-label={"continue with google"}
     >
       {!loading ? (
         <>
           <Lottie animationData={animationData} className="h-10 w-12" />
-          {type === "login" ? "Login with Google" : "Signup with Google"}
+          <span>Continue with Google</span>
         </>
       ) : (
         <img src={loadingimg} alt="Loading" className="w-10 h-10" />

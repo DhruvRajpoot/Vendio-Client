@@ -126,7 +126,8 @@ const Login: React.FC = () => {
                 >
                   {loading ? "Logging in..." : "Log In"}
                 </button>
-                <Link to="/forgot-password" className="text-sm text-indigo-600">
+                {/* TODO : Implement forgot password */}
+                <Link to="/login" className="text-sm text-indigo-600">
                   Forgot password?
                 </Link>
               </div>
@@ -136,7 +137,7 @@ const Login: React.FC = () => {
               </div>
 
               <div className="text-center mb-4">
-                <GoogleButton type="login" />
+                <GoogleButton />
               </div>
 
               <div className="text-center">

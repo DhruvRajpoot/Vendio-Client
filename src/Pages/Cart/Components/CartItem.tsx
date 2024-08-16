@@ -1,6 +1,7 @@
 import React from "react";
 import { FaTrashAlt } from "react-icons/fa";
 import { products } from "../../../Store/products";
+import { useNavigate } from "react-router-dom";
 
 interface CartItemProps {
   id: number;
@@ -15,6 +16,7 @@ const CartItem: React.FC<CartItemProps> = ({
   onQuantityChange,
   onRemove,
 }) => {
+  const navigate = useNavigate();
   const product = products.find((p) => p.id === id);
 
   if (!product) {
@@ -35,16 +37,21 @@ const CartItem: React.FC<CartItemProps> = ({
   return (
     <tr className="border-b border-gray-200 sm:table-row">
       {/* Mobile View */}
-      <td className="block sm:hidden py-4 px-6">
-        <div className="bg-white shadow rounded-lg p-4 mb-4">
-          <div className="flex items-center space-x-4 mb-4">
+      <td className="block sm:hidden p-3">
+        <div className="bg-white shadow rounded-lg p-4">
+          <div
+            className="flex items-center space-x-4 mb-4"
+            onClick={() => {
+              navigate(`/products/${product.id}`);
+            }}
+          >
             <img
               src={images[0]}
               alt={title}
-              className="w-20 h-20 object-cover rounded-md shadow-sm"
+              className="w-16 h-16 object-cover rounded-md shadow-sm"
             />
             <div className="flex-1">
-              <h3 className="font-semibold text-lg max-h-14 overflow-hidden text-gray-800">
+              <h3 className="font-semibold max-h-14 overflow-hidden text-gray-800">
                 {title}
               </h3>
               <p className="text-gray-500 text-sm">{category}</p>
@@ -87,10 +94,9 @@ const CartItem: React.FC<CartItemProps> = ({
             <div className="flex justify-end">
               <button
                 onClick={onRemove}
-                className="text-red-600 hover:text-red-800 flex items-center gap-2 py-2 px-4 text-sm rounded-lg border border-red-600 transition-all duration-200 ease-in-out "
+                className="text-red-600 hover:text-red-800 flex items-center gap-2 p-2 text-sm rounded-lg border border-red-600 transition-all duration-200 ease-in-out "
               >
                 <FaTrashAlt size={18} />
-                Remove
               </button>
             </div>
           </div>

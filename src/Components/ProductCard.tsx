@@ -1,14 +1,23 @@
 import React from "react";
 import { FaHeart, FaStar, FaStarHalfAlt } from "react-icons/fa";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { useWishlist } from "../Context/WishlistContext";
+import { useCart } from "../Context/CartContext";
 
 const ProductCard: React.FC<{ product: any }> = ({ product }) => {
   const navigate = useNavigate();
+  const { addToCart } = useCart();
+  const { checkInWishlist, handleWishlistClick } = useWishlist();
 
   const discountedPrice = (
     product.price -
     product.price * (product.discount / 100)
   ).toFixed(2);
+
+  const handleButtonClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
+    addToCart(product, 1);
+  };
 
   const renderRating = () => {
     const fullStars = Math.floor(product.rating);
@@ -35,7 +44,7 @@ const ProductCard: React.FC<{ product: any }> = ({ product }) => {
 
   return (
     <div
-      className="bg-white rounded-xl shadow-xl overflow-hidden relative group transition-transform transform hover:scale-[1.02]"
+      className="bg-white rounded-xl shadow-xl overflow-hidden relative group"
       onClick={() => {
         navigate(`/products/${product.id}`);
       }}
@@ -47,8 +56,15 @@ const ProductCard: React.FC<{ product: any }> = ({ product }) => {
       />
       <div className="absolute top-4 right-4">
         <button
-          className="p-2 bg-white rounded-full border border-gray-300 shadow-md text-gray-500 hover:text-red-600 hover:bg-gray-100 transition-colors"
-          onClick={(e) => e.stopPropagation()}
+          className={`w-fit h-fit p-2 rounded-full shadow-lg flex items-center justify-center transition-all duration-300 ease-in-out ${
+            checkInWishlist(product.id)
+              ? "bg-red-100 text-red-500 hover:bg-red-200"
+              : "bg-gray-200 text-gray-500 hover:bg-gray-300 hover:text-gray-600"
+          }`}
+          onClick={(e) => {
+            e.stopPropagation();
+            handleWishlistClick(product.id);
+          }}
         >
           <FaHeart className="w-4 h-4" />
         </button>
@@ -72,12 +88,12 @@ const ProductCard: React.FC<{ product: any }> = ({ product }) => {
             </div>
           </div>
           <div className="flex items-center justify-between mb-4">
-            <Link
-              to={`/products/${product.id}`}
-              className="bg-gradient-to-r from-teal-400 to-teal-600 text-white py-2 px-4 rounded-md shadow-lg hover:bg-gradient-to-l hover:from-teal-500 hover:to-teal-700 transition-colors w-fit"
+            <button
+              className="bg-gradient-to-r from-teal-400 to-teal-600 text-white py-2 px-4 rounded-md shadow-lg hover:bg-gradient-to-r hover:from-teal-400 hover:to-teal-700 transition-all w-fit active:scale-[0.98]"
+              onClick={handleButtonClick}
             >
-              More Details
-            </Link>
+              Add to Cart
+            </button>
 
             {renderRating()}
           </div>

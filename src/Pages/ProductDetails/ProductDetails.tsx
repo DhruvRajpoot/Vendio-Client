@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Navbar from "../../Components/Navbar";
 import Breadcrumb from "../../Components/Breadcrumb";
 import Footer from "../../Components/Footer";
@@ -14,18 +14,22 @@ import { products } from "../../Store/products";
 import ProductNotFound from "./Components/ProductNotFound";
 import { useCart } from "../../Context/CartContext";
 import RelatedProducts from "./Components/RelatedProducts";
+import { useWishlist } from "../../Context/WishlistContext";
 
 const ProductDetails: React.FC = () => {
+  const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
   const productId = Number(id);
 
   const product = products.find((product) => product.id === productId);
 
-  const { addToCart } = useCart();
-
   if (!product) {
     return <ProductNotFound />;
   }
+
+  const { addToCart, cartItems } = useCart();
+
+  const { checkInWishlist, handleWishlistClick } = useWishlist();
 
   const relatedProducts = products.filter(
     (p) => p.category === product.category && p.id !== product.id
@@ -113,8 +117,21 @@ const ProductDetails: React.FC = () => {
     },
   ];
 
+  const isItemInCart = (productId: number) => {
+    return cartItems.some((item) => item.product.id === productId);
+  };
+
   const handleAddToCart = () => {
+    if (isItemInCart(product.id)) {
+      navigate("/cart");
+      return;
+    }
     addToCart(product, quantity);
+  };
+
+  const handleBuyNow = () => {
+    if (!isItemInCart(product.id)) addToCart(product, quantity);
+    navigate("/cart");
   };
 
   return (
@@ -122,8 +139,8 @@ const ProductDetails: React.FC = () => {
       <Navbar />
       <Breadcrumb items={breadcrumbItems} />
 
-      <section className="container mx-auto px-4 max-w-screen-xl py-12 flex-1">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+      <section className="container mx-auto px-4 max-w-screen-xl py-3 flex-1">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
           {/* Product Images */}
           <div>
             {/* Main Image */}
@@ -131,11 +148,11 @@ const ProductDetails: React.FC = () => {
               <img
                 src={selectedImage}
                 alt={product.title}
-                className="w-full h-auto object-cover rounded-lg shadow-lg"
+                className="w-full h-auto max-h-[500px] object-cover rounded-lg shadow-lg"
               />
             </div>
             {/* Thumbnails */}
-            <div className="grid grid-cols-4 gap-4">
+            <div className="flex flex-wrap gap-2 sm:gap-4">
               {product.images.map((image, index) => (
                 <div
                   key={index}
@@ -145,7 +162,7 @@ const ProductDetails: React.FC = () => {
                   <img
                     src={image}
                     alt={`Thumbnail ${index + 1}`}
-                    className="w-auto h-32 object-cover rounded-lg border border-gray-200 hover:border-teal-500 transition-colors"
+                    className="w-auto h-auto max-h-20 sm:max-h-24 lg:max-h-32 object-cover rounded-lg border border-gray-200 hover:border-teal-500 transition-colors"
                   />
                 </div>
               ))}
@@ -156,11 +173,20 @@ const ProductDetails: React.FC = () => {
           <div>
             {/* Wishlist Icon */}
             <div className="flex gap-2 justify-between mb-6">
-              <h1 className="text-3xl font-bold text-gray-900">
+              <h1 className="text-2xl lg:text-3xl font-bold text-gray-900">
                 {product.title}
               </h1>
 
-              <button className="w-fit h-fit bg-gray-300 text-gray-800 p-2 rounded-md shadow-lg hover:bg-gray-400">
+              <button
+                className={`w-fit h-fit p-2 rounded-md shadow-lg flex items-center justify-center transition-all duration-300 ease-in-out ${
+                  checkInWishlist(product.id)
+                    ? "bg-red-100 text-red-500 hover:bg-red-200"
+                    : "bg-gray-200 text-gray-500 hover:bg-gray-300 hover:text-gray-600"
+                }`}
+                onClick={() => {
+                  handleWishlistClick(product.id);
+                }}
+              >
                 <FaHeart size={20} />
               </button>
             </div>
@@ -237,11 +263,16 @@ const ProductDetails: React.FC = () => {
                 className="bg-teal-600 text-white py-2 px-6 rounded-md shadow-lg hover:bg-teal-700 transition-colors flex items-center space-x-2"
               >
                 <FaShoppingCart className="text-xl" />
-                <span>Add to Cart</span>
+                <span>
+                  {isItemInCart(product.id) ? "View Cart" : "Add to Cart"}
+                </span>
               </button>
 
               {/* Buy Now Button */}
-              <button className="bg-orange-600 text-white py-2 px-6 rounded-md shadow-lg hover:bg-orange-700 transition-colors flex items-center space-x-2">
+              <button
+                onClick={handleBuyNow}
+                className="bg-orange-600 text-white py-2 px-6 rounded-md shadow-lg hover:bg-orange-700 transition-colors flex items-center space-x-2"
+              >
                 <FaShoppingBag className="text-xl" />
                 <span>Buy Now</span>
               </button>
@@ -282,12 +313,14 @@ const ProductDetails: React.FC = () => {
         </div>
 
         {/* Related Products */}
-        <div className="my-12">
-          <RelatedProducts
-            title="Related Products"
-            relatedProducts={relatedProducts}
-          />
-        </div>
+        {relatedProducts.length > 0 && (
+          <div className="my-12">
+            <RelatedProducts
+              title="Related Products"
+              relatedProducts={relatedProducts}
+            />
+          </div>
+        )}
       </section>
 
       <Footer />

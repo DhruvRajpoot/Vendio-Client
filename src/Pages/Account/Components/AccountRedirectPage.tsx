@@ -39,7 +39,7 @@ const AccountRedirectPage: React.FC = () => {
   };
 
   return (
-    <div className="flex items-center justify-center w-full flex-1 bg-gray-50">
+    <div className="flex items-center justify-center w-full flex-1">
       <div className="relative max-w-md w-full mx-auto text-center bg-white p-7 rounded-lg shadow-lg overflow-hidden">
         <div className="absolute inset-0 bg-gray-100 opacity-50 z-0"></div>
         <div className="relative z-10">

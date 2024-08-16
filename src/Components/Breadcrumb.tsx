@@ -12,8 +12,8 @@ interface BreadcrumbProps {
 
 const Breadcrumb: React.FC<BreadcrumbProps> = ({ items }) => {
   return (
-    <nav className="bg-gray-100 py-3 mb-6">
-      <div className="container mx-auto px-4 max-w-screen-xl">
+    <nav className="bg-gray-100 py-3">
+      <div className="px-6 md:px-8 lg:px-20">
         <ul className="flex items-center space-x-4 text-gray-600 overflow-hidden">
           {items.map((item, index) => (
             <React.Fragment key={index}>

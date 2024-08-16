@@ -90,7 +90,7 @@ export const OrderProvider: React.FC<{ children: ReactNode }> = ({
       setOrders((prevOrders) => [...prevOrders, response.data.order]);
       toast.success("Order placed successfully");
       clearCart();
-      navigate("/");
+      navigate("/account/orders");
     } catch (err) {
       setOrderError("Failed to place order");
       console.error("Error creating order:", err);

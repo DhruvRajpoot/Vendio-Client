@@ -29,12 +29,12 @@ const Sidebar: React.FC = () => {
   return (
     <aside className="w-64 h-full bg-white px-4 py-6 rounded-lg shadow-lg">
       <nav>
-        <ul className="space-y-4">
+        <ul className="space-y-1">
           {sidebarItems.map((item) => (
             <li key={item.name}>
               <Link
                 to={item.path}
-                className={`flex items-center p-4 rounded-lg text-gray-700 hover:bg-teal-100 transition-colors ${
+                className={`flex items-center px-4 py-4 rounded-lg text-gray-700 hover:bg-teal-100 transition-all ${
                   isActive(item.path)
                     ? "bg-teal-200 hover:bg-teal-200"
                     : ""

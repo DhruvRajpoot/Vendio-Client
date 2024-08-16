@@ -6,6 +6,7 @@ import Navbar from "../../Components/Navbar";
 import OrderSummary from "./Components/OrderSummary";
 import EmptyCart from "./Components/EmptyCart";
 import { deliveryCharges, taxRate } from "../../Constants/Constants";
+import ScrollingStripe from "../../Components/ScrollingStripe";
 
 const Cart: React.FC = () => {
   const { cartItems, addToCart, removeFromCart, discount } = useCart();
@@ -43,10 +44,11 @@ const Cart: React.FC = () => {
   return (
     <>
       <Navbar />
+      <ScrollingStripe />
 
-      <div className="px-4 md:px-10 py-6 bg-gray-50 min-h-screen">
-        <div className="mb-8 flex justify-between items-center">
-          <h1 className="text-3xl font-bold">Your Cart</h1>
+      <div className="px-4 md:px-10 py-6 bg-gray-50 min-h-[calc(100vh-4rem)]">
+        <div className="mb-4 sm:mb-8 flex justify-between items-center">
+          <h1 className="text-2xl sm:text-3xl font-bold">Your Cart</h1>
           <span className="text-lg text-gray-600">
             {cartItems.length} {cartItems.length === 1 ? "item" : "items"}
           </span>

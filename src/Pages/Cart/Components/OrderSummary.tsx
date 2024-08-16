@@ -35,8 +35,10 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
   const discountAmount = ((subtotal * discount) / 100).toFixed(2);
 
   return (
-    <div className="bg-white shadow-md rounded-lg p-6 flex flex-col">
-      <h2 className="text-2xl font-semibold mb-4">Order Summary</h2>
+    <div className="bg-white shadow-md rounded-lg p-3 sm:p-6 flex flex-col">
+      <h2 className="text-xl text-left sm:text-2xl font-semibold mb-4">
+        Order Summary
+      </h2>
 
       <div className="mb-4">
         <label className="block text-gray-600 mb-2">Coupon Code</label>
@@ -52,7 +54,7 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
           />
           <button
             type="submit"
-            className={`text-white py-2 rounded-r-md w-16
+            className={`text-white p-2 rounded-r-md w-16
               ${
                 isCouponApplied
                   ? "bg-red-500 hover:bg-red-600"

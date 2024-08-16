@@ -15,10 +15,10 @@ interface OrderItemProps {
 
 const OrderItem: React.FC<OrderItemProps> = ({ order }) => {
   return (
-    <div className="border border-gray-200 rounded-lg p-6 shadow-md bg-white">
+    <div className="border border-gray-200 rounded-lg p-3 sm:p-6 shadow-md bg-white">
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-xl font-bold text-teal-700">
-          Order #{order._id.slice(-10).toUpperCase()}
+          Order #{order._id.slice(-6).toUpperCase()}
         </h2>
         <p className="text-md font-medium text-gray-500">
           {new Date(order.createdAt).toLocaleDateString("en-GB", {
@@ -67,7 +67,7 @@ const OrderItem: React.FC<OrderItemProps> = ({ order }) => {
                   <h4 className="text-md font-medium text-gray-800 h-6 overflow-hidden">
                     {item.product.title}
                   </h4>
-                  <p className="text-gray-500 flex gap-1">
+                  <p className="text-gray-500 flex flex-col xs:flex-row gap-1">
                     {item.product.category} -{" "}
                     <span className="text-yellow-500 flex items-center">
                       <FaStar className="inline mr-1" />
