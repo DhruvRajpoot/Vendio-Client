@@ -17,18 +17,7 @@ const AddressStep: React.FC<AddressStepProps> = ({
   selectedAddress,
   setSelectedAddress,
 }) => {
-  const [addresses, setAddresses] = useState<ShippingAddress[]>([
-    {
-      name: "John Doe",
-      phone: "9876543210",
-      addressLine: "Flat no. 123, ABC Apartments",
-      area: "XYZ Colony",
-      landmark: "Near PQR Park",
-      city: "City",
-      state: "State",
-      pincode: "123456",
-    },
-  ]);
+  const [addresses, setAddresses] = useState<ShippingAddress[]>([]);
 
   const [newAddress, setNewAddress] = useState<ShippingAddress>({
     name: "",
