@@ -13,11 +13,11 @@ const Account: React.FC = () => {
       <Navbar />
 
       <div className="flex flex-grow p-4">
-        <div className="w-64 fixed top-20 left-0 h-[calc(100vh-6rem)]">
+        <div className="hidden md:block w-64 fixed top-20 left-0 h-[calc(100vh-6rem)]">
           <Sidebar />
         </div>
 
-        <div className="flex-1 ml-64 py-6 px-8 bg-white rounded-lg shadow-md overflow-auto h-[calc(100vh-6rem)]">
+        <div className="flex-1 md:ml-64 py-4 md:py-6 px-4 md:px-8 bg-white rounded-lg shadow-md overflow-auto h-[calc(100vh-6rem)]">
           {!isAuthenticated ? <AccountRedirectPage /> : <Outlet />}
         </div>
       </div>

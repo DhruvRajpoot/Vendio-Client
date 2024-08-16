@@ -15,10 +15,10 @@ interface OrderItemProps {
 
 const OrderItem: React.FC<OrderItemProps> = ({ order }) => {
   return (
-    <div className="border border-gray-200 rounded-lg p-6 shadow-md bg-white">
+    <div className="border border-gray-200 rounded-lg p-3 sm:p-6 shadow-md bg-white">
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-xl font-bold text-teal-700">
-          Order #{order._id.slice(-10).toUpperCase()}
+          Order #{order._id.slice(-6).toUpperCase()}
         </h2>
         <p className="text-md font-medium text-gray-500">
           {new Date(order.createdAt).toLocaleDateString("en-GB", {

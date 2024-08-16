@@ -55,7 +55,9 @@ const Orders: React.FC = () => {
 
   return (
     <div>
-      <h1 className="text-3xl font-bold text-gray-900 mb-6">My Orders</h1>
+      <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-6">
+        My Orders
+      </h1>
       {renderState()}
     </div>
   );
