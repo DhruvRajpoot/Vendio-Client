@@ -36,7 +36,7 @@ const ranges: RangeItem[] = [
 
 const Ranges: React.FC = () => {
   return (
-    <section className="py-16 bg-gray-100">
+    <section className="py-16 bg-white">
       <div className="container mx-auto px-4 max-w-screen-xl">
         <h2 className="text-center text-3xl font-bold text-gray-800 mb-8">
           Explore Our Ranges

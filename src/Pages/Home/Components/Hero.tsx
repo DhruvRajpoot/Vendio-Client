@@ -9,8 +9,11 @@ import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import personImage1 from "../../../Assets/Home/Hero/1.png";
 import personImage2 from "../../../Assets/Home/Hero/2.png";
 import personImage3 from "../../../Assets/Home/Hero/3.png";
+import { useNavigate } from "react-router-dom";
 
 const Hero: React.FC = () => {
+  const navigate = useNavigate();
+
   const slides = [
     {
       image: personImage1,
@@ -45,7 +48,7 @@ const Hero: React.FC = () => {
   ];
 
   return (
-    <div className="w-full relative">
+    <div className="relative overflow-hidden">
       <Swiper
         modules={[Navigation, Pagination, Autoplay]}
         spaceBetween={0}
@@ -55,27 +58,30 @@ const Hero: React.FC = () => {
           prevEl: ".swiper-button-prev-hero",
         }}
         pagination={{ clickable: true }}
-        autoplay={{ delay: 3000, disableOnInteraction: true }}
+        autoplay={{ delay: 2500 }}
         loop
         className="hero-slider"
       >
         {slides.map((slide, index) => (
           <SwiperSlide key={index}>
             <div
-              className={`w-full h-[500px] ${slide.backgroundColor} flex items-center justify-center`}
+              className={`w-full h-[70vh] md:h-[80vh] ${slide.backgroundColor} flex items-center justify-center`}
             >
-              <div className="flex flex-col md:flex-row items-center h-full max-w-screen-xl mx-auto">
-                <div className="flex flex-col justify-center md:text-left p-4 md:pl-8 flex-1">
+              <div className="flex flex-col md:flex-row items-center h-full max-w-screen-xl mx-auto px-4">
+                <div className="flex flex-col items-center md:items-start md:text-left flex-1 mb-6 md:mb-0 pt-10 text-center sm:pt-0 sm:text-left">
                   <h1
-                    className={`text-4xl md:text-5xl font-bold ${slide.textColor}`}
+                    className={`text-3xl md:text-5xl font-bold ${slide.textColor} mb-4`}
                   >
                     {slide.title}
                   </h1>
-                  <p className={`text-lg md:text-xl mt-4 ${slide.textColor}`}>
+                  <p className={`text-sm md:text-lg ${slide.textColor} mb-6`}>
                     {slide.description}
                   </p>
                   <button
-                    className={`mt-6 px-8 py-4 w-fit rounded-full shadow-lg transition duration-300 ${slide.buttonColor} hover:opacity-90`}
+                    className={`px-6 py-3 rounded-full shadow-lg transition duration-300 ${slide.buttonColor} hover:opacity-90`}
+                    onClick={() => {
+                      navigate("/products");
+                    }}
                   >
                     {slide.buttonText}
                   </button>
@@ -85,8 +91,8 @@ const Hero: React.FC = () => {
                   <div className="w-full h-full relative">
                     <img
                       src={slide.image}
-                      alt="Person"
-                      className="w-full h-full object-none object-bottom"
+                      alt={slide.title}
+                      className="w-full h-full object-cover"
                     />
                   </div>
                 </div>
@@ -95,10 +101,10 @@ const Hero: React.FC = () => {
           </SwiperSlide>
         ))}
 
-        <div className="swiper-button-prev-hero bg-black text-white rounded-full w-10 h-10 p-2.5 flex items-center justify-center shadow-md hover:bg-gray-700 absolute left-4 top-1/2 transform -translate-y-1/2 z-10 after:content-none">
+        <div className="swiper-button-prev-hero bg-black text-white rounded-full w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center shadow-md hover:bg-gray-700 absolute left-4 top-1/2 transform -translate-y-1/2 z-10">
           <FaArrowLeft />
         </div>
-        <div className="swiper-button-next-hero bg-black text-white rounded-full w-10 h-10 p-2.5 flex items-center justify-center shadow-md hover:bg-gray-700 absolute right-4 top-1/2 transform -translate-y-1/2 z-10 after:content-none">
+        <div className="swiper-button-next-hero bg-black text-white rounded-full w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center shadow-md hover:bg-gray-700 absolute right-4 top-1/2 transform -translate-y-1/2 z-10">
           <FaArrowRight />
         </div>
       </Swiper>

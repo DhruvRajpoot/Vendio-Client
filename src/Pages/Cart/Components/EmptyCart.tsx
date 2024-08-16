@@ -5,7 +5,7 @@ import cartAnimation from "../../../Assets/Lottie/cart.json";
 
 const EmptyCart: React.FC = () => {
   return (
-    <div className="flex flex-col items-center justify-center p-6">
+    <div className="flex flex-col items-center justify-center text-center p-6">
       <Lottie
         animationData={cartAnimation}
         loop
