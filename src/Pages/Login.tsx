@@ -137,7 +137,7 @@ const Login: React.FC = () => {
               </div>
 
               <div className="text-center mb-4">
-                <GoogleButton type="login" />
+                <GoogleButton />
               </div>
 
               <div className="text-center">
