@@ -14,6 +14,7 @@ import Profile from "../Pages/Account/Nested/Profile";
 import Address from "../Pages/Account/Nested/Address";
 import Wishlist from "../Pages/Account/Nested/Wishlist";
 import Orders from "../Pages/Account/Nested/Orders";
+import AboutUs from "../Pages/AboutUs";
 
 export const Router = () => {
   return (
@@ -24,6 +25,7 @@ export const Router = () => {
       <Route path="/products" element={<Products />} />
       <Route path="/products/:id" element={<ProductDetails />} />
       <Route path="/cart" element={<Cart />} />
+      <Route path="/about" element={<AboutUs />} />
       <Route
         path="/checkout"
         element={<PrivateRoute element={<Checkout />} />}
