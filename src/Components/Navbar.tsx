@@ -129,7 +129,6 @@ const Navbar = () => {
         user={user}
         logout={logout}
         cartItems={cartItems}
-        navlinks={navlinks}
         isLoginPage={isLoginPage}
         redirectUrl={redirectUrl}
       />

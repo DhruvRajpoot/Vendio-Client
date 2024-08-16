@@ -5,6 +5,7 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { Navigation, Pagination, Autoplay } from "swiper/modules";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
 type RangeItem = {
   title: string;
@@ -35,13 +36,15 @@ const ranges: RangeItem[] = [
 ];
 
 const Ranges: React.FC = () => {
+  const navigate = useNavigate();
+
   return (
-    <section className="py-16 bg-white">
+    <section className="py-10 sm:py-16 bg-white">
       <div className="container mx-auto px-4 max-w-screen-xl">
-        <h2 className="text-center text-3xl font-bold text-gray-800 mb-8">
+        <h2 className="text-center text-3xl sm:text-4xl font-bold text-gray-800 mb-8">
           Explore Our Ranges
         </h2>
-        <p className="text-center text-lg text-gray-600 mb-8 max-w-3xl mx-auto">
+        <p className="text-center sm:text-lg text-gray-600 mb-8 max-w-3xl mx-auto">
           Discover a curated selection of high-quality products across different
           categories, carefully chosen to suit your style and needs.
         </p>
@@ -77,7 +80,12 @@ const Ranges: React.FC = () => {
           >
             {ranges.map((range, index) => (
               <SwiperSlide key={index}>
-                <div className="group relative overflow-hidden rounded-xl shadow-lg transition-transform transform hover:scale-105 mx-4 my-8">
+                <div
+                  className="group relative overflow-hidden rounded-xl shadow-lg transition-transform transform hover:scale-105 mx-4 my-8"
+                  onClick={() => {
+                    navigate("/products");
+                  }}
+                >
                   <img
                     src={range.imageSrc}
                     alt={range.title}
@@ -95,10 +103,10 @@ const Ranges: React.FC = () => {
               </SwiperSlide>
             ))}
           </Swiper>
-          <div className="swiper-button-prev-ranges bg-black text-white rounded-full w-12 h-12 p-3 flex items-center justify-center shadow-md hover:bg-gray-700 absolute left-4 2xl:-left-16 top-1/2 transform -translate-y-1/2 z-10 after:content-none">
+          <div className="swiper-button-prev-ranges bg-black text-white rounded-full w-8 h-8 sm:w-10 sm:h-10 p-3 flex items-center justify-center shadow-md hover:bg-gray-700 absolute left-4 2xl:-left-16 top-1/2 transform -translate-y-1/2 z-10 after:content-none">
             <FaArrowLeft />
           </div>
-          <div className="swiper-button-next-ranges bg-black text-white rounded-full w-12 h-12 p-3 flex items-center justify-center shadow-md hover:bg-gray-700 absolute right-4 2xl:-right-16 top-1/2 transform -translate-y-1/2 z-10 after:content-none">
+          <div className="swiper-button-next-ranges bg-black text-white rounded-full w-8 h-8 sm:w-10 sm:h-10 p-3 flex items-center justify-center shadow-md hover:bg-gray-700 absolute right-4 2xl:-right-16 top-1/2 transform -translate-y-1/2 z-10 after:content-none">
             <FaArrowRight />
           </div>
         </div>

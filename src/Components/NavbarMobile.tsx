@@ -11,13 +11,21 @@ const NavbarMobile = ({
   user,
   logout,
   cartItems,
-  navlinks,
   isLoginPage,
   redirectUrl,
 }: any) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
+
+  const navlinks = [
+    { title: "Home", path: "/" },
+    { title: "Products", path: "/products" },
+    { title: "Profile", path: "/account/profile" },
+    { title: "Orders", path: "/account/orders" },
+    { title: "Wishlist", path: "/account/wishlist" },
+    { title: "Address", path: "/account/address" },
+  ];
 
   const handleProfileClick = () => {
     navigate("/account/profile");
