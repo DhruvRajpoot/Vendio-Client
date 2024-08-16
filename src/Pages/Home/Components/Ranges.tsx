@@ -14,7 +14,7 @@ type RangeItem = {
 
 const ranges: RangeItem[] = [
   {
-    title: "Clothing",
+    title: "Fashion",
     imageSrc: "https://i.imgur.com/QkIa5tT.jpeg",
   },
   {
@@ -22,16 +22,16 @@ const ranges: RangeItem[] = [
     imageSrc: "https://i.imgur.com/ZANVnHE.jpeg",
   },
   {
-    title: "Kitchen",
-    imageSrc: "https://i.imgur.com/keVCVIa.jpeg",
-  },
-  {
-    title: "Home & Living",
-    imageSrc: "https://i.imgur.com/Qphac99.jpeg",
-  },
-  {
     title: "Footwear",
     imageSrc: "https://i.imgur.com/hKcMNJs.jpeg",
+  },
+  {
+    title: "Sports",
+    imageSrc: "https://i.imgur.com/Ex5x3IU.jpg",
+  },
+  {
+    title: "Furniture",
+    imageSrc: "https://i.imgur.com/6wkyyIN.jpeg",
   },
 ];
 
@@ -60,7 +60,7 @@ const Ranges: React.FC = () => {
             pagination={{
               clickable: true,
             }}
-            autoplay={{ delay: 3000, disableOnInteraction: false }}
+            autoplay={{ delay: 1500, disableOnInteraction: false }}
             loop
             breakpoints={{
               640: {
@@ -83,7 +83,7 @@ const Ranges: React.FC = () => {
                 <div
                   className="group relative overflow-hidden rounded-xl shadow-lg transition-transform transform hover:scale-105 mx-4 my-8"
                   onClick={() => {
-                    navigate("/products");
+                    navigate("/products?category=" + range.title);
                   }}
                 >
                   <img

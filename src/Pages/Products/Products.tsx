@@ -4,12 +4,37 @@ import { products } from "../../Store/products";
 import Navbar from "../../Components/Navbar";
 import Breadcrumb from "../../Components/Breadcrumb";
 import Footer from "../../Components/Footer";
+import FilterBar from "../../Components/FilterBar";
 
 const ProductsPage: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
+  const [filteredProducts, setFilteredProducts] = useState(products);
+  const [categoryFilter, setCategoryFilter] = useState("All");
+  const [sortBy, setSortBy] = useState("Relevancy");
   const productsPerPage = 9;
 
-  const totalPages = Math.ceil(products.length / productsPerPage);
+  const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
+
+  useEffect(() => {
+    let filtered = [...products];
+
+    if (categoryFilter !== "All") {
+      filtered = filtered.filter(
+        (product) => product.category === categoryFilter
+      );
+    }
+
+    if (sortBy !== "Relevancy") {
+      if (sortBy === "Low to High") {
+        filtered = filtered.sort((a, b) => a.price - b.price);
+      } else if (sortBy === "High to Low") {
+        filtered = filtered.sort((a, b) => b.price - a.price);
+      }
+    }
+
+    setFilteredProducts(filtered);
+    setCurrentPage(1);
+  }, [categoryFilter, sortBy]);
 
   const handlePageChange = (pageNumber: number) => {
     setCurrentPage(pageNumber);
@@ -19,7 +44,7 @@ const ProductsPage: React.FC = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, [currentPage]);
 
-  const paginatedProducts = products.slice(
+  const paginatedProducts = filteredProducts.slice(
     (currentPage - 1) * productsPerPage,
     currentPage * productsPerPage
   );
@@ -29,6 +54,14 @@ const ProductsPage: React.FC = () => {
     { label: "All Products" },
   ];
 
+  const handleFilterChange = (filters: {
+    category: string;
+    sortBy: string;
+  }) => {
+    setCategoryFilter(filters.category);
+    setSortBy(filters.sortBy);
+  };
+
   return (
     <div className="bg-neutral-50 min-h-screen">
       <Navbar />
@@ -36,6 +69,8 @@ const ProductsPage: React.FC = () => {
       <Breadcrumb items={breadcrumbItems} />
 
       <div className="container mx-auto px-4 py-3 max-w-screen-xl mb-10">
+        <FilterBar onFilterChange={handleFilterChange} />
+
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 md:gap-20">
           {paginatedProducts.map((product) => (
             <ProductCard key={product.id} product={product} />
@@ -50,8 +85,7 @@ const ProductsPage: React.FC = () => {
               disabled={currentPage === 1}
               className="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300 disabled:bg-gray-100 disabled:cursor-not-allowed disabled:text-gray-400"
             >
-              <span className="sm:hidden">Prev</span>
-              <span className="hidden sm:inline">Previous</span>
+              Prev
             </button>
             {Array.from({ length: totalPages }, (_, index) => (
               <button
