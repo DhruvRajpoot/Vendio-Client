@@ -62,7 +62,7 @@ const NavbarMobile = ({
         >
           <LiaShoppingCartSolid className="text-3xl" />
           {cartItems.length > 0 && (
-            <span className="absolute -top-2 -right-2 bg-teal-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
+            <span className="absolute -top-1 -right-2 bg-teal-500 text-white text-xs font-bold rounded-full w-4 h-4 flex items-center justify-center">
               {cartItems.length}
             </span>
           )}

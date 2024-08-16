@@ -27,3 +27,31 @@
   border-radius: 10px;
   background: #000000;
 }
+
+@keyframes marquee {
+  0% {
+    transform: translateX(-5%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+@keyframes marqueemobile {
+  0% {
+    transform: translateX(70%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+.animate-marquee {
+  animation: marquee 10s linear infinite;
+}
+
+@media (max-width: 768px) {
+  .animate-marquee {
+    animation: marqueemobile 8s linear infinite;
+  }
+}
