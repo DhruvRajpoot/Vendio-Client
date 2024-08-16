@@ -9,7 +9,7 @@ const Account: React.FC = () => {
   const { isAuthenticated } = useAppContext();
 
   return (
-    <div className="flex flex-col min-h-screen bg-gray-50">
+    <div className="flex flex-col min-h-screen bg-gray-50 overflow-y-scroll">
       <Navbar />
 
       <div className="flex flex-grow p-4">
