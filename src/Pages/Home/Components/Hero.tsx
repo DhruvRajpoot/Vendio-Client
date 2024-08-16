@@ -67,7 +67,7 @@ const Hero: React.FC = () => {
             <div
               className={`w-full h-[70vh] md:h-[80vh] ${slide.backgroundColor} flex items-center justify-center`}
             >
-              <div className="flex flex-col lg:flex-row items-center h-full max-w-screen-xl mx-auto px-4">
+              <div className="flex flex-col lg:flex-row items-center h-full max-w-screen-xl mx-auto xl:px-24 2xl:px-4">
                 <div className="flex flex-col items-center lg:items-start lg:text-left flex-1 mb-6 lg:mb-0 pt-16 text-center lg:pl-20 xl:pl-0">
                   <h1
                     className={`text-3xl md:text-5xl font-bold ${slide.textColor} mb-4`}

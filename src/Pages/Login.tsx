@@ -50,20 +50,22 @@ const Login: React.FC = () => {
   return (
     <div className="min-h-[100dvh]">
       <Navbar />
-      <div className="flex flex-col md:flex-row h-[calc(100vh-4rem)]">
+      <div className="flex flex-col md:flex-row min-h-[calc(100vh-4rem)]">
         {/* Left side - Illustration */}
         <div className="md:w-1/2 w-full flex items-center justify-center bg-gradient-to-br from-blue-400 to-blue-500 px-4 pb-8 md:p-4">
           <div className="text-center">
-            <div className="flex justify-center items-center md:mb-8 h-48 w-48 md:h-72 md:w-[450px] mx-auto">
+            <div className="flex justify-center items-center h-48 w-48 sm:w-56 sm:h-56 md:w-64 md:h-64 lg:w-[350px] lg:h-auto 2xl:w-[450px] mx-auto">
               <Lottie animationData={loginAnimation} />
             </div>
             <h2 className="text-xl text-white md:text-2xl font-semibold mb-4">
               Access Your Account
             </h2>
-            <p className="text-white text-sm md:text-base font-medium px-10">
-              Log in to access your personalized dashboard where you can manage
-              your orders, and enjoy a seamless, shopping experience designed
-              just for you.
+            <p className="text-white text-sm md:text-base font-medium lg:px-10">
+              <span>
+                Log in to access your personalized dashboard where you can
+                manage your orders, and enjoy a seamless, shopping experience
+                designed just for you.
+              </span>
             </p>
           </div>
         </div>
