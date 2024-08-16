@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Lottie from "lottie-react";
-import signupAnimation from "../assets/Lottie/signup.json";
+import signupAnimation from "../Assets/Lottie/signup.json";
 import GoogleButton from "../Components/GoogleButton";
 import Navbar from "../Components/Navbar";
 import { serverurl } from "../Config/baseurl";
@@ -177,7 +177,7 @@ const SignUp: React.FC = () => {
               </div>
 
               <div className="text-center mb-4">
-                <GoogleButton  />
+                <GoogleButton />
               </div>
 
               <div className="text-center">
