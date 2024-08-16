@@ -5,6 +5,7 @@ import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
 import logo from "../Assets/Images/logo.png";
 import defaultuser from "../Assets/Images/defaultuser.png";
 import { LiaShoppingCartSolid } from "react-icons/lia";
+import { FaRegHeart } from "react-icons/fa";
 
 const NavbarMobile = ({
   isAuthenticated,
@@ -21,6 +22,7 @@ const NavbarMobile = ({
   const navlinks = [
     { title: "Home", path: "/" },
     { title: "Products", path: "/products" },
+    { title: "About Us", path: "/about" },
     { title: "Profile", path: "/account/profile" },
     { title: "Orders", path: "/account/orders" },
     { title: "Wishlist", path: "/account/wishlist" },
@@ -49,7 +51,7 @@ const NavbarMobile = ({
   }, [isMenuOpen]);
 
   return (
-    <nav className="w-full h-16 p-3 bg-gray-100 flex items-center justify-between px-4 border-b border-b-gray-300 md:hidden sticky top-0 z-50">
+    <nav className="w-full h-16 p-3 bg-white flex items-center justify-between px-4 border-b border-b-gray-300 md:hidden sticky top-0 z-50">
       {/* Logo */}
       <Link to="/" className="text-2xl font-bold flex gap-2 items-center">
         <img src={logo} alt="Vendio" className="w-8 h-8" />
@@ -61,14 +63,23 @@ const NavbarMobile = ({
         </div>
       </Link>
 
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-6">
+        {/* Wishlist Icon */}
+        <Link
+          to="/account/wishlist"
+          title="Wishlist"
+          className="hover:text-gray-700"
+        >
+          <FaRegHeart className="text-2xl" />
+        </Link>
+
         {/* Cart Icon */}
         <Link
           to="/cart"
           title="Cart"
           className="relative flex items-center gap-2 text-lg font-bold hover:text-gray-700"
         >
-          <LiaShoppingCartSolid className="text-3xl" />
+          <LiaShoppingCartSolid className="text-3xl scale-[1.10]" />
           {cartItems.length > 0 && (
             <span className="absolute -top-1 -right-2 bg-teal-500 text-white text-xs font-bold rounded-full w-4 h-4 flex items-center justify-center">
               {cartItems.length}
