@@ -17,7 +17,7 @@ const ProductsPage: React.FC = () => {
 
       <Breadcrumb items={breadcrumbItems} />
 
-      <div className="container mx-auto px-4 max-w-screen-xl mb-10">
+      <div className="container mx-auto px-4 py-3 max-w-screen-xl mb-10">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 md:gap-20">
           {products.map((product) => (
             <ProductCard key={product.id} product={product} />

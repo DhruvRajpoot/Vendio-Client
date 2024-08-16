@@ -130,7 +130,7 @@ const ProductDetails: React.FC = () => {
   };
 
   const handleBuyNow = () => {
-    addToCart(product, quantity);
+    if (!isItemInCart(product.id)) addToCart(product, quantity);
     navigate("/cart");
   };
 
@@ -139,8 +139,8 @@ const ProductDetails: React.FC = () => {
       <Navbar />
       <Breadcrumb items={breadcrumbItems} />
 
-      <section className="container mx-auto px-4 max-w-screen-xl py-12 flex-1">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+      <section className="container mx-auto px-4 max-w-screen-xl py-3 flex-1">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
           {/* Product Images */}
           <div>
             {/* Main Image */}
@@ -148,11 +148,11 @@ const ProductDetails: React.FC = () => {
               <img
                 src={selectedImage}
                 alt={product.title}
-                className="w-full h-auto object-cover rounded-lg shadow-lg"
+                className="w-full h-auto max-h-[500px] object-cover rounded-lg shadow-lg"
               />
             </div>
             {/* Thumbnails */}
-            <div className="grid grid-cols-4 gap-4">
+            <div className="flex flex-wrap gap-2 sm:gap-4">
               {product.images.map((image, index) => (
                 <div
                   key={index}
@@ -162,7 +162,7 @@ const ProductDetails: React.FC = () => {
                   <img
                     src={image}
                     alt={`Thumbnail ${index + 1}`}
-                    className="w-auto h-32 object-cover rounded-lg border border-gray-200 hover:border-teal-500 transition-colors"
+                    className="w-auto h-auto max-h-20 sm:max-h-24 lg:max-h-32 object-cover rounded-lg border border-gray-200 hover:border-teal-500 transition-colors"
                   />
                 </div>
               ))}
@@ -173,7 +173,7 @@ const ProductDetails: React.FC = () => {
           <div>
             {/* Wishlist Icon */}
             <div className="flex gap-2 justify-between mb-6">
-              <h1 className="text-3xl font-bold text-gray-900">
+              <h1 className="text-2xl lg:text-3xl font-bold text-gray-900">
                 {product.title}
               </h1>
 
