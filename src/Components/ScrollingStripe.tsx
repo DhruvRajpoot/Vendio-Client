@@ -3,7 +3,7 @@ import { FaTag } from "react-icons/fa";
 
 const ScrollingStripe: React.FC = () => {
   return (
-    <div className="hidden relative overflow-hidden bg-gradient-to-r from-teal-600 to-teal-800 text-white py-2">
+    <div className="relative overflow-hidden bg-gradient-to-r from-teal-600 to-teal-800 text-white py-2">
       <div className="flex items-center gap-20 whitespace-nowrap animate-marquee">
         {Array.from({ length: 5 }).map((_, i) => (
           <div

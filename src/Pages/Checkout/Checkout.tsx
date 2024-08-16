@@ -39,7 +39,7 @@ const CheckoutPage: React.FC = () => {
       <Navbar />
       <div className="px-4 sm:px-10 py-6 bg-gray-50 min-h-screen">
         <div className="flex justify-between gap-6">
-          <div className="w-fit sm:w-20">
+          <div className="w-11 sm:w-20">
             {currentStep > 0 && (
               <button
                 onClick={prevStep}
@@ -55,7 +55,7 @@ const CheckoutPage: React.FC = () => {
             <StepProgress currentStep={currentStep} />
           </div>
 
-          <div className="w-fit sm:w-20">
+          <div className="w-11 sm:w-20">
             {currentStep < 2 && (
               <button
                 onClick={nextStep}

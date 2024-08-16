@@ -67,7 +67,7 @@ const OrderItem: React.FC<OrderItemProps> = ({ order }) => {
                   <h4 className="text-md font-medium text-gray-800 h-6 overflow-hidden">
                     {item.product.title}
                   </h4>
-                  <p className="text-gray-500 flex gap-1">
+                  <p className="text-gray-500 flex flex-col xs:flex-row gap-1">
                     {item.product.category} -{" "}
                     <span className="text-yellow-500 flex items-center">
                       <FaStar className="inline mr-1" />
