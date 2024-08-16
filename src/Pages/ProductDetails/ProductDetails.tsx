@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Navbar from "../../Components/Navbar";
 import Breadcrumb from "../../Components/Breadcrumb";
 import Footer from "../../Components/Footer";
@@ -17,6 +17,7 @@ import RelatedProducts from "./Components/RelatedProducts";
 import { useWishlist } from "../../Context/WishlistContext";
 
 const ProductDetails: React.FC = () => {
+  const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
   const productId = Number(id);
 
@@ -26,7 +27,7 @@ const ProductDetails: React.FC = () => {
     return <ProductNotFound />;
   }
 
-  const { addToCart } = useCart();
+  const { addToCart, cartItems } = useCart();
 
   const { checkInWishlist, handleWishlistClick } = useWishlist();
 
@@ -116,8 +117,21 @@ const ProductDetails: React.FC = () => {
     },
   ];
 
+  const isItemInCart = (productId: number) => {
+    return cartItems.some((item) => item.product.id === productId);
+  };
+
   const handleAddToCart = () => {
+    if (isItemInCart(product.id)) {
+      navigate("/cart");
+      return;
+    }
     addToCart(product, quantity);
+  };
+
+  const handleBuyNow = () => {
+    addToCart(product, quantity);
+    navigate("/cart");
   };
 
   return (
@@ -249,11 +263,16 @@ const ProductDetails: React.FC = () => {
                 className="bg-teal-600 text-white py-2 px-6 rounded-md shadow-lg hover:bg-teal-700 transition-colors flex items-center space-x-2"
               >
                 <FaShoppingCart className="text-xl" />
-                <span>Add to Cart</span>
+                <span>
+                  {isItemInCart(product.id) ? "View Cart" : "Add to Cart"}
+                </span>
               </button>
 
               {/* Buy Now Button */}
-              <button className="bg-orange-600 text-white py-2 px-6 rounded-md shadow-lg hover:bg-orange-700 transition-colors flex items-center space-x-2">
+              <button
+                onClick={handleBuyNow}
+                className="bg-orange-600 text-white py-2 px-6 rounded-md shadow-lg hover:bg-orange-700 transition-colors flex items-center space-x-2"
+              >
                 <FaShoppingBag className="text-xl" />
                 <span>Buy Now</span>
               </button>
@@ -294,12 +313,14 @@ const ProductDetails: React.FC = () => {
         </div>
 
         {/* Related Products */}
-        <div className="my-12">
-          <RelatedProducts
-            title="Related Products"
-            relatedProducts={relatedProducts}
-          />
-        </div>
+        {relatedProducts.length > 0 && (
+          <div className="my-12">
+            <RelatedProducts
+              title="Related Products"
+              relatedProducts={relatedProducts}
+            />
+          </div>
+        )}
       </section>
 
       <Footer />
