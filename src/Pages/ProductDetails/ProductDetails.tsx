@@ -223,6 +223,11 @@ const ProductDetails: React.FC = () => {
               <h2 className="text-lg font-semibold mb-2">Available Offers</h2>
               <ul className="text-sm list-disc list-inside text-gray-700 space-y-2">
                 <li>
+                  <strong>Special Price:</strong> Get extra 10% off using code -{" "}
+                  <strong>SAVE 10</strong> .{" "}
+                  <span className="text-blue-600">T&C</span>
+                </li>
+                <li>
                   <strong>Bank Offer:</strong> 10% Instant Discount upto ₹500 on
                   first EMI Transaction.{" "}
                   <span className="text-blue-600">T&C</span>
@@ -230,10 +235,6 @@ const ProductDetails: React.FC = () => {
                 <li>
                   <strong>Bank Offer:</strong> 5% Cashback on Axis Bank Card.{" "}
                   <span className="text-blue-600">T&C</span>
-                </li>
-                <li>
-                  <strong>Special Price:</strong> Get extra 10% off using code -
-                  SAVE 10 . <span className="text-blue-600">T&C</span>
                 </li>
               </ul>
             </div>

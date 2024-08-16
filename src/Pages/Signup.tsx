@@ -54,15 +54,12 @@ const SignUp: React.FC = () => {
   return (
     <div className="min-h-[100dvh]">
       <Navbar />
-      <div className="flex flex-col md:flex-row h-[calc(100vh-4rem)]">
+      <div className="flex flex-col md:flex-row min-h-[calc(100vh-4rem)]">
         {/* Left side - Illustration */}
         <div className="md:w-1/2 w-full flex items-center justify-center bg-gradient-to-br from-green-300 to-green-400 px-4 pb-8 md:p-4">
           <div className="text-center">
-            <div className="flex justify-center items-center md:mb-8 h-48 w-48 md:h-96 md:w-[450px] mx-auto">
-              <Lottie
-                animationData={signupAnimation}
-                style={{ height: "100%" }}
-              />
+            <div className="flex justify-center items-center h-48 w-48 sm:w-56 sm:h-56 md:w-64 md:h-64 lg:w-[350px] lg:h-auto 2xl:w-[450px] mx-auto">
+              <Lottie animationData={signupAnimation} />
             </div>
             <h2 className="text-xl md:text-2xl font-semibold mb-4">
               Shop the Best Deals

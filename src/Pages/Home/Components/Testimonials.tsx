@@ -29,8 +29,7 @@ const testimonials = [
     name: "Emily Johnson",
     image: personImage3,
     rating: 4,
-    feedback:
-      "Solid product overall. A bit of a delay in shipping, but customer service was helpful.",
+    feedback: "Solid product overall.Ccustomer service was very helpful.",
   },
   {
     id: 4,

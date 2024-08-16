@@ -20,7 +20,7 @@ const Navbar = () => {
   const navlinks = [
     { title: "Home", path: "/" },
     { title: "Products", path: "/products" },
-    { title: "Wishlist", path: "/account/wishlist" },
+    { title: "About Us", path: "/about" },
   ];
 
   const handleProfileClick = () => {
@@ -113,7 +113,7 @@ const Navbar = () => {
             title="cart"
             className="relative flex items-center gap-2 text-sm font-semibold hover:text-gray-900"
           >
-            <span>Cart</span>
+            {/* <span>Cart</span> */}
             <LiaShoppingCartSolid className="text-xl" />
             {cartItems.length > 0 && (
               <span className="absolute -top-2 -right-2 bg-teal-600 text-white text-xs font-bold rounded-full w-4 h-4 flex items-center justify-center">

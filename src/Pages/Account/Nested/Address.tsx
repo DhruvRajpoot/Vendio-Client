@@ -3,7 +3,7 @@ import React from "react";
 const Address: React.FC = () => {
   return (
     <div>
-      <h1 className="text-2xl sm:text-3xl font-semibold mb-6 text-gray-800">
+      <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-6">
         Address
       </h1>
       <p className="text-lg text-gray-700 text-center">
