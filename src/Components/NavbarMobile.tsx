@@ -21,8 +21,8 @@ const NavbarMobile = ({
 
   const navlinks = [
     { title: "Home", path: "/" },
-    { title: "Products", path: "/products" },
     { title: "About Us", path: "/about" },
+    { title: "Products", path: "/products" },
     { title: "Profile", path: "/account/profile" },
     { title: "Orders", path: "/account/orders" },
     { title: "Wishlist", path: "/account/wishlist" },

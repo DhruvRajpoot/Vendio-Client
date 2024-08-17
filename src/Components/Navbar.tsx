@@ -19,8 +19,8 @@ const Navbar = () => {
 
   const navlinks = [
     { title: "Home", path: "/" },
-    { title: "Products", path: "/products" },
     { title: "About Us", path: "/about" },
+    { title: "Products", path: "/products" },
   ];
 
   const handleProfileClick = () => {

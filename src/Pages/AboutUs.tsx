@@ -10,19 +10,19 @@ const features = [
     icon: FaStar,
     title: "Quality Products",
     description:
-      "We offer a diverse range of high-quality products, carefully selected to meet your needs.",
+      "We offer a range of high-quality products, selected to meet your needs.",
   },
   {
     icon: FaLock,
     title: "Secure Payment",
     description:
-      "We ensure secure and encrypted payment options for a worry-free shopping experience.",
+      "We ensure secure payment options for a worry-free shopping experience.",
   },
   {
     icon: FaShippingFast,
     title: "Fast Delivery",
     description:
-      "Our efficient delivery network ensures your orders reach you quickly and safely.",
+      "Our efficient delivery network ensures your orders reach you quickly.",
   },
   {
     icon: FaHeadset,
@@ -42,7 +42,6 @@ const AboutUs: React.FC = () => {
       bg-teal-500 overflow-hidden
       "
       >
-        <div className="absolute inset-0 bg-black opacity-50"></div>
         <div className="relative z-10 text-center px-4">
           <h1 className="text-3xl sm:text-4xl font-bold">Discover Vendio</h1>
           <p className="text-lg sm:text-xl mt-2">
@@ -50,7 +49,7 @@ const AboutUs: React.FC = () => {
           </p>
           <Link
             to="/products"
-            className="mt-4 inline-block bg-teal-500 hover:bg-teal-600 text-white font-semibold py-2 px-6 rounded-full transition-colors shadow-lg"
+            className="mt-4 inline-block bg-white text-teal-500 font-semibold py-2 px-6 rounded-full transition-colors hover:bg-gray-100 shadow-lg"
           >
             Shop Now
           </Link>

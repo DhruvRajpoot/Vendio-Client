@@ -1,25 +1,35 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import StepProgress from "./Components/StepProgress";
 import AddressStep from "./Components/Steps/AddressStep";
 import PaymentStep from "./Components/Steps/PaymentStep";
 import ReviewStep from "./Components/Steps/ReviewStep";
 import Navbar from "../../Components/Navbar";
-import { AiOutlineCaretLeft, AiOutlineCaretRight } from "react-icons/ai";
+import { AiOutlineCaretLeft } from "react-icons/ai";
 import { ShippingAddress } from "../../Context/OrderContext";
+import { useCart } from "../../Context/CartContext";
+import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 const CheckoutPage: React.FC = () => {
+  const { cartItems } = useCart();
+  const navigate = useNavigate();
   const [currentStep, setCurrentStep] = useState(0);
-  const [isStepValid, setIsStepValid] = useState(false);
   const [selectedPayment, setSelectedPayment] = useState<string | null>(null);
   const [selectedAddress, setSelectedAddress] =
     useState<ShippingAddress | null>(null);
 
-  const validateStep = (isValid: boolean) => {
-    setIsStepValid(isValid);
-  };
+  const toastShownRef = useRef(false);
+
+  useEffect(() => {
+    if (cartItems.length === 0 && !toastShownRef.current) {
+      navigate("/products");
+      toast.error("Please add some items to cart first!");
+      toastShownRef.current = true;
+    }
+  }, []);
 
   const nextStep = () => {
-    if (isStepValid && currentStep < 2) {
+    if (currentStep < 2) {
       setCurrentStep(currentStep + 1);
     }
   };
@@ -55,36 +65,21 @@ const CheckoutPage: React.FC = () => {
             <StepProgress currentStep={currentStep} />
           </div>
 
-          <div className="w-11 sm:w-20">
-            {currentStep < 2 && (
-              <button
-                onClick={nextStep}
-                className={`flex items-center ml-auto p-3 rounded-md shadow-md transition-colors duration-200 ${
-                  isStepValid
-                    ? "bg-teal-600 text-white hover:bg-teal-700"
-                    : "bg-gray-300 text-gray-500 cursor-not-allowed"
-                }`}
-                disabled={!isStepValid}
-              >
-                <span className="hidden sm:inline-block">Next</span>{" "}
-                <AiOutlineCaretRight className="inline ml-1" />
-              </button>
-            )}
-          </div>
+          <div className="w-11 sm:w-20"></div>
         </div>
 
-        <div className="bg-white shadow-lg rounded-lg p-4 sm:p-6 mx-auto ">
+        <div className="bg-white shadow-lg rounded-lg p-4 sm:p-6 mx-auto">
           {currentStep === 0 && (
             <AddressStep
-              validateStep={validateStep}
               selectedAddress={selectedAddress}
               setSelectedAddress={setSelectedAddress}
+              nextStep={nextStep}
             />
           )}
           {currentStep === 1 && (
             <PaymentStep
-              validateStep={validateStep}
               setSelectedPayment={setSelectedPayment}
+              nextStep={nextStep}
             />
           )}
           {currentStep === 2 && (

@@ -4,10 +4,10 @@ import { useState } from "react";
 import { serverurl } from "../Config/baseurl";
 import Lottie from "lottie-react";
 import animationData from "../Assets/Lottie/googlelogin.json";
-import loadingimg from "../Assets/Images/loading.gif";
 import { useNavigate, useLocation } from "react-router-dom";
 import toast from "react-hot-toast";
 import { useAppContext } from "../Context/AppContext";
+import Spinner from "./Spinner";
 
 const GoogleButton: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
@@ -58,7 +58,7 @@ const GoogleButton: React.FC = () => {
   return (
     <button
       type="button"
-      className="px-4 md:px-6 bg-white border border-gray-300 hover:bg-gray-50 transition-all duration-200 rounded-md shadow-sm flex items-center justify-center w-full"
+      className="px-4 md:px-6 bg-white border border-gray-300 hover:bg-gray-50 transition-all duration-200 rounded-md shadow-sm flex items-center justify-center w-full h-11"
       onClick={() => googleLogin()}
       disabled={loading}
       aria-label={"continue with google"}
@@ -69,7 +69,7 @@ const GoogleButton: React.FC = () => {
           <span>Continue with Google</span>
         </>
       ) : (
-        <img src={loadingimg} alt="Loading" className="w-10 h-10" />
+        <Spinner />
       )}
     </button>
   );

@@ -1,27 +1,24 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { FaMoneyBillWave } from "react-icons/fa";
 import { RiSecurePaymentFill } from "react-icons/ri";
 
 interface PaymentStepProps {
-  validateStep: (isValid: boolean) => void;
   setSelectedPayment: (paymentMethod: string | null) => void;
+  nextStep: () => void;
 }
 
 const PaymentStep: React.FC<PaymentStepProps> = ({
-  validateStep,
   setSelectedPayment,
+  nextStep,
 }) => {
   const [selectedPayment, setSelectedPaymentState] = useState<string | null>(
     null
   );
 
-  useEffect(() => {
-    validateStep(selectedPayment !== null);
-  }, [selectedPayment, validateStep]);
-
   const handlePaymentSelection = (method: string) => {
     setSelectedPaymentState(method);
     setSelectedPayment(method);
+    nextStep();
   };
 
   return (
