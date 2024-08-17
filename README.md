@@ -1,50 +1,82 @@
-# React + TypeScript + Vite
+# <p align="center">*"Vendio"*</p>
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+### *Vendio is a modern eCommerce platform offering a seamless online shopping experience with intuitive navigation and a wide range of products*
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **Product Management**: Display products with detailed information, images, and ratings.
+- **Cart Management**: Add, remove, update items in the cart, and synchronize with the backend.
+- **Coupon Codes**: Apply and manage discount codes for promotions.
+- **Checkout Process**: Multi-step checkout including Address, Payment, and Review steps.
+- **Wishlist**: Save and manage favorite products.
+- **Order Management**: View and manage user orders and addresses.
+- **Responsive Design**: Fully responsive to ensure an optimal experience on all devices.
+- **Modern UI**: Clean and modern user interface with customizable themes.
 
-## Expanding the ESLint configuration
+## Tech Stack
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+- **Frontend**: React, TypeScript
+- **Backend**: Node.js, Express
+- **Database**: MongoDB
+- **State Management**: Context API
+- **Styling**: Tailwind
 
-- Configure the top-level `parserOptions` property like this:
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+## Preview
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+You can explore the live version of Vendio at [https://vendio.vercel.app/](https://vendio.vercel.app/). 
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+The backend repository can be found at [https://github.com/dhruvrajpoot/vendio-server](https://github.com/dhruvrajpoot/vendio-server).
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+## Screenshots
+
+- ### Home Page<br><br>
+  ![Home Page](https://res.cloudinary.com/dp3kpqzce/image/upload/v1723859384/Screenshot_15_xrahh4.png)
+
+- ### Products<br><br>
+  ![Products](https://res.cloudinary.com/dp3kpqzce/image/upload/v1723859384/Screenshot_16_kmz1x3.png)
+
+- ### Product Details<br><br>
+  ![Product Details](https://res.cloudinary.com/dp3kpqzce/image/upload/v1723859385/Screenshot_17_x63u8a.png)
+
+- ### Cart<br><br>
+  ![Cart](https://res.cloudinary.com/dp3kpqzce/image/upload/v1723859384/Screenshot_18_dmndru.png)
+
+- ### Orders<br><br>
+  ![Orders](https://res.cloudinary.com/dp3kpqzce/image/upload/v1723859383/Screenshot_19_suryd0.png)
+
+
+## Installation
+
+To run the project locally, follow these steps:
+
+1. **Clone the Repository**:
+   ```bash
+   git clone https://github.com/DhruvRajpoot/Vendio-Client.git
+   cd Vendio-Client
+   ```
+
+2. **Install Dependencies**:
+   ```bash
+   npm install
+   ```
+
+3. **Configure Environment Variables**:
+   Copy the `.env.example` file to `.env` and add your environment variables:
+   ```bash
+   cp .env.example .env
+   ```
+   Edit the `.env` file to include your API keys and other configuration details.
+
+4. **Run the Development Server**:
+   ```bash
+   npm run dev
+   ```
+
+5. Open [http://localhost:5173](http://localhost:5173) in your browser to view the application.
+
+## Contact
+
+For questions or support, please contact [dhruvrajpootiiitbhopal@gmail.com](mailto:dhruvrajpootiiitbhopal@gmail.com).
+
+---
