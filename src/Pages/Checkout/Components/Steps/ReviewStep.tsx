@@ -4,6 +4,7 @@ import CartTable from "../CartTable";
 import { ShippingAddress, useOrder } from "../../../../Context/OrderContext";
 import { deliveryCharges, taxRate } from "../../../../Constants/Constants";
 import { FaCreditCard, FaMapMarkerAlt, FaMoneyBillAlt } from "react-icons/fa";
+import Spinner from "../../../../Components/Spinner";
 
 interface ReviewStepProps {
   selectedPayment: string | null;
@@ -35,7 +36,7 @@ const ReviewStep: React.FC<ReviewStepProps> = ({
   estimatedDeliveryDate.setDate(estimatedDeliveryDate.getDate() + 5);
 
   // Place Order function
-  const { createOrder } = useOrder();
+  const { createOrder, orderLoading } = useOrder();
 
   const handlePlaceOrder = async () => {
     if (shippingAddress && selectedPayment) {
@@ -148,10 +149,11 @@ const ReviewStep: React.FC<ReviewStepProps> = ({
         <div className="flex justify-end mt-6">
           <button
             type="button"
-            className="bg-teal-600 text-white py-2 px-6 rounded-md shadow-md hover:bg-teal-700 transition-colors duration-200"
+            className="flex items-center justify-center bg-teal-600 text-white py-2 px-6 rounded-md shadow-md hover:bg-teal-700 transition-colors duration-200 w-36 h-10"
             onClick={handlePlaceOrder}
+            disabled={orderLoading || !selectedPayment}
           >
-            Place Order
+            {orderLoading ? <Spinner /> : "Place Order"}
           </button>
         </div>
       </div>
