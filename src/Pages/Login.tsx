@@ -128,14 +128,17 @@ const Login: React.FC = () => {
                 >
                   {loading ? "Logging in..." : "Log In"}
                 </button>
+
                 {/* TODO : Implement forgot password */}
                 <Link to="/login" className="text-sm text-indigo-600">
                   Forgot password?
                 </Link>
               </div>
 
-              <div className="text-center mb-4">
-                <p className="text-gray-600 font-bold">or</p>
+              <div className="flex items-center justify-center mb-4">
+                <hr className="flex-grow border-gray-300" />
+                <span className="mx-4 text-gray-600 font-bold">or</span>
+                <hr className="flex-grow border-gray-300" />
               </div>
 
               <div className="text-center mb-4">
