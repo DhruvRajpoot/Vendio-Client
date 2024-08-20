@@ -1,16 +1,24 @@
-import React from "react";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { serverurl } from "../../../Config/baseurl";
 
 const EmailVerification: React.FC = () => {
   const [isVisible, setIsVisible] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const timer = setTimeout(() => setIsVisible(true), 50);
     return () => clearTimeout(timer);
   }, []);
 
-  const handleResendEmail = () => {
-    // TODO - Resend email verification
+  const handleResendEmail = async () => {
+    setLoading(true);
+
+    try {
+    } catch (error) {
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -20,7 +28,7 @@ const EmailVerification: React.FC = () => {
       }`}
     >
       <div
-        className={`max-w-lg w-full bg-white rounded-lg p-6 lg:p-8 border border-gray-300 shadow-lg transform transition-transform duration-500 ${
+        className={`max-w-lg w-full bg-white rounded-lg p-6 lg:p-8 border shadow-lg transform transition-transform duration-500 ${
           isVisible ? "translate-y-0" : "translate-y-5"
         }`}
       >
@@ -38,13 +46,22 @@ const EmailVerification: React.FC = () => {
         </p>
 
         <button
-          className="block w-full max-w-xs mx-auto px-6 py-3 bg-gray-800 text-white rounded-md font-semibold text-center mb-4 hover:shadow-lg transition-all active:scale-[0.99]"
+          className={`block w-full max-w-xs mx-auto px-6 py-3 bg-gray-800 text-white rounded-md font-semibold text-center mb-4 hover:shadow-lg transition-all ${
+            loading ? "opacity-50" : "active:scale-[0.99]"
+          }`}
           onClick={handleResendEmail}
+          disabled={loading}
         >
-          <span className="xs:hidden">Resend Email</span>
-          <span className="hidden xs:inline-block">
-            Resend Verification Email
-          </span>
+          {loading ? (
+            "Resending..."
+          ) : (
+            <>
+              <span className="xs:hidden">Resend Email</span>
+              <span className="hidden xs:inline-block">
+                Resend Verification Email
+              </span>
+            </>
+          )}
         </button>
 
         <div className="text-center">

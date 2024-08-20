@@ -15,12 +15,14 @@ import Address from "../Pages/Account/Nested/Address";
 import Wishlist from "../Pages/Account/Nested/Wishlist";
 import Orders from "../Pages/Account/Nested/Orders";
 import AboutUs from "../Pages/AboutUs";
+import VerifyEmail from "../Pages/VerifyEmail/VerifyEmail";
 
 export const Router = () => {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/signup" element={<SignUp />} />
+      <Route path="/verify-email" element={<VerifyEmail />} />
       <Route path="/login" element={<Login />} />
       <Route path="/products" element={<Products />} />
       <Route path="/products/:id" element={<ProductDetails />} />
