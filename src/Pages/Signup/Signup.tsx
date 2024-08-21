@@ -8,6 +8,7 @@ import SignUpForm from "./Components/SignupForm";
 
 const SignUp: React.FC = () => {
   const [step, setStep] = useState<number>(1);
+  const [email, setEmail] = useState<string>("");
   const location = useLocation();
   const params = new URLSearchParams(location.search);
   const redirectPath = params.get("redirect") || "/";
@@ -36,9 +37,13 @@ const SignUp: React.FC = () => {
         <div className="md:w-1/2 w-full flex items-center justify-center p-4">
           <div className="max-w-md w-full">
             {step === 1 ? (
-              <SignUpForm setStep={setStep} redirectPath={redirectPath} />
+              <SignUpForm
+                setStep={setStep}
+                setEmail={setEmail}
+                redirectPath={redirectPath}
+              />
             ) : (
-              <EmailVerification />
+              <EmailVerification email={email} />
             )}
           </div>
         </div>

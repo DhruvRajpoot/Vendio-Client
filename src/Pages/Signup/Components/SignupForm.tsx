@@ -7,16 +7,27 @@ import { Link } from "react-router-dom";
 
 interface SignUpFormProps {
   setStep: React.Dispatch<React.SetStateAction<number>>;
+  setEmail: React.Dispatch<React.SetStateAction<string>>;
   redirectPath: string;
 }
 
-const SignUpForm: React.FC<SignUpFormProps> = ({ setStep, redirectPath }) => {
-  const [email, setEmail] = useState<string>("");
+const SignUpForm: React.FC<SignUpFormProps> = ({
+  setStep,
+  setEmail,
+  redirectPath,
+}) => {
+  const [email, setEmailLocal] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [firstName, setFirstName] = useState<string>("");
   const [lastName, setLastName] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
+
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newEmail = e.target.value;
+    setEmailLocal(newEmail);
+    setEmail(newEmail);
+  };
 
   const handleSignUp = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -65,7 +76,7 @@ const SignUpForm: React.FC<SignUpFormProps> = ({ setStep, redirectPath }) => {
             type="email"
             id="email"
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={handleEmailChange}
             className="mt-1 p-2 block w-full border-gray-300 rounded-md shadow-sm outline-none border-b border-b-gray-200 focus:border-b-black"
             placeholder="yourname@example.com"
             required

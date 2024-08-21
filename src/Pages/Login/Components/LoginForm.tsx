@@ -8,15 +8,26 @@ import { useAppContext } from "../../../Context/AppContext";
 
 interface LoginFormProps {
   setStep: React.Dispatch<React.SetStateAction<number>>;
+  setEmail: React.Dispatch<React.SetStateAction<string>>;
   redirectPath: string;
 }
 
-const LoginForm: React.FC<LoginFormProps> = ({ setStep, redirectPath }) => {
-  const [email, setEmail] = useState<string>("");
+const LoginForm: React.FC<LoginFormProps> = ({
+  setStep,
+  setEmail,
+  redirectPath,
+}) => {
+  const [email, setEmailLocal] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
   const { login } = useAppContext();
   const navigate = useNavigate();
+
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newEmail = e.target.value;
+    setEmailLocal(newEmail);
+    setEmail(newEmail);
+  };
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -67,7 +78,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ setStep, redirectPath }) => {
             type="email"
             id="email"
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={handleEmailChange}
             className="mt-1 p-2 block w-full border-gray-300 rounded-md shadow-sm outline-none border-b border-b-gray-200 focus:border-b-black"
             placeholder="yourname@example.com"
             required

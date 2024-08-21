@@ -1,8 +1,13 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { serverurl } from "../../../Config/baseurl";
+import toast from "react-hot-toast";
 
-const EmailVerification: React.FC = () => {
+interface EmailVerificationProps {
+  email: string;
+}
+
+const EmailVerification: React.FC<EmailVerificationProps> = ({ email }) => {
   const [isVisible, setIsVisible] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -13,9 +18,17 @@ const EmailVerification: React.FC = () => {
 
   const handleResendEmail = async () => {
     setLoading(true);
-
     try {
-    } catch (error) {
+      const response = await axios.post(
+        `${serverurl}/auth/resend-verification-email`,
+        { email }
+      );
+
+      if (response.status === 200) {
+        toast.success(response.data.message);
+      }
+    } catch (error: any) {
+      toast.error(error.response.data.message || "Error resending email");
     } finally {
       setLoading(false);
     }
