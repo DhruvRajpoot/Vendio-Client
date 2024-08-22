@@ -3,6 +3,7 @@ import { IoMail } from "react-icons/io5";
 import logo from "../Assets/Images/logo.png";
 import { Link } from "react-router-dom";
 import { GrGithub } from "react-icons/gr";
+import { contactEmail, contactPhone } from "../Config/baseurl";
 
 const Footer = () => {
   const quickLinks = [
@@ -13,7 +14,7 @@ const Footer = () => {
   ];
 
   const contacts = [
-    { link: "mailto:dhruvrajpootiiitbhopal@gmail.com", icon: <IoMail /> },
+    { link: `mailto:${contactEmail}`, icon: <IoMail /> },
     {
       link: "https://github.com/DhruvRajpoot/Vendio-Client",
       icon: <GrGithub />,
@@ -22,7 +23,7 @@ const Footer = () => {
       link: "https://www.linkedin.com/in/dhruv-rajpoot/",
       icon: <FaLinkedin />,
     },
-    { link: "tel:+919140790309", icon: <FaPhoneAlt /> },
+    { link: `tel:${contactPhone}`, icon: <FaPhoneAlt /> },
   ];
 
   return (

@@ -6,7 +6,7 @@ import loaderAnimation from "../../Assets/Lottie/loading.json";
 import verifyEmailAnimation from "../../Assets/Lottie/cart.json";
 import axios from "axios";
 import { useAppContext } from "../../Context/AppContext";
-import { serverurl } from "../../Config/baseurl";
+import { contactEmail, serverurl } from "../../Config/baseurl";
 import Navbar from "../../Components/Navbar";
 
 const VerifyEmail: React.FC = () => {
@@ -171,7 +171,7 @@ const VerifyEmail: React.FC = () => {
               <p className="text-gray-600 text-sm">
                 If you have any issues or questions, please reach out to our{" "}
                 <a
-                  href="mailto:dhruvrajpootiiitbhopal@gmail.com"
+                  href={`mailto:${contactEmail}`}
                   className="text-blue-500 hover:underline"
                 >
                   support team

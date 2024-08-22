@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { serverurl } from "../../../Config/baseurl";
+import { contactEmail, serverurl } from "../../../Config/baseurl";
 import toast from "react-hot-toast";
 
 interface EmailVerificationProps {
@@ -81,7 +81,7 @@ const EmailVerification: React.FC<EmailVerificationProps> = ({ email }) => {
           <p className="text-gray-600 text-sm sm:text-base">
             If you don’t see the email, check your spam folder or{" "}
             <a
-              href="mailto:dhruvrajpootiiitbhopal@gmail.com"
+              href={`mailto:${contactEmail}`}
               className="text-indigo-600 hover:underline"
             >
               contact support
