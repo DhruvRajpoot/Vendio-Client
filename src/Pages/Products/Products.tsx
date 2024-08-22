@@ -1,30 +1,36 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState, useCallback } from "react";
 import ProductCard from "../../Components/ProductCard";
 import { products } from "../../Store/products";
 import Navbar from "../../Components/Navbar";
 import Breadcrumb from "../../Components/Breadcrumb";
 import Footer from "../../Components/Footer";
-import FilterBar from "../../Components/FilterBar";
+import FilterBar from "./Components/FilterBar";
 import { useLocation, useNavigate } from "react-router-dom";
 
 const ProductsPage: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(() => {
+    const pageParam = new URLSearchParams(location.search).get("page");
+    return pageParam ? parseInt(pageParam, 10) : 1;
+  });
 
   const productsPerPage = 9;
 
-  const queryParams = new URLSearchParams(location.search);
+  const queryParams = useMemo(
+    () => new URLSearchParams(location.search),
+    [location.search]
+  );
+
   const categoryFilter = queryParams.get("category") || "All";
   const sortBy = queryParams.get("sortBy") || "Relevancy";
-  const pageParam = parseInt(queryParams.get("page") || "1", 10);
 
   useEffect(() => {
+    const pageParam = parseInt(queryParams.get("page") || "1", 10);
     setCurrentPage(pageParam);
-  }, [pageParam]);
+  }, [queryParams]);
 
-  // Filter and sort products based on query parameters
   const filteredProducts = useMemo(() => {
     let filtered = [...products];
 
@@ -35,21 +41,17 @@ const ProductsPage: React.FC = () => {
     }
 
     if (sortBy !== "Relevancy") {
-      if (sortBy === "Low to High") {
-        filtered = filtered.sort(
-          (a, b) =>
-            a.price -
-            (a.price * a.discount) / 100 -
-            (b.price - (b.price * b.discount) / 100)
-        );
-      } else if (sortBy === "High to Low") {
-        filtered = filtered.sort(
-          (a, b) =>
-            b.price -
-            (b.price * b.discount) / 100 -
-            (a.price - (a.price * a.discount) / 100)
-        );
-      }
+      const discountPrice = (product: any) =>
+        product.price - (product.price * product.discount) / 100;
+
+      filtered = filtered.sort((a, b) => {
+        if (sortBy === "Low to High") {
+          return discountPrice(a) - discountPrice(b);
+        } else if (sortBy === "High to Low") {
+          return discountPrice(b) - discountPrice(a);
+        }
+        return 0;
+      });
     }
 
     return filtered;
@@ -57,42 +59,45 @@ const ProductsPage: React.FC = () => {
 
   const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
 
-  const handlePageChange = (pageNumber: number) => {
-    setCurrentPage(pageNumber);
-    const searchParams = new URLSearchParams(location.search);
-    searchParams.set("page", pageNumber.toString());
-    navigate(`?${searchParams.toString()}`);
-  };
-
-  useEffect(() => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  }, [currentPage]);
-
-  const paginatedProducts = filteredProducts.slice(
-    (currentPage - 1) * productsPerPage,
-    currentPage * productsPerPage
+  const paginatedProducts = useMemo(
+    () =>
+      filteredProducts.slice(
+        (currentPage - 1) * productsPerPage,
+        currentPage * productsPerPage
+      ),
+    [filteredProducts, currentPage, productsPerPage]
   );
 
-  const breadcrumbItems = [
-    { label: "Home", link: "/" },
-    { label: "All Products" },
-  ];
+  const handlePageChange = useCallback(
+    (pageNumber: number) => {
+      if (pageNumber === currentPage) return;
+      const searchParams = new URLSearchParams(location.search);
+      searchParams.set("page", pageNumber.toString());
+      navigate(`?${searchParams.toString()}`);
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    },
+    [navigate, location.search, currentPage]
+  );
 
-  const handleFilterChange = (filters: {
-    category: string;
-    sortBy: string;
-  }) => {
-    const { category, sortBy } = filters;
-    const searchParams = new URLSearchParams(location.search);
-    if (category) searchParams.set("category", category);
-    if (sortBy) searchParams.set("sortBy", sortBy);
-    searchParams.set("page", "1");
-    navigate(`?${searchParams.toString()}`);
-  };
+  const breadcrumbItems = useMemo(
+    () => [{ label: "Home", link: "/" }, { label: "All Products" }],
+    []
+  );
 
-  const handleResetFilters = () => {
+  const handleFilterChange = useCallback(
+    (filters: { category: string; sortBy: string }) => {
+      const searchParams = new URLSearchParams(location.search);
+      if (filters.category) searchParams.set("category", filters.category);
+      if (filters.sortBy) searchParams.set("sortBy", filters.sortBy);
+      searchParams.set("page", "1");
+      navigate(`?${searchParams.toString()}`);
+    },
+    [navigate, location.search]
+  );
+
+  const handleResetFilters = useCallback(() => {
     navigate("/products");
-  };
+  }, [navigate]);
 
   return (
     <div className="bg-neutral-50 min-h-screen">
