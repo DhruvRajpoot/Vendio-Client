@@ -19,6 +19,7 @@ const Wishlist = lazy(() => import("../Pages/Account/Nested/Wishlist"));
 const Orders = lazy(() => import("../Pages/Account/Nested/Orders"));
 const AboutUs = lazy(() => import("../Pages/AboutUs"));
 const VerifyEmail = lazy(() => import("../Pages/VerifyEmail/VerifyEmail"));
+const ForgotPassword = lazy(()=> import("../Pages/ForgotPassword/ForgotPassword"));
 
 export const Router = () => {
   return (
@@ -28,6 +29,7 @@ export const Router = () => {
         <Route path="/signup" element={<SignUp />} />
         <Route path="/verify-email" element={<VerifyEmail />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/products" element={<Products />} />
         <Route path="/products/:id" element={<ProductDetails />} />
         <Route path="/cart" element={<Cart />} />

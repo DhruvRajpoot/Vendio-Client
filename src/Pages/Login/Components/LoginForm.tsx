@@ -112,7 +112,7 @@ const LoginForm: React.FC<LoginFormProps> = ({
             {loading ? "Logging in..." : "Log In"}
           </button>
 
-          <Link to="/login" className="text-sm text-indigo-600">
+          <Link to="/forgot-password" className="text-sm text-indigo-600">
             Forgot password?
           </Link>
         </div>
