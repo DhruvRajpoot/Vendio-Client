@@ -26,10 +26,8 @@ const ResetPasswordForm: React.FC<ResetPasswordFormProps> = ({
         email,
       });
 
-      if (response.status === 200) {
-        toast.success(response.data.message);
-        onSubmitted();
-      }
+      toast.success(response.data.message);
+      onSubmitted();
     } catch (error: any) {
       toast.error(error.response.data.message || "Error sending reset link");
     } finally {
