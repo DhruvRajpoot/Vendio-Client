@@ -6,9 +6,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
-      content="Vendio is a premier eCommerce platform offering a wide range of products at unbeatable prices. Experience seamless shopping and discover the best deals online."
+      content="Vendio is a premier eCommerce platform offering a wide range of products at unbeatable prices. Discover seamless shopping experiences and the best deals online."
     />
-    <title>Vendio</title>
+    <meta
+      name="keywords"
+      content="eCommerce, online shopping, discounts, products, Vendio"
+    />
+    <meta name="author" content="Dhruv Rajpoot" />
+    <meta property="og:title" content="Vendio - Premier eCommerce Platform" />
+    <meta
+      property="og:description"
+      content="Vendio offers a wide range of products at unbeatable prices. Experience seamless shopping and discover the best deals online."
+    />
+    <meta property="og:url" content="https://vendio.vercel.app/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Vendio" />
+    <title>Vendio - Premier eCommerce Platform</title>
     <link rel="icon" href="/favicon.ico" type="image/x-icon" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link
@@ -34,9 +47,73 @@
         y.parentNode.insertBefore(t, y);
       })(window, document, "clarity", "script", "noa5m89963");
     </script>
+
+    <meta name="robots" content="index, follow" />
+    <meta name="googlebot" content="index, follow" />
   </head>
+
   <body>
-    <div id="root"></div>
+    <div id="root">
+      <main>
+        <div
+          id="initial-loading"
+          style="
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(to right, #e0f2f1, #ebf5ff);
+          "
+        >
+          <div
+            style="
+              width: 64px;
+              height: 64px;
+              border-top: 4px solid black;
+              border-bottom: 4px solid black;
+              border-radius: 50%;
+              animation: spin 1s linear infinite;
+            "
+            aria-label="Loading animation"
+          ></div>
+          <p
+            style="
+              margin-top: 24px;
+              font-family: 'Quicksand', sans-serif;
+              font-size: 1.25rem;
+              font-weight: 600;
+              color: black;
+              animation: pulse 1.5s infinite;
+            "
+          >
+            Loading, please wait...
+          </p>
+        </div>
+      </main>
+    </div>
+
     <script type="module" src="/src/main.tsx"></script>
+
+    <style>
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      @keyframes pulse {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0.5;
+        }
+      }
+    </style>
   </body>
 </html>
