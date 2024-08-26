@@ -32,7 +32,7 @@ const Account: React.FC = () => {
       <Breadcrumb items={breadcrumbItems} />
 
       <div className="flex flex-grow p-4">
-        <div className="hidden md:block w-64 fixed top-32 left-0 h-[calc(100vh-9rem)]">
+        <div className="hidden md:block w-64 fixed top-32 left-4 h-[calc(100vh-9rem)]">
           <Sidebar />
         </div>
 

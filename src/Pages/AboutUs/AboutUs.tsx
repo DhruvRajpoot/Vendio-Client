@@ -1,9 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { FaStar, FaLock, FaShippingFast, FaHeadset } from "react-icons/fa";
-import aboutUsImage from "../Assets/Images/about.jpg";
-import Navbar from "../Components/Navbar";
-import Footer from "../Components/Footer";
+import aboutUsImage from "../../Assets/Images/about.jpg";
+import Navbar from "../../Components/Navbar";
+import Footer from "../../Components/Footer";
 
 const features = [
   {

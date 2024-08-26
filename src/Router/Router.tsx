@@ -17,7 +17,7 @@ const Profile = lazy(() => import("../Pages/Account/Nested/Profile"));
 const Address = lazy(() => import("../Pages/Account/Nested/Address"));
 const Wishlist = lazy(() => import("../Pages/Account/Nested/Wishlist"));
 const Orders = lazy(() => import("../Pages/Account/Nested/Orders"));
-const AboutUs = lazy(() => import("../Pages/AboutUs"));
+const AboutUs = lazy(() => import("../Pages/AboutUs/AboutUs"));
 const VerifyEmail = lazy(() => import("../Pages/VerifyEmail/VerifyEmail"));
 const ForgotPassword = lazy(
   () => import("../Pages/ForgotPassword/ForgotPassword")

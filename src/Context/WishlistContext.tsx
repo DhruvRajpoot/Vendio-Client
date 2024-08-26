@@ -47,9 +47,9 @@ export const WishlistProvider: React.FC<{ children: React.ReactNode }> = ({
       const response = await axiosInstance.get("/wishlist");
       const wishlistProducts = response.data.wishlist.products;
       setWishlist(new Set(wishlistProducts));
-    } catch (error) {
+    } catch (error: any) {
       setWishlistError("Failed to fetch wishlist");
-      console.log("Failed to fetch wishlist", error);
+      toast.error(error.response.data.message || "Failed to fetch wishlist");
     } finally {
       setWishlistLoading(false);
     }
@@ -73,9 +73,11 @@ export const WishlistProvider: React.FC<{ children: React.ReactNode }> = ({
       const response = await axiosInstance.post("/wishlist", { productId });
       setWishlist(new Set(response.data.wishlist.products));
       toast.success("Product added to wishlist");
-    } catch (error) {
+    } catch (error: any) {
       setWishlistError("Failed to add product to wishlist");
-      toast.error("Failed to add product to wishlist");
+      toast.error(
+        error.response.data.message || "Failed to add product to wishlist"
+      );
     } finally {
       setWishlistLoading(false);
     }
@@ -97,9 +99,11 @@ export const WishlistProvider: React.FC<{ children: React.ReactNode }> = ({
       });
       setWishlist(new Set(response.data.wishlist.products));
       toast.success("Product removed from wishlist");
-    } catch (error) {
+    } catch (error: any) {
       setWishlistError("Failed to remove product from wishlist");
-      toast.error("Failed to remove product from wishlist");
+      toast.error(
+        error.response.data.message || "Failed to remove product from wishlist"
+      );
     } finally {
       setWishlistLoading(false);
     }
@@ -119,9 +123,9 @@ export const WishlistProvider: React.FC<{ children: React.ReactNode }> = ({
       await axiosInstance.delete("/wishlist/clear");
       setWishlist(new Set());
       toast.success("Wishlist cleared");
-    } catch (error) {
+    } catch (error: any) {
       setWishlistError("Failed to clear wishlist");
-      toast.error("Failed to clear wishlist");
+      toast.error(error.response.data.message || "Failed to clear wishlist");
     } finally {
       setWishlistLoading(false);
     }

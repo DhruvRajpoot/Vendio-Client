@@ -27,7 +27,7 @@ const Sidebar: React.FC = () => {
   };
 
   return (
-    <aside className="w-64 h-full bg-white px-4 py-6 rounded-lg shadow-lg">
+    <aside className="w-60 h-full bg-white px-4 py-6 rounded-lg shadow-lg">
       <nav>
         <ul className="space-y-1">
           {sidebarItems.map((item) => (

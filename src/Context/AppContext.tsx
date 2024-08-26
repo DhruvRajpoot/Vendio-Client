@@ -43,10 +43,20 @@ export function AppContextProvider({ children }: { children: ReactNode }) {
     if (accessToken) {
       try {
         const decoded = jwtDecode(accessToken) as User;
-        setUser(decoded);
+
+        const filterUser = {
+          _id: decoded._id,
+          firstName: decoded.firstName,
+          lastName: decoded.lastName,
+          profilePic: decoded.profilePic,
+          email: decoded.email,
+          isVerified: decoded.isVerified,
+        };
+
+        setUser(filterUser);
 
         // Store user information in localStorage
-        localStorage.setItem("user", JSON.stringify(decoded));
+        localStorage.setItem("user", JSON.stringify(filterUser));
       } catch (error) {
         console.error("Failed to decode token", error);
         localStorage.removeItem("access_token");
