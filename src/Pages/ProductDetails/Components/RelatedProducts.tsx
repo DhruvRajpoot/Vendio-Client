@@ -35,10 +35,10 @@ const RelatedProducts: React.FC<RelatedProductsProps> = ({
             768: { slidesPerView: 3 },
             1024: { slidesPerView: 4 },
           }}
-          className="related-products-swiper pb-16"
+          className="related-products-swiper"
         >
           {relatedProducts.map((product) => (
-            <SwiperSlide key={product.id}>
+            <SwiperSlide key={product.id} className="pb-16">
               <ProductCard product={product} />
             </SwiperSlide>
           ))}

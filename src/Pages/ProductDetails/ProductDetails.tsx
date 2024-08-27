@@ -139,7 +139,7 @@ const ProductDetails: React.FC = () => {
       <Navbar />
       <Breadcrumb items={breadcrumbItems} />
 
-      <section className="container mx-auto px-4 max-w-screen-xl py-3 flex-1">
+      <section className="container mx-auto px-4 max-w-screen-xl py-5 flex-1">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
           {/* Product Images */}
           <div>
@@ -315,12 +315,10 @@ const ProductDetails: React.FC = () => {
 
         {/* Related Products */}
         {relatedProducts.length > 0 && (
-          <div className="my-12">
-            <RelatedProducts
-              title="Related Products"
-              relatedProducts={relatedProducts}
-            />
-          </div>
+          <RelatedProducts
+            title="Related Products"
+            relatedProducts={relatedProducts}
+          />
         )}
       </section>
 
