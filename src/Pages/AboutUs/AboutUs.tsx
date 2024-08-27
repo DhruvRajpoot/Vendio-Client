@@ -136,7 +136,7 @@ const AboutUs: React.FC = () => {
       </section>
 
       {/* Call to Action Section */}
-      <section className="mb-6 py-8 px-4 md:px-8 lg:px-16 bg-teal-500 text-white">
+      <section className="mb-16 py-8 px-4 md:px-8 lg:px-16 bg-teal-500 text-white">
         <div className="max-w-6xl mx-auto text-center">
           <h2 className="text-xl sm:text-2xl font-bold">
             Ready to experience the best of online shopping?

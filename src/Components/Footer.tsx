@@ -27,7 +27,7 @@ const Footer = () => {
   ];
 
   return (
-    <footer className="bg-white text-gray-800 pt-8 pb-4 px-6 sm:px-10 lg:px-16 2xl:px-20">
+    <footer className="bg-white text-gray-800 pt-8 pb-4 px-6 sm:px-10 lg:px-16 2xl:px-20 shadow-[0_-0px_10px_0px_rgba(54,54,54,0.1)]">
       <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-x-6 gap-y-10 lg:gap-16">
         {/* Logo and Description */}
         <div className="flex flex-col items-start text-left">

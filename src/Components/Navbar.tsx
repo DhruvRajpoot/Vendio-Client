@@ -42,18 +42,18 @@ const Navbar = () => {
         </Link>
 
         {/* Navigation Links */}
-        <div className="hidden md:flex items-center gap-3 lg:gap-6">
+        <div className="hidden md:flex items-center gap-6 lg:gap-10">
           {navlinks.map((link) => (
             <Link
               to={link.path}
               key={link.title}
-              className={`flex items-center text-gray-600 font-medium
+              className={`flex items-center text-gray-600 font-medium 
               ${
                 location.pathname === link.path
-                  ? "text-teal-800 border-b-2 border-teal-600"
+                  ? "text-teal-700 border-b-2 border-teal-600"
                   : "hover:text-teal-600"
               }
-              py-2 px-3 transition-colors duration-300 ease-in-out
+              py-2 px-4 transition-colors duration-300 ease-in-out rounded-md
               `}
             >
               {link.title}
@@ -62,16 +62,16 @@ const Navbar = () => {
         </div>
 
         {/* User Section and Cart */}
-        <div className="flex items-center gap-6">
+        <div className="flex items-center gap-4 lg:gap-8">
           <div
-            className="flex items-center gap-2 text-sm font-semibold text-gray-600 cursor-pointer"
+            className="flex items-center gap-2 text-sm font-semibold text-gray-600 cursor-pointer hover:text-gray-900 transition-colors duration-300"
             title="account"
             onClick={handleProfileClick}
           >
             <span className="text-gray-800 max-w-40 truncate">
-              {isAuthenticated ? user?.firstName : "Hi, Guest"}
+              {isAuthenticated ? `Hello, ${user?.firstName}` : "Hi, Guest"}
             </span>
-            <div className="bg-gray-100 rounded-full">
+            <div className="bg-gray-100 rounded-full overflow-hidden">
               <img
                 src={user?.profilePic || defaultuser}
                 alt="Profile"
@@ -80,47 +80,46 @@ const Navbar = () => {
             </div>
           </div>
 
+          <Link
+            to="/cart"
+            title="cart"
+            className="relative flex items-center text-sm font-semibold hover:text-gray-900 transition-colors duration-300"
+          >
+            <LiaShoppingCartSolid className="text-2xl" />
+            {cartItems.length > 0 && (
+              <span className="absolute -top-1 -right-2 bg-teal-600 text-white text-xs font-bold rounded-full w-4 h-4 flex items-center justify-center">
+                {cartItems.length}
+              </span>
+            )}
+          </Link>
+
           {isAuthenticated ? (
             <button
               onClick={logout}
-              className="flex items-center gap-2 text-sm font-semibold hover:text-gray-900"
+              className="flex items-center gap-2 text-sm font-semibold text-gray-600 hover:text-gray-900 px-4 py-2 border border-gray-300 rounded-md shadow-sm transition-colors duration-300"
             >
-              Logout
               <CiLogout className="text-xl" />
+              Logout
             </button>
           ) : isLoginPage ? (
             <Link
               to={`/signup?redirect=${redirectUrl}`}
               title="signup"
-              className="flex items-center gap-2 text-sm font-semibold hover:text-gray-900"
+              className="flex items-center gap-2 text-sm font-semibold text-white bg-teal-600 hover:bg-teal-700 px-4 py-2 rounded-md shadow-sm transition-colors duration-300"
             >
-              <span>Sign Up</span>
               <CiLogin className="text-xl" />
+              <span>Sign Up</span>
             </Link>
           ) : (
             <Link
               to={`/login?redirect=${redirectUrl}`}
               title="login"
-              className="flex items-center gap-2 text-sm font-semibold hover:text-gray-900"
+              className="flex items-center gap-2 text-sm font-semibold text-white bg-teal-600 hover:bg-teal-700 px-4 py-2 rounded-md shadow-sm transition-colors duration-300"
             >
-              <span>Login</span>
               <CiLogin className="text-xl" />
+              <span>Login</span>
             </Link>
           )}
-
-          <Link
-            to="/cart"
-            title="cart"
-            className="relative flex items-center gap-2 text-sm font-semibold hover:text-gray-900"
-          >
-            {/* <span>Cart</span> */}
-            <LiaShoppingCartSolid className="text-xl" />
-            {cartItems.length > 0 && (
-              <span className="absolute -top-2 -right-2 bg-teal-600 text-white text-xs font-bold rounded-full w-4 h-4 flex items-center justify-center">
-                {cartItems.length}
-              </span>
-            )}
-          </Link>
         </div>
       </nav>
 
