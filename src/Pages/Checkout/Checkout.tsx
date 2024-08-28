@@ -5,18 +5,17 @@ import PaymentStep from "./Components/Steps/PaymentStep";
 import ReviewStep from "./Components/Steps/ReviewStep";
 import Navbar from "../../Components/Navbar";
 import { AiOutlineCaretLeft } from "react-icons/ai";
-import { ShippingAddress } from "../../Context/OrderContext";
 import { useCart } from "../../Context/CartContext";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
+import { Address } from "../../Context/AddressContext";
 
 const CheckoutPage: React.FC = () => {
   const { cartItems } = useCart();
   const navigate = useNavigate();
   const [currentStep, setCurrentStep] = useState(0);
   const [selectedPayment, setSelectedPayment] = useState<string | null>(null);
-  const [selectedAddress, setSelectedAddress] =
-    useState<ShippingAddress | null>(null);
+  const [selectedAddress, setSelectedAddress] = useState<Address | null>(null);
 
   const toastShownRef = useRef(false);
 
