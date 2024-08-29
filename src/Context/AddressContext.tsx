@@ -3,7 +3,7 @@ import axiosInstance from "../Config/axiosInstance";
 import toast from "react-hot-toast";
 
 export interface Address {
-  _id: string;
+  _id?: string;
   name: string;
   phone: string;
   addressLine: string;

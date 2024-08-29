@@ -13,6 +13,9 @@ const AddressItem: React.FC<AddressItemProps> = ({ address, onEdit }) => {
   const handleDelete = async (e: React.MouseEvent) => {
     e.stopPropagation();
     try {
+      if (!address._id) {
+        throw new Error("Address ID is missing.");
+      }
       await deleteAddress(address._id);
     } catch (err) {
       console.error("Error deleting address:", err);
@@ -21,7 +24,7 @@ const AddressItem: React.FC<AddressItemProps> = ({ address, onEdit }) => {
 
   return (
     <div className="border border-gray-300 rounded-lg p-4 bg-transparent shadow-md">
-      <div className="flex justify-between items-center mb-4">
+      <div className="flex justify-between items-center mb-2">
         <h3 className="text-lg font-semibold text-gray-800">{address.name}</h3>
         <div className="flex space-x-2 xs:space-x-4 items-center">
           <button
@@ -42,14 +45,19 @@ const AddressItem: React.FC<AddressItemProps> = ({ address, onEdit }) => {
           </button>
         </div>
       </div>
-      <p className="text-gray-700">{address.phone}</p>
-      <p className="text-gray-700">{address.addressLine}</p>
-      <p className="text-gray-700">
-        {address.area}, {address.city}
-      </p>
-      <p className="text-gray-700">
-        {address.state} - {address.pincode}
-      </p>
+
+      <div className="text-gray-800">
+        <p>{address.addressLine}</p>
+        <p>
+          {address.area}, {address.city}
+        </p>
+        <p>
+          {address.state} -{" "}
+          <span className="font-semibold">{address.pincode}</span>
+        </p>
+        {address.landmark && <p>{`Landmark: ${address.landmark}`}</p>}
+        <p className="font-semibold">{`Mobile: ${address.phone}`}</p>
+      </div>
     </div>
   );
 };
