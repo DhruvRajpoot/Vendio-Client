@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useAddress, Address } from "../../../../Context/AddressContext";
-import AddressList from "./AddressList";
-import AddressForm from "./AddressForm";
+import AddressList from "./Components/AddressList";
+import AddressForm from "./Components/AddressForm";
 import toast from "react-hot-toast";
 
 interface AddressStepProps {
