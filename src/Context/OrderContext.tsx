@@ -3,6 +3,7 @@ import axiosInstance from "../Config/axiosInstance";
 import toast from "react-hot-toast";
 import { Product, useCart } from "./CartContext";
 import { useNavigate } from "react-router-dom";
+import { Address } from "./AddressContext";
 
 interface OrderItem {
   product: Product;
@@ -10,22 +11,11 @@ interface OrderItem {
   totalPrice: number;
 }
 
-export interface ShippingAddress {
-  name: string;
-  phone: string;
-  addressLine: string;
-  area: string;
-  landmark: string;
-  city: string;
-  state: string;
-  pincode: string;
-}
-
 export interface Order {
   _id: string;
   userId: string;
   items: OrderItem[];
-  shippingAddress: ShippingAddress;
+  shippingAddress: Address;
   paymentMethod: string;
   paymentStatus: string;
   discountAmount: number;
@@ -44,7 +34,7 @@ export interface Order {
 interface OrderContextType {
   orders: Order[];
   createOrder: (orderData: {
-    shippingAddress: ShippingAddress;
+    shippingAddress: Address;
     paymentMethod: string;
     couponCode: string | null;
   }) => Promise<void>;
@@ -81,7 +71,7 @@ export const OrderProvider: React.FC<{ children: ReactNode }> = ({
   };
 
   const createOrder = async (orderData: {
-    shippingAddress: ShippingAddress;
+    shippingAddress: Address;
     paymentMethod: string;
     couponCode: string | null;
   }) => {

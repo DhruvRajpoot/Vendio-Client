@@ -1,14 +1,15 @@
 import React from "react";
 import { useCart } from "../../../../Context/CartContext";
-import CartTable from "../CartTable";
-import { ShippingAddress, useOrder } from "../../../../Context/OrderContext";
+import CartTable from "../../Components/CartTable";
+import { useOrder } from "../../../../Context/OrderContext";
 import { deliveryCharges, taxRate } from "../../../../Constants/Constants";
 import { FaCreditCard, FaMapMarkerAlt, FaMoneyBillAlt } from "react-icons/fa";
 import Spinner from "../../../../Components/Spinner";
+import { Address } from "../../../../Context/AddressContext";
 
 interface ReviewStepProps {
   selectedPayment: string | null;
-  selectedAddress: ShippingAddress | null;
+  selectedAddress: Address | null;
 }
 
 const ReviewStep: React.FC<ReviewStepProps> = ({

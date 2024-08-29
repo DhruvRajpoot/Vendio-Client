@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import StepProgress from "./Components/StepProgress";
-import AddressStep from "./Components/Steps/AddressStep";
-import PaymentStep from "./Components/Steps/PaymentStep";
-import ReviewStep from "./Components/Steps/ReviewStep";
+import AddressStep from "./Steps/Address/AddressStep";
+import PaymentStep from "./Steps/Payment/PaymentStep";
+import ReviewStep from "./Steps/Review/ReviewStep";
 import Navbar from "../../Components/Navbar";
 import { AiOutlineCaretLeft } from "react-icons/ai";
 import { useCart } from "../../Context/CartContext";
@@ -46,7 +46,7 @@ const CheckoutPage: React.FC = () => {
   return (
     <>
       <Navbar />
-      <div className="px-4 sm:px-10 py-6 bg-gray-50 min-h-screen">
+      <div className="px-4 sm:px-10 py-6 bg-gray-50 min-h-[calc(100vh-4rem)]">
         <div className="flex justify-between gap-6">
           <div className="w-11 sm:w-20">
             {currentStep > 0 && (
