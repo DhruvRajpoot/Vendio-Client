@@ -67,7 +67,7 @@ const CheckoutPage: React.FC = () => {
           <div className="w-11 sm:w-20"></div>
         </div>
 
-        <div className="bg-white shadow-lg rounded-lg p-4 sm:p-6 mx-auto">
+        <div className="bg-white shadow-lg rounded-lg p-0 border sm:border-none sm:p-6 mx-auto">
           {currentStep === 0 && (
             <AddressStep
               selectedAddress={selectedAddress}

@@ -48,7 +48,9 @@ const AddressForm: React.FC<AddressFormProps> = ({
             type="submit"
             className="w-full py-3 bg-teal-600 text-white font-semibold rounded-lg hover:bg-teal-700 transition-colors duration-300"
           >
-            {editingAddress ? "Update Address" : "Add Address & Continue"}
+            {editingAddress
+              ? "Update Address & Continue"
+              : "Add Address & Continue"}
           </button>
         </div>
       </form>

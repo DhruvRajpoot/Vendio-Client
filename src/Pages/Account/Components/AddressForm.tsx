@@ -52,6 +52,9 @@ const AddressForm: React.FC<AddressFormProps> = ({
     e.preventDefault();
     try {
       if (isEditing) {
+        if (!address?._id) {
+          throw new Error("Address ID is missing.");
+        }
         await updateAddress(address?._id, formData);
       } else {
         await createAddress(formData);

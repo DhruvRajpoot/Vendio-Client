@@ -91,24 +91,26 @@ const AddressStep: React.FC<AddressStepProps> = ({
   };
 
   return (
-    <div className="mx-auto p-3 sm:p-6 bg-gray-50 rounded-lg shadow-lg">
-      <h2 className="text-2xl sm:text-3xl font-bold text-teal-600 mb-6 text-center">
-        Shipping Address
-      </h2>
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        <AddressList
-          addresses={addresses}
-          selectAddress={selectAddress}
-          handleEditClick={handleEditClick}
-          selectedAddress={selectedAddress}
-          addressError={addressError}
-        />
-        <AddressForm
-          newAddress={newAddress}
-          handleInputChange={handleInputChange}
-          handleSubmit={handleAddAddress}
-          editingAddress={editingAddress}
-        />
+    <div className="rounded-lg">
+      <div className="mx-auto p-4 sm:p-6 bg-gray-50 rounded-lg shadow-lg">
+        <h2 className="text-2xl sm:text-3xl font-bold text-teal-600 mb-6 text-center">
+          Shipping Address
+        </h2>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <AddressList
+            addresses={addresses}
+            selectAddress={selectAddress}
+            handleEditClick={handleEditClick}
+            selectedAddress={selectedAddress}
+            addressError={addressError}
+          />
+          <AddressForm
+            newAddress={newAddress}
+            handleInputChange={handleInputChange}
+            handleSubmit={handleAddAddress}
+            editingAddress={editingAddress}
+          />
+        </div>
       </div>
     </div>
   );
