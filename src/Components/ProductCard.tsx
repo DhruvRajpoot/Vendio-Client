@@ -1,25 +1,37 @@
-import React from "react";
+import React, { useCallback, useMemo } from "react";
 import { FaHeart, FaStar, FaStarHalfAlt } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { useWishlist } from "../Context/WishlistContext";
 import { useCart } from "../Context/CartContext";
 
-const ProductCard: React.FC<{ product: any }> = ({ product }) => {
+const ProductCard: React.FC<{ product: any }> = React.memo(({ product }) => {
   const navigate = useNavigate();
   const { addToCart } = useCart();
   const { checkInWishlist, handleWishlistClick } = useWishlist();
 
-  const discountedPrice = (
-    product.price -
-    product.price * (product.discount / 100)
-  ).toFixed(2);
+  const discountedPrice = useMemo(() => {
+    return (product.price - product.price * (product.discount / 100)).toFixed(
+      2
+    );
+  }, [product.price, product.discount]);
 
-  const handleButtonClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.stopPropagation();
-    addToCart(product, 1);
-  };
+  const handleButtonClick = useCallback(
+    (e: React.MouseEvent<HTMLButtonElement>) => {
+      e.stopPropagation();
+      addToCart(product, 1);
+    },
+    [addToCart, product]
+  );
 
-  const renderRating = () => {
+  const handleWishlist = useCallback(
+    (e: React.MouseEvent<HTMLButtonElement>) => {
+      e.stopPropagation();
+      handleWishlistClick(product.id);
+    },
+    [handleWishlistClick, product.id]
+  );
+
+  const renderRating = useMemo(() => {
     const fullStars = Math.floor(product.rating);
     const hasHalfStar = product.rating % 1 !== 0;
     const totalStars = 5;
@@ -40,7 +52,7 @@ const ProductCard: React.FC<{ product: any }> = ({ product }) => {
         )}
       </div>
     );
-  };
+  }, [product.rating]);
 
   return (
     <div
@@ -53,6 +65,7 @@ const ProductCard: React.FC<{ product: any }> = ({ product }) => {
         src={product.images[0]}
         alt={product.title}
         className="w-full h-68 object-cover transition-transform duration-300 group-hover:scale-[1.02]"
+        loading="lazy"
       />
       <div className="absolute top-4 right-4">
         <button
@@ -61,10 +74,7 @@ const ProductCard: React.FC<{ product: any }> = ({ product }) => {
               ? "bg-red-100 text-red-500 hover:bg-red-200"
               : "bg-gray-200 text-gray-500 hover:bg-gray-300 hover:text-gray-600"
           }`}
-          onClick={(e) => {
-            e.stopPropagation();
-            handleWishlistClick(product.id);
-          }}
+          onClick={handleWishlist}
         >
           <FaHeart className="w-4 h-4" />
         </button>
@@ -94,13 +104,12 @@ const ProductCard: React.FC<{ product: any }> = ({ product }) => {
             >
               Add to Cart
             </button>
-
-            {renderRating()}
+            {renderRating}
           </div>
         </div>
       </div>
     </div>
   );
-};
+});
 
 export default ProductCard;

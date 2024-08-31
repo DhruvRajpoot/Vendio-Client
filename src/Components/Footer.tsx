@@ -3,6 +3,7 @@ import { IoMail } from "react-icons/io5";
 import logo from "../Assets/Images/logo.png";
 import { Link } from "react-router-dom";
 import { GrGithub } from "react-icons/gr";
+import { contactEmail, contactPhone } from "../Config/baseurl";
 
 const Footer = () => {
   const quickLinks = [
@@ -13,7 +14,7 @@ const Footer = () => {
   ];
 
   const contacts = [
-    { link: "mailto:dhruvrajpootiiitbhopal@gmail.com", icon: <IoMail /> },
+    { link: `mailto:${contactEmail}`, icon: <IoMail /> },
     {
       link: "https://github.com/DhruvRajpoot/Vendio-Client",
       icon: <GrGithub />,
@@ -22,11 +23,11 @@ const Footer = () => {
       link: "https://www.linkedin.com/in/dhruv-rajpoot/",
       icon: <FaLinkedin />,
     },
-    { link: "tel:+919140790309", icon: <FaPhoneAlt /> },
+    { link: `tel:${contactPhone}`, icon: <FaPhoneAlt /> },
   ];
 
   return (
-    <footer className="bg-white text-gray-800 pt-8 pb-4 px-6 sm:px-10 lg:px-16 2xl:px-20">
+    <footer className="bg-white text-gray-800 pt-8 pb-4 px-6 sm:px-10 lg:px-16 2xl:px-20 shadow-[0_-0px_10px_0px_rgba(54,54,54,0.1)]">
       <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-x-6 gap-y-10 lg:gap-16">
         {/* Logo and Description */}
         <div className="flex flex-col items-start text-left">

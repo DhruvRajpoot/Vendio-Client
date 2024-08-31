@@ -1,14 +1,15 @@
 import React from "react";
 import { useCart } from "../../../../Context/CartContext";
-import CartTable from "../CartTable";
-import { ShippingAddress, useOrder } from "../../../../Context/OrderContext";
+import CartTable from "../../Components/CartTable";
+import { useOrder } from "../../../../Context/OrderContext";
 import { deliveryCharges, taxRate } from "../../../../Constants/Constants";
 import { FaCreditCard, FaMapMarkerAlt, FaMoneyBillAlt } from "react-icons/fa";
 import Spinner from "../../../../Components/Spinner";
+import { Address } from "../../../../Context/AddressContext";
 
 interface ReviewStepProps {
   selectedPayment: string | null;
-  selectedAddress: ShippingAddress | null;
+  selectedAddress: Address | null;
 }
 
 const ReviewStep: React.FC<ReviewStepProps> = ({
@@ -143,18 +144,18 @@ const ReviewStep: React.FC<ReviewStepProps> = ({
                 </div>
               </div>
             </div>
-          </div>
-        </div>
 
-        <div className="flex justify-end mt-6">
-          <button
-            type="button"
-            className="flex items-center justify-center bg-teal-600 text-white py-2 px-6 rounded-md shadow-md hover:bg-teal-700 transition-colors duration-200 w-36 h-10"
-            onClick={handlePlaceOrder}
-            disabled={orderLoading || !selectedPayment}
-          >
-            {orderLoading ? <Spinner /> : "Place Order"}
-          </button>
+            <div className="flex justify-end mt-6">
+              <button
+                type="button"
+                className="flex items-center justify-center bg-teal-600 text-white font-semibold text-lg py-2 px-6 rounded-md shadow-md hover:bg-teal-700 transition-colors duration-200 w-44 h-10"
+                onClick={handlePlaceOrder}
+                disabled={orderLoading || !selectedPayment}
+              >
+                {orderLoading ? <Spinner /> : "Place Order"}
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </div>

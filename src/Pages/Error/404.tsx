@@ -1,11 +1,12 @@
 import { Link } from "react-router-dom";
 import Navbar from "../../Components/Navbar";
+import Footer from "../../Components/Footer";
 
 const Custom404Page = () => {
   return (
     <>
       <Navbar />
-      <div className="flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] bg-gradient-to-br from-gray-100 via-gray-50 to-gray-200 text-gray-900 p-8">
+      <div className="flex flex-col items-center justify-center min-h-[calc(100vh-15rem)] bg-gradient-to-br from-gray-100 via-gray-50 to-gray-200 text-gray-900 p-8">
         <div className="text-center max-w-lg mx-auto">
           <h1 className="text-7xl font-extrabold mb-4 text-gray-900 animate-bounce">
             404
@@ -27,6 +28,7 @@ const Custom404Page = () => {
           </div>
         </div>
       </div>
+      <Footer />
     </>
   );
 };

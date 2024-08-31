@@ -40,11 +40,7 @@ const NavbarMobile = ({
   };
 
   useEffect(() => {
-    if (isMenuOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "auto";
-    }
+    document.body.style.overflow = isMenuOpen ? "hidden" : "auto";
     return () => {
       document.body.style.overflow = "auto";
     };
@@ -65,19 +61,21 @@ const NavbarMobile = ({
 
       <div className="flex items-center gap-6">
         {/* Wishlist Icon */}
-        <Link
-          to="/account/wishlist"
-          title="Wishlist"
-          className="hover:text-gray-700"
-        >
-          <FaRegHeart className="text-2xl" />
-        </Link>
+        {isAuthenticated && (
+          <Link
+            to="/account/wishlist"
+            title="Wishlist"
+            className="text-gray-600 hover:text-gray-800 transition-colors"
+          >
+            <FaRegHeart className="text-2xl" />
+          </Link>
+        )}
 
         {/* Cart Icon */}
         <Link
           to="/cart"
           title="Cart"
-          className="relative flex items-center gap-2 text-lg font-bold hover:text-gray-700"
+          className="relative flex items-center gap-2 text-lg font-bold text-gray-600 hover:text-gray-800 transition-colors"
         >
           <LiaShoppingCartSolid className="text-3xl scale-[1.10]" />
           {cartItems.length > 0 && (
@@ -87,10 +85,29 @@ const NavbarMobile = ({
           )}
         </Link>
 
+        {!isAuthenticated &&
+          (isLoginPage ? (
+            <Link
+              to={`/signup?redirect=${redirectUrl}`}
+              title="signup"
+              className="flex items-center gap-2 text-sm font-semibold text-white bg-teal-600 hover:bg-teal-700 px-2 py-2 xs:px-4 rounded-md shadow-sm transition-colors duration-300"
+            >
+              <span>Sign Up</span>
+            </Link>
+          ) : (
+            <Link
+              to={`/login?redirect=${redirectUrl}`}
+              title="login"
+              className="flex items-center gap-2 text-sm font-semibold text-white bg-teal-600 hover:bg-teal-700 px-2 py-2 xs:px-4 rounded-md shadow-sm transition-colors duration-300"
+            >
+              <span>Login</span>
+            </Link>
+          ))}
+
         {/* Hamburger Icon */}
         <div
           onClick={() => setIsMenuOpen(!isMenuOpen)}
-          className="text-2xl cursor-pointer"
+          className="text-2xl cursor-pointer text-gray-600 hover:text-gray-800 transition-colors"
           title="Menu"
         >
           {isMenuOpen ? <AiOutlineClose /> : <AiOutlineMenu />}
@@ -112,7 +129,7 @@ const NavbarMobile = ({
 
         {/* Navigation Links */}
         <div className="flex flex-col flex-grow gap-2">
-          {navlinks.map((link: any) => (
+          {navlinks.map((link) => (
             <Link
               to={link.path}
               key={link.title}
@@ -131,7 +148,7 @@ const NavbarMobile = ({
           <div className="flex justify-between items-center gap-3 mt-auto p-3">
             <div
               onClick={handleProfileClick}
-              className="flex items-center gap-2 font-semibold text-gray-600 cursor-pointer"
+              className="flex items-center gap-2 font-semibold text-gray-600 cursor-pointer hover:text-gray-800 transition-colors"
             >
               <div className="bg-gray-100 rounded-full">
                 <img
@@ -149,7 +166,7 @@ const NavbarMobile = ({
             {isAuthenticated ? (
               <button
                 onClick={handleLogout}
-                className="flex items-center gap-2 font-semibold hover:text-gray-900"
+                className="flex items-center gap-2 font-semibold text-gray-600 hover:text-gray-800 transition-colors"
               >
                 Logout
                 <CiLogout className="text-xl" />
@@ -158,7 +175,7 @@ const NavbarMobile = ({
               <Link
                 to={`/signup?redirect=${redirectUrl}`}
                 title="Sign Up"
-                className="flex items-center gap-2 font-semibold hover:text-gray-900"
+                className="flex items-center gap-2 font-semibold text-gray-600 hover:text-gray-800 transition-colors"
               >
                 <span>Sign Up</span>
                 <CiLogin className="text-xl" />
@@ -167,7 +184,7 @@ const NavbarMobile = ({
               <Link
                 to={`/login?redirect=${redirectUrl}`}
                 title="Login"
-                className="flex items-center gap-2 font-semibold hover:text-gray-900"
+                className="flex items-center gap-2 font-semibold text-gray-600 hover:text-gray-800 transition-colors"
               >
                 <span>Login</span>
                 <CiLogin className="text-xl" />

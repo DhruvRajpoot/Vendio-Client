@@ -79,7 +79,7 @@ const Ranges: React.FC = () => {
             className="ranges-slider"
           >
             {ranges.map((range, index) => (
-              <SwiperSlide key={index}>
+              <SwiperSlide key={index} className="pb-6">
                 <div
                   className="group relative overflow-hidden rounded-xl shadow-lg transition-transform transform hover:scale-105 mx-4 my-8"
                   onClick={() => {

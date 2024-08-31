@@ -72,7 +72,7 @@ const renderRating = (rating: number) => {
 
 const UserTestimonials = () => {
   return (
-    <section className="py-10 sm:py-16 bg-gradient-to-r from-[#ddedf0] to-[#D0E0E3]">
+    <section className="pt-10 pb-8 sm:pt-16 sm:pb-12 bg-gradient-to-r from-[#ddedf0] to-[#D0E0E3]">
       <div className="container mx-auto px-4 max-w-screen-xl">
         <h2 className="text-center text-2xl sm:text-4xl font-bold text-gray-900 mb-8 sm:mb-12">
           What Our Customers Are Saying
@@ -92,7 +92,7 @@ const UserTestimonials = () => {
           className="testimonialswiper"
         >
           {testimonials.map((testimonial) => (
-            <SwiperSlide key={testimonial.id}>
+            <SwiperSlide key={testimonial.id} className="pb-4 sm:pb-8">
               <div className="bg-white rounded-lg shadow-lg p-8 mb-8 flex flex-col items-center text-center">
                 <img
                   src={testimonial.image}

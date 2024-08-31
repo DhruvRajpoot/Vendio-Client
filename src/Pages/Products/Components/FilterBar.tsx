@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 import { FaChevronDown, FaFilter } from "react-icons/fa";
-import useOutsideClick from "../Hooks/useOutsideClick";
+import useOutsideClick from "../../../Hooks/useOutsideClick";
 
 interface FilterBarProps {
   onFilterChange: (filters: { category: string; sortBy: string }) => void;

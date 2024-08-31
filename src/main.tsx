@@ -10,6 +10,7 @@ import { BrowserRouter } from "react-router-dom";
 import { CartProvider } from "./Context/CartContext.tsx";
 import { OrderProvider } from "./Context/OrderContext.tsx";
 import { WishlistProvider } from "./Context/WishlistContext.tsx";
+import { AddressProvider } from "./Context/AddressContext.tsx";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
@@ -20,7 +21,9 @@ createRoot(document.getElementById("root")!).render(
           <CartProvider>
             <OrderProvider>
               <WishlistProvider>
-                <App />
+                <AddressProvider>
+                  <App />
+                </AddressProvider>
               </WishlistProvider>
             </OrderProvider>
           </CartProvider>
