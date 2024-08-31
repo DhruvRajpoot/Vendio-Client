@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { useAddress, Address } from "../../../../Context/AddressContext";
 import AddressList from "./Components/AddressList";
 import AddressForm from "./Components/AddressForm";
-import toast from "react-hot-toast";
 
 interface AddressStepProps {
   selectedAddress: Address | null;
@@ -57,14 +56,11 @@ const AddressStep: React.FC<AddressStepProps> = ({
     try {
       if (editingAddress) {
         if (!editingAddress._id) {
-          toast.error("Address ID is missing.");
           return;
         }
         await updateAddress(editingAddress._id, newAddress);
-        toast.success("Address updated successfully!");
       } else {
         await createAddress(newAddress);
-        toast.success("Address added successfully!");
       }
       setSelectedAddress(newAddress);
       setNewAddress({
@@ -81,7 +77,7 @@ const AddressStep: React.FC<AddressStepProps> = ({
       setEditingAddress(null);
       nextStep();
     } catch (error) {
-      toast.error("Failed to save address. Please try again.");
+      console.log("Error adding address:", error);
     }
   };
 

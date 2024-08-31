@@ -39,6 +39,8 @@ const OrderItem: React.FC<OrderItemProps> = ({ order }) => {
             className={`${
               order.orderStatus === "Delivered"
                 ? "text-green-600"
+                : order.orderStatus === "Pending"
+                ? "text-red-600"
                 : "text-yellow-600"
             } font-semibold`}
           >
