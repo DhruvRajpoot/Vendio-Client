@@ -144,7 +144,7 @@ const ReviewStep: React.FC<ReviewStepProps> = ({
               {selectedPayment === "cod" ? (
                 <button
                   type="button"
-                  className="flex items-center justify-center bg-teal-600 text-white font-semibold text-lg py-2 px-6 rounded-md shadow-md hover:bg-teal-700 transition-colors duration-200 w-44 h-10"
+                  className="flex items-center justify-center bg-teal-600 text-white font-semibold text-lg py-2 px-6 rounded-md shadow-md hover:bg-teal-700 transition-colors duration-200 w-44 h-10 disabled:bg-gray-400 disabled:text-gray-200"
                   onClick={handlePlaceOrder}
                   disabled={orderLoading}
                 >

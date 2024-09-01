@@ -11,13 +11,21 @@ interface OrderItem {
   totalPrice: number;
 }
 
+interface Payment {
+  paymentMethod: string;
+  paymentStatus: string;
+  razorpayOrderId?: string;
+  razorpayPaymentId?: string;
+  amount: number;
+}
+
 export interface Order {
   _id: string;
   userId: string;
   items: OrderItem[];
   shippingAddress: Address;
   paymentMethod: string;
-  paymentStatus: string;
+  paymentId?: Payment;
   discountAmount: number;
   totalItems: number;
   totalPrice: number;
@@ -57,7 +65,6 @@ export const OrderProvider: React.FC<{ children: ReactNode }> = ({
   const navigate = useNavigate();
 
   const fetchOrders = async () => {
-    setOrderLoading(true);
     try {
       const response = await axiosInstance.get("/order");
       setOrders(response.data.orders);
