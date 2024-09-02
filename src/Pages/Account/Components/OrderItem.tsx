@@ -1,5 +1,5 @@
 import React from "react";
-import { Order } from "../../../Context/OrderContext";
+import { Order, useOrder } from "../../../Context/OrderContext";
 import {
   FaBox,
   FaMapMarkerAlt,
@@ -7,6 +7,7 @@ import {
   FaCheckCircle,
   FaStar,
   FaMoneyBillAlt,
+  FaTimesCircle,
 } from "react-icons/fa";
 
 interface OrderItemProps {
@@ -14,6 +15,8 @@ interface OrderItemProps {
 }
 
 const OrderItem: React.FC<OrderItemProps> = ({ order }) => {
+  const { cancelOrder } = useOrder();
+
   return (
     <div className="border border-gray-200 rounded-lg p-4 sm:p-6 shadow-md bg-white">
       {/* Order Header */}
@@ -183,6 +186,21 @@ const OrderItem: React.FC<OrderItemProps> = ({ order }) => {
           )}
         </div>
       </div>
+
+      {order.orderStatus !== "Delivered" &&
+        order.orderStatus !== "Cancelled" && (
+          <div className="mt-4">
+            <button
+              onClick={() => {
+                cancelOrder(order._id);
+              }}
+              className="text-sm text-red-600 font-semibold flex items-center gap-2 border border-red-600 px-4 py-2 rounded hover:bg-red-100 transition-colors duration-200"
+            >
+              <FaTimesCircle />
+              Cancel Order
+            </button>
+          </div>
+        )}
 
       {/* Delivery Status */}
       {order.isDelivered && order.deliveredAt && (

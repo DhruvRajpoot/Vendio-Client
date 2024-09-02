@@ -49,6 +49,7 @@ interface OrderContextType {
   fetchOrders: () => void;
   updateOrderStatus: (orderId: string, status: string) => Promise<void>;
   updatePaymentStatus: (orderId: string, status: string) => Promise<void>;
+  cancelOrder: (orderId: string) => Promise<void>; // Add this line
   orderLoading: boolean;
   orderError: string | null;
 }
@@ -121,6 +122,27 @@ export const OrderProvider: React.FC<{ children: ReactNode }> = ({
     }
   };
 
+  const cancelOrder = async (orderId: string) => {
+    setOrderLoading(true);
+    try {
+      const response = await axiosInstance.put(`/order/cancel`, {
+        orderId,
+      });
+      setOrders((prevOrders) =>
+        prevOrders.map((order) =>
+          order._id === orderId ? response.data.order : order
+        )
+      );
+      toast.success("Order canceled successfully");
+    } catch (err: any) {
+      setOrderError("Failed to cancel order");
+      console.error("Error canceling order:", err);
+      toast.error(err.response.data.message || "Failed to cancel order");
+    } finally {
+      setOrderLoading(false);
+    }
+  };
+
   const updatePaymentStatus = async (orderId: string, status: string) => {
     setOrderLoading(true);
     try {
@@ -152,6 +174,7 @@ export const OrderProvider: React.FC<{ children: ReactNode }> = ({
         createOrder,
         fetchOrders,
         updateOrderStatus,
+        cancelOrder,
         updatePaymentStatus,
         orderLoading,
         orderError,
