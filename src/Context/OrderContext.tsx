@@ -11,13 +11,21 @@ interface OrderItem {
   totalPrice: number;
 }
 
+interface Payment {
+  paymentMethod: string;
+  paymentStatus: string;
+  razorpayOrderId?: string;
+  razorpayPaymentId?: string;
+  amount: number;
+}
+
 export interface Order {
   _id: string;
   userId: string;
   items: OrderItem[];
   shippingAddress: Address;
   paymentMethod: string;
-  paymentStatus: string;
+  paymentId?: Payment;
   discountAmount: number;
   totalItems: number;
   totalPrice: number;
@@ -41,6 +49,7 @@ interface OrderContextType {
   fetchOrders: () => void;
   updateOrderStatus: (orderId: string, status: string) => Promise<void>;
   updatePaymentStatus: (orderId: string, status: string) => Promise<void>;
+  cancelOrder: (orderId: string) => Promise<void>; // Add this line
   orderLoading: boolean;
   orderError: string | null;
 }
@@ -57,7 +66,6 @@ export const OrderProvider: React.FC<{ children: ReactNode }> = ({
   const navigate = useNavigate();
 
   const fetchOrders = async () => {
-    setOrderLoading(true);
     try {
       const response = await axiosInstance.get("/order");
       setOrders(response.data.orders);
@@ -78,7 +86,7 @@ export const OrderProvider: React.FC<{ children: ReactNode }> = ({
     setOrderLoading(true);
     try {
       const response = await axiosInstance.post("/order", orderData);
-      setOrders((prevOrders) => [...prevOrders, response.data.order]);
+      setOrders((prevOrders) => [response.data.order, ...prevOrders]);
       toast.success("Order placed successfully");
       clearCart();
       navigate("/account/orders");
@@ -109,6 +117,27 @@ export const OrderProvider: React.FC<{ children: ReactNode }> = ({
       setOrderError("Failed to update order status");
       console.error("Error updating order status:", err);
       toast.error(err.response.data.message || "Failed to update order status");
+    } finally {
+      setOrderLoading(false);
+    }
+  };
+
+  const cancelOrder = async (orderId: string) => {
+    setOrderLoading(true);
+    try {
+      const response = await axiosInstance.put(`/order/cancel`, {
+        orderId,
+      });
+      setOrders((prevOrders) =>
+        prevOrders.map((order) =>
+          order._id === orderId ? response.data.order : order
+        )
+      );
+      toast.success("Order canceled successfully");
+    } catch (err: any) {
+      setOrderError("Failed to cancel order");
+      console.error("Error canceling order:", err);
+      toast.error(err.response.data.message || "Failed to cancel order");
     } finally {
       setOrderLoading(false);
     }
@@ -145,6 +174,7 @@ export const OrderProvider: React.FC<{ children: ReactNode }> = ({
         createOrder,
         fetchOrders,
         updateOrderStatus,
+        cancelOrder,
         updatePaymentStatus,
         orderLoading,
         orderError,

@@ -16,7 +16,10 @@ const MyAccount = lazy(() => import("../Pages/Account/Account"));
 const Profile = lazy(() => import("../Pages/Account/Nested/Profile"));
 const Address = lazy(() => import("../Pages/Account/Nested/Address"));
 const Wishlist = lazy(() => import("../Pages/Account/Nested/Wishlist"));
-const Orders = lazy(() => import("../Pages/Account/Nested/Orders"));
+const Orders = lazy(() => import("../Pages/Account/Nested/Orders/Orders"));
+const OrderDetails = lazy(
+  () => import("../Pages/Account/Nested/Orders/OrderDetails/OrderDetails")
+);
 const AboutUs = lazy(() => import("../Pages/AboutUs/AboutUs"));
 const VerifyEmail = lazy(() => import("../Pages/VerifyEmail/VerifyEmail"));
 const ForgotPassword = lazy(
@@ -48,6 +51,7 @@ export const Router = () => {
           <Route index element={<Profile />} />
           <Route path="profile" element={<Profile />} />
           <Route path="orders" element={<Orders />} />
+          <Route path="orders/:orderId" element={<OrderDetails />} />
           <Route path="address" element={<Address />} />
           <Route path="wishlist" element={<Wishlist />} />
         </Route>

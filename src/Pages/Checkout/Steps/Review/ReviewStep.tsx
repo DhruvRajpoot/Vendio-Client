@@ -6,6 +6,7 @@ import { deliveryCharges, taxRate } from "../../../../Constants/Constants";
 import { FaCreditCard, FaMapMarkerAlt, FaMoneyBillAlt } from "react-icons/fa";
 import Spinner from "../../../../Components/Spinner";
 import { Address } from "../../../../Context/AddressContext";
+import RazorpayButton from "./Components/RazorpayButton";
 
 interface ReviewStepProps {
   selectedPayment: string | null;
@@ -40,7 +41,7 @@ const ReviewStep: React.FC<ReviewStepProps> = ({
   const { createOrder, orderLoading } = useOrder();
 
   const handlePlaceOrder = async () => {
-    if (shippingAddress && selectedPayment) {
+    if (shippingAddress && selectedPayment === "cod") {
       try {
         await createOrder({
           shippingAddress,
@@ -59,12 +60,6 @@ const ReviewStep: React.FC<ReviewStepProps> = ({
         <h2 className="text-2xl sm:text-3xl font-bold text-teal-600 mb-6 text-center">
           Review Your Order
         </h2>
-
-        {/* <div className="flex flex-col">
-          <span className="text-lg text-gray-600 text-right">
-            {cartItems.length} {cartItems.length === 1 ? "item" : "items"}
-          </span>
-        </div> */}
 
         <div className="flex flex-col lg:flex-row gap-6">
           {/* Left side: Order list */}
@@ -146,14 +141,21 @@ const ReviewStep: React.FC<ReviewStepProps> = ({
             </div>
 
             <div className="flex justify-end mt-6">
-              <button
-                type="button"
-                className="flex items-center justify-center bg-teal-600 text-white font-semibold text-lg py-2 px-6 rounded-md shadow-md hover:bg-teal-700 transition-colors duration-200 w-44 h-10"
-                onClick={handlePlaceOrder}
-                disabled={orderLoading || !selectedPayment}
-              >
-                {orderLoading ? <Spinner /> : "Place Order"}
-              </button>
+              {selectedPayment === "cod" ? (
+                <button
+                  type="button"
+                  className="flex items-center justify-center bg-teal-600 text-white font-semibold text-lg py-2 px-6 rounded-md shadow-md hover:bg-teal-700 transition-colors duration-200 w-44 h-10 disabled:bg-gray-400 disabled:text-gray-200"
+                  onClick={handlePlaceOrder}
+                  disabled={orderLoading}
+                >
+                  {orderLoading ? <Spinner /> : "Place Order"}
+                </button>
+              ) : (
+                <RazorpayButton
+                  shippingAddress={shippingAddress!}
+                  couponCode={couponCode}
+                />
+              )}
             </div>
           </div>
         </div>
