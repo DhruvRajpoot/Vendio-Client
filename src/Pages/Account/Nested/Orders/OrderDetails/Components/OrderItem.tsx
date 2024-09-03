@@ -1,5 +1,5 @@
 import React from "react";
-import { Order, useOrder } from "../../../Context/OrderContext";
+import { Order, useOrder } from "../../../../../../Context/OrderContext";
 import {
   FaBox,
   FaMapMarkerAlt,
@@ -16,6 +16,12 @@ interface OrderItemProps {
 
 const OrderItem: React.FC<OrderItemProps> = ({ order }) => {
   const { cancelOrder } = useOrder();
+
+  const handleCancelOrder = () => {
+    if (!window.confirm("Are you sure you want to cancel this order?")) return;
+
+    cancelOrder(order._id);
+  };
 
   return (
     <div className="border border-gray-200 rounded-lg p-4 sm:p-6 shadow-md bg-white">
@@ -44,7 +50,8 @@ const OrderItem: React.FC<OrderItemProps> = ({ order }) => {
             className={`${
               order.orderStatus === "Delivered"
                 ? "text-green-600"
-                : order.orderStatus === "Pending"
+                : order.orderStatus === "Pending" ||
+                  order.orderStatus === "Cancelled"
                 ? "text-red-600"
                 : "text-yellow-600"
             } font-semibold`}
@@ -191,9 +198,7 @@ const OrderItem: React.FC<OrderItemProps> = ({ order }) => {
         order.orderStatus !== "Cancelled" && (
           <div className="mt-4">
             <button
-              onClick={() => {
-                cancelOrder(order._id);
-              }}
+              onClick={handleCancelOrder}
               className="text-sm text-red-600 font-semibold flex items-center gap-2 border border-red-600 px-4 py-2 rounded hover:bg-red-100 transition-colors duration-200"
             >
               <FaTimesCircle />

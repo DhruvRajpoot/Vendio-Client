@@ -1,13 +1,13 @@
 import React, { useEffect } from "react";
-import { useOrder } from "../../../Context/OrderContext";
 import { Link } from "react-router-dom";
-import OrderItem from "../Components/OrderItem";
+import { useOrder } from "../../../../Context/OrderContext";
+import OrderSummary from "./Components/OrderSummary";
 
 const Orders: React.FC = () => {
   const { orders, fetchOrders, orderLoading, orderError } = useOrder();
 
   useEffect(() => {
-    fetchOrders();
+    if (!orders.length) fetchOrders();
   }, []);
 
   const renderState = () => {
@@ -47,7 +47,7 @@ const Orders: React.FC = () => {
     return (
       <div className="flex flex-col gap-6">
         {orders.map((order) => (
-          <OrderItem key={order._id} order={order} />
+          <OrderSummary key={order._id} order={order} />
         ))}
       </div>
     );

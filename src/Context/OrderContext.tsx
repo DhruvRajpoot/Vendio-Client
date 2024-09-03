@@ -86,7 +86,7 @@ export const OrderProvider: React.FC<{ children: ReactNode }> = ({
     setOrderLoading(true);
     try {
       const response = await axiosInstance.post("/order", orderData);
-      setOrders((prevOrders) => [...prevOrders, response.data.order]);
+      setOrders((prevOrders) => [response.data.order, ...prevOrders]);
       toast.success("Order placed successfully");
       clearCart();
       navigate("/account/orders");
