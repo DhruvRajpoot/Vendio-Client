@@ -116,25 +116,25 @@ const ReviewStep: React.FC<ReviewStepProps> = ({
                 <div>
                   <div className="flex justify-between mb-2 text-gray-700">
                     <span>Subtotal</span>
-                    <span>${subtotal.toFixed(2)}</span>
+                    <span>₹{subtotal.toFixed(2)}</span>
                   </div>
                   <div className="flex justify-between mb-2 text-gray-700">
                     <span>Delivery Charges</span>
-                    <span>${deliveryCharges.toFixed(2)}</span>
+                    <span>₹{deliveryCharges.toFixed(2)}</span>
                   </div>
                   <div className="flex justify-between mb-2 text-gray-700">
                     <span>Taxes</span>
-                    <span>${taxes.toFixed(2)}</span>
+                    <span>₹{taxes.toFixed(2)}</span>
                   </div>
                   {discountAmount > 0 && (
                     <div className="flex justify-between mb-2 text-red-500 font-semibold">
                       <span>Discount</span>
-                      <span>-${discountAmount.toFixed(2)}</span>
+                      <span>-₹{discountAmount.toFixed(2)}</span>
                     </div>
                   )}
                   <div className="border-t border-gray-300 pt-4 flex justify-between font-semibold text-lg text-gray-800">
                     <span>Grand Total</span>
-                    <span>${grandTotal.toFixed(2)}</span>
+                    <span>₹{grandTotal.toFixed(2)}</span>
                   </div>
                 </div>
               </div>

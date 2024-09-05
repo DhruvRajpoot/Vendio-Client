@@ -87,10 +87,10 @@ const ProductCard: React.FC<{ product: any }> = React.memo(({ product }) => {
           <div className="flex items-center justify-between mb-4">
             <div className="flex gap-2">
               <p className="text-xl font-extrabold text-red-600 ">
-                ${discountedPrice}
+                ₹{discountedPrice}
               </p>
               <p className="text-lg font-semibold text-gray-500 line-through">
-                ${product.price}
+                ₹{product.price}
               </p>
             </div>
             <div className="text-gray-600 text-sm bg-gray-100 px-2 py-1 rounded-full">
