@@ -59,7 +59,7 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({ order }) => {
             <p className="text-sm font-medium text-gray-900 mt-1">
               Total Price:{" "}
               <span className="font-semibold">
-                ${order.finalPrice.toFixed(2)}
+                ₹{order.finalPrice.toFixed(2)}
               </span>
             </p>
           )}
