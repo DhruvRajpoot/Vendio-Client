@@ -13,9 +13,9 @@ const Cart = lazy(() => import("../Pages/Cart/Cart"));
 const NotFoundPage = lazy(() => import("../Pages/Error/404"));
 const Checkout = lazy(() => import("../Pages/Checkout/Checkout"));
 const MyAccount = lazy(() => import("../Pages/Account/Account"));
-const Profile = lazy(() => import("../Pages/Account/Nested/Profile"));
-const Address = lazy(() => import("../Pages/Account/Nested/Address"));
-const Wishlist = lazy(() => import("../Pages/Account/Nested/Wishlist"));
+const Profile = lazy(() => import("../Pages/Account/Nested/Profile/Profile"));
+const Address = lazy(() => import("../Pages/Account/Nested/Address/Address"));
+const Wishlist = lazy(() => import("../Pages/Account/Nested/Wishlist/Wishlist"));
 const Orders = lazy(() => import("../Pages/Account/Nested/Orders/Orders"));
 const OrderDetails = lazy(
   () => import("../Pages/Account/Nested/Orders/OrderDetails/OrderDetails")

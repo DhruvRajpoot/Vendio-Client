@@ -1,8 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { useWishlist } from "../../../Context/WishlistContext";
-import ProductCard from "../../../Components/ProductCard";
-import { products } from "../../../Store/products";
+import { useWishlist } from "../../../../Context/WishlistContext";
+import ProductCard from "../../../../Components/ProductCard";
+import { products } from "../../../../Store/products";
 
 const Wishlist: React.FC = () => {
   const { wishlist, wishlistLoading, wishlistError } = useWishlist();
