@@ -23,6 +23,7 @@ interface AppContextType {
   isAuthenticated: boolean;
   login: (user: User, accessToken: string, refreshToken: string) => void;
   logout: () => void;
+  updateUserInfo: (updatedUser: User) => void;
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
@@ -84,6 +85,11 @@ export function AppContextProvider({ children }: { children: ReactNode }) {
     navigate("/login");
   };
 
+  const updateUserInfo = (updatedUser: User) => {
+    setUser(updatedUser);
+    localStorage.setItem("user", JSON.stringify(updatedUser));
+  };
+
   return (
     <AppContext.Provider
       value={{
@@ -91,6 +97,7 @@ export function AppContextProvider({ children }: { children: ReactNode }) {
         isAuthenticated,
         login,
         logout,
+        updateUserInfo,
       }}
     >
       {children}
