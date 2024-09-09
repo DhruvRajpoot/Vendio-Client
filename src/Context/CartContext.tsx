@@ -9,25 +9,13 @@ import toast from "react-hot-toast";
 import axiosInstance from "../Config/axiosInstance";
 import { useAppContext } from "./AppContext";
 import { couponCodes } from "../Constants/Constants";
-
-export interface Product {
-  id: number;
-  title: string;
-  price: number;
-  description: string;
-  images: string[];
-  creationAt: string;
-  updatedAt: string;
-  category: string;
-  discount: number;
-  rating: number;
-}
+import { Product } from "./ProductContext";
 
 interface CartContextType {
   cartItems: { product: Product; quantity: number }[];
   addToCart: (product: Product, quantity: number) => void;
-  removeFromCart: (productId: number) => void;
-  updateCart: (productId: number, quantity: number) => void;
+  removeFromCart: (productId: string) => void;
+  updateCart: (productId: string, quantity: number) => void;
   syncCartWithBackend: () => void;
   couponCode: string;
   setCouponCode: React.Dispatch<React.SetStateAction<string>>;
@@ -76,11 +64,11 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({
   const addToCart = async (product: Product, quantity: number) => {
     setCartItems((prevItems) => {
       const existingProduct = prevItems.find(
-        (item) => item.product.id === product.id
+        (item) => item.product._id === product._id
       );
       const updatedItems = existingProduct
         ? prevItems.map((item) =>
-            item.product.id === product.id
+            item.product._id === product._id
               ? { ...item, quantity: item.quantity + quantity }
               : item
           )
@@ -94,7 +82,7 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({
     try {
       if (isAuthenticated) {
         await axiosInstance.post("/cart", {
-          productId: product.id,
+          productId: product._id,
           quantity,
         });
       }
@@ -105,10 +93,10 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({
     }
   };
 
-  const removeFromCart = async (productId: number) => {
+  const removeFromCart = async (productId: string) => {
     setCartItems((prevItems) => {
       const updatedItems = prevItems.filter(
-        (item) => item.product.id !== productId
+        (item) => item.product._id !== productId
       );
 
       localStorage.setItem("cart", JSON.stringify(updatedItems));
@@ -127,10 +115,10 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({
     }
   };
 
-  const updateCart = async (productId: number, quantity: number) => {
+  const updateCart = async (productId: string, quantity: number) => {
     setCartItems((prevItems) => {
       const updatedItems = prevItems.map((item) =>
-        item.product.id === productId ? { ...item, quantity } : item
+        item.product._id === productId ? { ...item, quantity } : item
       );
 
       localStorage.setItem("cart", JSON.stringify(updatedItems));

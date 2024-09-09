@@ -11,8 +11,8 @@ import ScrollingStripe from "../../Components/ScrollingStripe";
 const Cart: React.FC = () => {
   const { cartItems, addToCart, removeFromCart, discount } = useCart();
 
-  const handleQuantityChange = (id: number, amount: number) => {
-    const item = cartItems.find((item) => item.product.id === id);
+  const handleQuantityChange = (id: string, amount: number) => {
+    const item = cartItems.find((item) => item.product._id === id);
     if (item) {
       const newQuantity = item.quantity + amount;
       if (newQuantity <= 0) {
@@ -23,7 +23,7 @@ const Cart: React.FC = () => {
     }
   };
 
-  const handleRemoveItem = (id: number) => {
+  const handleRemoveItem = (id: string) => {
     removeFromCart(id);
   };
 
@@ -73,13 +73,13 @@ const Cart: React.FC = () => {
                   <tbody>
                     {cartItems.map((item) => (
                       <CartItem
-                        key={item.product.id}
-                        id={item.product.id}
+                        key={item.product._id}
+                        id={item.product._id}
                         quantity={item.quantity}
                         onQuantityChange={(amount) =>
-                          handleQuantityChange(item.product.id, amount)
+                          handleQuantityChange(item.product._id, amount)
                         }
-                        onRemove={() => handleRemoveItem(item.product.id)}
+                        onRemove={() => handleRemoveItem(item.product._id)}
                       />
                     ))}
                   </tbody>

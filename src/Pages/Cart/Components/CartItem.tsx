@@ -1,10 +1,10 @@
 import React from "react";
 import { FaTrashAlt } from "react-icons/fa";
-import { products } from "../../../Store/products";
 import { useNavigate } from "react-router-dom";
+import { Product, useProduct } from "../../../Context/ProductContext";
 
 interface CartItemProps {
-  id: number;
+  id: string;
   quantity: number;
   onQuantityChange: (amount: number) => void;
   onRemove: () => void;
@@ -17,7 +17,8 @@ const CartItem: React.FC<CartItemProps> = ({
   onRemove,
 }) => {
   const navigate = useNavigate();
-  const product = products.find((p) => p.id === id);
+  const { products } = useProduct();
+  const product = products.find((p: Product) => p._id === id);
 
   if (!product) {
     return (
@@ -29,32 +30,39 @@ const CartItem: React.FC<CartItemProps> = ({
     );
   }
 
-  const { images, title, price, discount, category } = product;
+  const { images, title, price, discount, categories } = product;
 
   const discountedPrice = (price - price * (discount / 100)).toFixed(2);
   const itemTotal = (parseFloat(discountedPrice) * quantity).toFixed(2);
+
+  const navigateToProduct = () => {
+    navigate(`/products/${product._id}`);
+  };
 
   return (
     <tr className="border-b border-gray-200 sm:table-row">
       {/* Mobile View */}
       <td className="block sm:hidden p-3">
         <div className="bg-white shadow rounded-lg p-4">
-          <div
-            className="flex items-center space-x-4 mb-4"
-            onClick={() => {
-              navigate(`/products/${product.id}`);
-            }}
-          >
+          <div className="flex items-center space-x-4 mb-4">
             <img
               src={images[0]}
               alt={title}
               className="w-16 h-16 object-cover rounded-md shadow-sm"
+              onClick={navigateToProduct}
             />
             <div className="flex-1">
-              <h3 className="font-semibold max-h-14 overflow-hidden text-gray-800">
+              <h3
+                className="font-semibold max-h-12 overflow-hidden text-gray-800"
+                onClick={navigateToProduct}
+              >
                 {title}
               </h3>
-              <p className="text-gray-500 text-sm">{category}</p>
+              {categories.map((category) => (
+                <p key={category} className="text-gray-500 text-sm">
+                  {category}
+                </p>
+              ))}
             </div>
           </div>
           <div className="border-t border-gray-200 pt-4">
@@ -109,13 +117,21 @@ const CartItem: React.FC<CartItemProps> = ({
           <img
             src={images[0]}
             alt={title}
-            className="w-16 h-16 object-cover rounded-md shadow-sm"
+            className="w-16 h-16 object-cover rounded-md shadow-sm cursor-pointer"
+            onClick={navigateToProduct}
           />
           <div className="flex flex-col">
-            <span className="font-semibold text-lg max-h-14 overflow-hidden">
+            <span
+              className="font-semibold max-h-12 xl:max-h-14 overflow-hidden cursor-pointer"
+              onClick={navigateToProduct}
+            >
               {title}
             </span>
-            <span className="text-gray-600">{category}</span>
+            {categories.map((category) => (
+              <span key={category} className="text-gray-500 text-sm">
+                {category}
+              </span>
+            ))}
           </div>
         </div>
       </td>

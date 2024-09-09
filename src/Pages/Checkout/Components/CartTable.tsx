@@ -1,12 +1,13 @@
 import React from "react";
-import { products } from "../../../Store/products";
-import { Product } from "../../../Context/CartContext";
+import { Product, useProduct } from "../../../Context/ProductContext";
 
 interface CartTableProps {
   cartItems: { product: Product; quantity: number }[];
 }
 
 const CartTable: React.FC<CartTableProps> = ({ cartItems }) => {
+  const { products } = useProduct();
+
   return (
     <div className="flex-1 bg-white shadow-md rounded-lg overflow-x-auto">
       <table className="w-full border-collapse">
@@ -20,7 +21,9 @@ const CartTable: React.FC<CartTableProps> = ({ cartItems }) => {
         </thead>
         <tbody>
           {cartItems.map((item, index) => {
-            const product = products.find((p) => p.id === item.product.id);
+            const product = products.find(
+              (p: Product) => p._id === item.product._id
+            );
 
             if (!product) {
               return (
@@ -35,7 +38,7 @@ const CartTable: React.FC<CartTableProps> = ({ cartItems }) => {
               );
             }
 
-            const { images, title, price, discount, category } = product;
+            const { images, title, price, discount, categories } = product;
             const discountedPrice = (price - price * (discount / 100)).toFixed(
               2
             );
@@ -59,9 +62,15 @@ const CartTable: React.FC<CartTableProps> = ({ cartItems }) => {
                     >
                       {title}
                     </span>
-                    <span className="text-gray-600 text-xs truncate">
-                      {category}
-                    </span>
+
+                    {categories.map((category) => (
+                      <span
+                        key={category}
+                        className="text-gray-600 text-xs truncate"
+                      >
+                        {category}
+                      </span>
+                    ))}
                   </div>
                 </td>
 
