@@ -10,29 +10,33 @@ import {
   FaShoppingCart,
   FaShoppingBag,
 } from "react-icons/fa";
-import { products } from "../../Store/products";
 import ProductNotFound from "./Components/ProductNotFound";
 import { useCart } from "../../Context/CartContext";
 import RelatedProducts from "./Components/RelatedProducts";
 import { useWishlist } from "../../Context/WishlistContext";
+import { useProduct } from "../../Context/ProductContext";
 
 const ProductDetails: React.FC = () => {
   const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
-  const productId = Number(id);
+  const productId = id || "";
+  const { products = [] } = useProduct(); // Ensure products is always an array
 
-  const product = products.find((product) => product.id === productId);
+  // Find the product by ID
+  const product = products.find((product) => product._id === productId);
 
   if (!product) {
     return <ProductNotFound />;
   }
 
   const { addToCart, cartItems } = useCart();
-
   const { checkInWishlist, handleWishlistClick } = useWishlist();
 
+  // Filter related products based on categories
   const relatedProducts = products.filter(
-    (p) => p.category === product.category && p.id !== product.id
+    (p) =>
+      p.categories.some((category) => product.categories.includes(category)) &&
+      p._id !== product._id
   );
 
   const [selectedImage, setSelectedImage] = useState(product.images[0]);
@@ -117,12 +121,12 @@ const ProductDetails: React.FC = () => {
     },
   ];
 
-  const isItemInCart = (productId: number) => {
-    return cartItems.some((item) => item.product.id === productId);
+  const isItemInCart = (productId: string) => {
+    return cartItems.some((item) => item.product._id === productId);
   };
 
   const handleAddToCart = () => {
-    if (isItemInCart(product.id)) {
+    if (isItemInCart(product._id)) {
       navigate("/cart");
       return;
     }
@@ -130,7 +134,7 @@ const ProductDetails: React.FC = () => {
   };
 
   const handleBuyNow = () => {
-    if (!isItemInCart(product.id)) addToCart(product, quantity);
+    if (!isItemInCart(product._id)) addToCart(product, quantity);
     navigate("/cart");
   };
 
@@ -179,12 +183,12 @@ const ProductDetails: React.FC = () => {
 
               <button
                 className={`w-fit h-fit p-2 rounded-md shadow-lg flex items-center justify-center transition-all duration-300 ease-in-out ${
-                  checkInWishlist(product.id)
+                  checkInWishlist(product._id)
                     ? "bg-red-100 text-red-500 hover:bg-red-200"
                     : "bg-gray-200 text-gray-500 hover:bg-gray-300 hover:text-gray-600"
                 }`}
                 onClick={() => {
-                  handleWishlistClick(product.id);
+                  handleWishlistClick(product._id);
                 }}
               >
                 <FaHeart size={20} />
@@ -213,9 +217,14 @@ const ProductDetails: React.FC = () => {
               </span>
             </p>
             <div className="flex items-center mb-4">
-              <span className="text-gray-600 bg-gray-100 px-3 py-1 rounded-full text-sm">
-                {product.category}
-              </span>
+              {product.categories.map((category, index) => (
+                <span
+                  className="text-gray-600 bg-gray-100 px-3 py-1 rounded-full text-sm"
+                  key={index}
+                >
+                  {category}
+                </span>
+              ))}
             </div>
 
             {/* Available Offers */}
@@ -265,7 +274,7 @@ const ProductDetails: React.FC = () => {
               >
                 <FaShoppingCart className="text-xl" />
                 <span>
-                  {isItemInCart(product.id) ? "View Cart" : "Add to Cart"}
+                  {isItemInCart(product._id) ? "View Cart" : "Add to Cart"}
                 </span>
               </button>
 

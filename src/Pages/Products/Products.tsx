@@ -1,15 +1,17 @@
 import React, { useEffect, useMemo, useState, useCallback } from "react";
 import ProductCard from "../../Components/ProductCard";
-import { products } from "../../Store/products";
 import Navbar from "../../Components/Navbar";
 import Breadcrumb from "../../Components/Breadcrumb";
 import Footer from "../../Components/Footer";
 import FilterBar from "./Components/FilterBar";
 import { useLocation, useNavigate } from "react-router-dom";
+import { useProduct } from "../../Context/ProductContext";
 
 const ProductsPage: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
+
+  const { products = [] } = useProduct();
 
   const [currentPage, setCurrentPage] = useState(() => {
     const pageParam = new URLSearchParams(location.search).get("page");
@@ -35,8 +37,8 @@ const ProductsPage: React.FC = () => {
     let filtered = [...products];
 
     if (categoryFilter !== "All") {
-      filtered = filtered.filter(
-        (product) => product.category === categoryFilter
+      filtered = filtered.filter((product) =>
+        product.categories.includes(categoryFilter)
       );
     }
 
@@ -55,7 +57,7 @@ const ProductsPage: React.FC = () => {
     }
 
     return filtered;
-  }, [categoryFilter, sortBy]);
+  }, [categoryFilter, sortBy, products]);
 
   const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
 
@@ -131,7 +133,7 @@ const ProductsPage: React.FC = () => {
           <>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 md:gap-20">
               {paginatedProducts.map((product) => (
-                <ProductCard key={product.id} product={product} />
+                <ProductCard key={product._id} product={product} />
               ))}
             </div>
 
