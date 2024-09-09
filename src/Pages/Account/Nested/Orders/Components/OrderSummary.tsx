@@ -70,7 +70,7 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({ order }) => {
       <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3">
         {order.items.map((item) => (
           <div
-            key={item.product.id}
+            key={item.product._id}
             className="flex items-center border border-gray-200 rounded-lg p-2 space-x-4 bg-gray-50"
           >
             <img

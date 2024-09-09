@@ -4,15 +4,15 @@ import axiosInstance from "../Config/axiosInstance";
 import { useAppContext } from "../Context/AppContext";
 
 interface WishlistContextType {
-  wishlist: Set<number>;
+  wishlist: Set<string>;
   wishlistLoading: boolean;
   wishlistError: string | null;
   fetchWishlist: () => Promise<void>;
-  addProductToWishlist: (productId: number) => Promise<void>;
-  removeProductFromWishlist: (productId: number) => Promise<void>;
+  addProductToWishlist: (productId: string) => Promise<void>;
+  removeProductFromWishlist: (productId: string) => Promise<void>;
   clearWishlist: () => Promise<void>;
-  checkInWishlist: (productId: number) => boolean;
-  handleWishlistClick: (productId: number) => void;
+  checkInWishlist: (productId: string) => boolean;
+  handleWishlistClick: (productId: string) => void;
 }
 
 const WishlistContext = createContext<WishlistContextType | undefined>(
@@ -23,7 +23,7 @@ export const WishlistProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const { isAuthenticated } = useAppContext();
-  const [wishlist, setWishlist] = useState<Set<number>>(new Set());
+  const [wishlist, setWishlist] = useState<Set<string>>(new Set());
   const [wishlistLoading, setWishlistLoading] = useState<boolean>(false);
   const [wishlistError, setWishlistError] = useState<string | null>(null);
 
@@ -32,7 +32,7 @@ export const WishlistProvider: React.FC<{ children: React.ReactNode }> = ({
   }, [isAuthenticated]);
 
   // Check if product is in wishlist
-  const checkInWishlist = (productId: number) => {
+  const checkInWishlist = (productId: string) => {
     return wishlist.has(productId);
   };
 
@@ -60,7 +60,7 @@ export const WishlistProvider: React.FC<{ children: React.ReactNode }> = ({
   }, [isAuthenticated]);
 
   // Add product to wishlist
-  const addProductToWishlist = async (productId: number) => {
+  const addProductToWishlist = async (productId: string) => {
     if (!isAuthenticated) {
       toast.error("Please log in to add items to your wishlist");
       return;
@@ -84,7 +84,7 @@ export const WishlistProvider: React.FC<{ children: React.ReactNode }> = ({
   };
 
   // Remove product from wishlist
-  const removeProductFromWishlist = async (productId: number) => {
+  const removeProductFromWishlist = async (productId: string) => {
     if (!isAuthenticated) {
       toast.error("Please log in to manage your wishlist");
       return;
@@ -132,7 +132,7 @@ export const WishlistProvider: React.FC<{ children: React.ReactNode }> = ({
   };
 
   // Handle wishlist click
-  const handleWishlistClick = (productId: number) => {
+  const handleWishlistClick = (productId: string) => {
     if (checkInWishlist(productId)) {
       removeProductFromWishlist(productId);
     } else {

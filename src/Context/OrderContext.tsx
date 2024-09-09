@@ -1,9 +1,10 @@
 import React, { createContext, useState, useContext, ReactNode } from "react";
 import axiosInstance from "../Config/axiosInstance";
 import toast from "react-hot-toast";
-import { Product, useCart } from "./CartContext";
+import { useCart } from "./CartContext";
 import { useNavigate } from "react-router-dom";
 import { Address } from "./AddressContext";
+import { Product } from "./ProductContext";
 
 interface OrderItem {
   product: Product;
@@ -49,7 +50,8 @@ interface OrderContextType {
   fetchOrders: () => void;
   updateOrderStatus: (orderId: string, status: string) => Promise<void>;
   updatePaymentStatus: (orderId: string, status: string) => Promise<void>;
-  cancelOrder: (orderId: string) => Promise<void>; // Add this line
+  cancelOrder: (orderId: string) => Promise<void>;
+  insertOrder: (order: Order) => void;
   orderLoading: boolean;
   orderError: string | null;
 }
@@ -65,6 +67,7 @@ export const OrderProvider: React.FC<{ children: ReactNode }> = ({
   const { clearCart } = useCart();
   const navigate = useNavigate();
 
+  // Fetch orders
   const fetchOrders = async () => {
     try {
       const response = await axiosInstance.get("/order");
@@ -78,6 +81,7 @@ export const OrderProvider: React.FC<{ children: ReactNode }> = ({
     }
   };
 
+  // Create order
   const createOrder = async (orderData: {
     shippingAddress: Address;
     paymentMethod: string;
@@ -94,12 +98,12 @@ export const OrderProvider: React.FC<{ children: ReactNode }> = ({
       setOrderError("Failed to place order");
       console.error("Error creating order:", err);
       toast.error(err.response.data.message || "Failed to place order");
-      throw new Error("Failed to place order");
     } finally {
       setOrderLoading(false);
     }
   };
 
+  // Update order status
   const updateOrderStatus = async (orderId: string, status: string) => {
     setOrderLoading(true);
     try {
@@ -122,6 +126,7 @@ export const OrderProvider: React.FC<{ children: ReactNode }> = ({
     }
   };
 
+  // Cancel order
   const cancelOrder = async (orderId: string) => {
     setOrderLoading(true);
     try {
@@ -143,6 +148,7 @@ export const OrderProvider: React.FC<{ children: ReactNode }> = ({
     }
   };
 
+  // Update payment status
   const updatePaymentStatus = async (orderId: string, status: string) => {
     setOrderLoading(true);
     try {
@@ -167,6 +173,11 @@ export const OrderProvider: React.FC<{ children: ReactNode }> = ({
     }
   };
 
+  // Insert order at the start
+  const insertOrder = (order: Order) => {
+    setOrders((prevOrders) => [order, ...prevOrders]);
+  };
+
   return (
     <OrderContext.Provider
       value={{
@@ -175,6 +186,7 @@ export const OrderProvider: React.FC<{ children: ReactNode }> = ({
         fetchOrders,
         updateOrderStatus,
         cancelOrder,
+        insertOrder,
         updatePaymentStatus,
         orderLoading,
         orderError,
