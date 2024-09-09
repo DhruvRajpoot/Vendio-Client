@@ -3,7 +3,7 @@ import "swiper/css";
 import "swiper/css/pagination";
 import { Pagination, Autoplay, Navigation } from "swiper/modules";
 import ProductCard from "../../../Components/ProductCard";
-import { Product } from "../../../Context/CartContext";
+import { Product } from "../../../Context/ProductContext";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 
 interface RelatedProductsProps {
@@ -38,16 +38,16 @@ const RelatedProducts: React.FC<RelatedProductsProps> = ({
           className="related-products-swiper"
         >
           {relatedProducts.map((product) => (
-            <SwiperSlide key={product.id} className="pb-16">
+            <SwiperSlide key={product._id} className="pb-16">
               <ProductCard product={product} />
             </SwiperSlide>
           ))}
         </Swiper>
 
-        <div className="swiper-button-prev-related bg-black text-white rounded-full w-8 h-8 sm:w-10 sm:h-10 p-3 flex items-center justify-center shadow-md hover:bg-gray-700 absolute left-4 2xl:-left-16 top-1/3 z-10 after:content-none">
+        <div className="swiper-button-prev-related bg-black text-white rounded-full w-8 h-8 sm:w-10 sm:h-10 p-3 flex items-center justify-center shadow-md hover:bg-gray-700 absolute left-4 top-1/2 transform -translate-y-1/2 z-10">
           <FaArrowLeft />
         </div>
-        <div className="swiper-button-next-related bg-black text-white rounded-full w-8 h-8 sm:w-10 sm:h-10 p-3 flex items-center justify-center shadow-md hover:bg-gray-700 absolute right-4 2xl:-right-16 top-1/3 z-10 after:content-none">
+        <div className="swiper-button-next-related bg-black text-white rounded-full w-8 h-8 sm:w-10 sm:h-10 p-3 flex items-center justify-center shadow-md hover:bg-gray-700 absolute right-4 top-1/2 transform -translate-y-1/2 z-10">
           <FaArrowRight />
         </div>
       </div>
