@@ -1,11 +1,10 @@
 import React, { useRef, useState } from "react";
 import { uploadFile } from "../../../../../Utils/Cloudinary";
 import defaultProfilePic from "../../../../../Assets/Images/defaultuser.png";
-import { RiUploadCloud2Fill } from "react-icons/ri";
-import { RxCross2 } from "react-icons/rx";
 import { useAppContext } from "../../../../../Context/AppContext";
 import axiosInstance from "../../../../../Config/axiosInstance";
 import toast from "react-hot-toast";
+import { FaTrashAlt } from "react-icons/fa";
 
 const ProfilePic: React.FC = () => {
   const { user, updateUserInfo } = useAppContext();
@@ -16,14 +15,6 @@ const ProfilePic: React.FC = () => {
 
   const handleImageInputClick = () => {
     imageInputRef.current?.click();
-  };
-
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      setSelectedPic(e.target.files[0]);
-      setImageError(false);
-      e.target.value = "";
-    }
   };
 
   const uploadProfilePicToServer = async (pic: string, oldPic: string) => {
@@ -43,26 +34,42 @@ const ProfilePic: React.FC = () => {
     }
   };
 
-  const handleProfilePicUpload = async () => {
-    if (!selectedPic) return;
+  const handleProfilePicUpload = async (file: File) => {
     setLoading(true);
     try {
-      const data = await uploadFile(
-        selectedPic,
-        "image",
-        "high_res_image_preset"
-      );
+      const data = await uploadFile(file, "image", "low_res_image_preset");
       await uploadProfilePicToServer(data.secure_url, user?.profilePic || "");
       setSelectedPic(null);
     } catch (error) {
       console.error("Profile picture upload failed", error);
+      toast.error("Profile picture upload failed");
     } finally {
       setLoading(false);
     }
   };
 
-  const handleCancelUpload = () => {
-    setSelectedPic(null);
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      const selectedFile = e.target.files[0];
+      setSelectedPic(selectedFile);
+      setImageError(false);
+      handleProfilePicUpload(selectedFile);
+      e.target.value = "";
+    }
+  };
+
+  const handleRemovePic = async () => {
+    if (window.confirm("Are you sure you want to remove your profile pic?")) {
+      setLoading(true);
+      try {
+        await uploadProfilePicToServer("", user?.profilePic || "");
+      } catch (error) {
+        console.error("Failed to remove profile picture:", error);
+        toast.error("Failed to remove profile picture.");
+      } finally {
+        setLoading(false);
+      }
+    }
   };
 
   const handleImageError = () => {
@@ -83,7 +90,7 @@ const ProfilePic: React.FC = () => {
             alt="Selected Profile Pic"
             className="w-full h-full object-cover transition-transform duration-300 ease-in-out"
           />
-        ) : imageError || !user?.profilePic ? (
+        ) : imageError ? (
           <span className="text-sm text-gray-600">Profile Pic</span>
         ) : (
           <img
@@ -95,37 +102,32 @@ const ProfilePic: React.FC = () => {
         )}
       </div>
 
-      {/* TODO : Fix user details routes and unhide*/}
-      <div className="hidden">
-        {!selectedPic ? (
+      <div className="mt-3">
+        <div className="flex gap-2 w-40">
           <button
-            className="mt-3 bg-teal-500 text-sm w-40 text-white px-4 py-2 rounded-lg shadow-lg transition duration-300 ease-in-out hover:bg-teal-600"
+            className={`flex-1 text-sm text-white px-4 py-2 rounded-lg shadow-lg transition duration-300 ease-in-out ${
+              loading ? "bg-gray-400" : "bg-teal-500  hover:bg-teal-600"
+            }`}
             onClick={handleImageInputClick}
+            title="Update"
+            disabled={loading}
           >
-            Change Profile Pic
+            {user?.profilePic ? "Update Pic" : "Upload Pic"}
           </button>
-        ) : (
-          <div className="flex justify-center gap-6 mt-3 w-40">
-            <button
-              className={`flex items-center justify-center bg-teal-500 text-white px-4 py-1.5 rounded-lg shadow-lg transition duration-300 ease-in-out hover:bg-teal-600 ${
-                loading ? "opacity-50 cursor-not-allowed" : ""
-              }`}
-              onClick={handleProfilePicUpload}
-              disabled={loading}
-              title="Upload"
-            >
-              <RiUploadCloud2Fill className="w-6 h-6" />
-            </button>
 
+          {user?.profilePic && (
             <button
-              className="flex items-center justify-center bg-red-500 text-white px-4 py-1.5 rounded-lg shadow-lg transition duration-300 ease-in-out hover:bg-red-600"
-              onClick={handleCancelUpload}
-              title="Cancel"
+              className={`text-white px-4 py-2 rounded-lg shadow-lg transition duration-300 ease-in-out ${
+                loading ? "bg-gray-400" : "bg-red-500 hover:bg-red-700"
+              }`}
+              onClick={handleRemovePic}
+              title="Remove"
+              disabled={loading}
             >
-              <RxCross2 className="w-6 h-6" />
+              <FaTrashAlt />
             </button>
-          </div>
-        )}
+          )}
+        </div>
       </div>
 
       <input
