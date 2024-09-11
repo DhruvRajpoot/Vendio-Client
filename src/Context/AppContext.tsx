@@ -5,9 +5,10 @@ import {
   useEffect,
   ReactNode,
 } from "react";
-import { jwtDecode } from "jwt-decode";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { serverurl } from "../Config/baseurl";
 
 interface User {
   _id: string;
@@ -23,6 +24,7 @@ interface AppContextType {
   isAuthenticated: boolean;
   login: (user: User, accessToken: string, refreshToken: string) => void;
   logout: () => void;
+  updateUserInfo: (updatedUser: User) => void;
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
@@ -41,30 +43,28 @@ export function AppContextProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     const accessToken = localStorage.getItem("access_token");
     if (accessToken) {
-      try {
-        const decoded = jwtDecode(accessToken) as User;
-
-        const filterUser = {
-          _id: decoded._id,
-          firstName: decoded.firstName,
-          lastName: decoded.lastName,
-          profilePic: decoded.profilePic,
-          email: decoded.email,
-          isVerified: decoded.isVerified,
-        };
-
-        setUser(filterUser);
-
-        // Store user information in localStorage
-        localStorage.setItem("user", JSON.stringify(filterUser));
-      } catch (error) {
-        console.error("Failed to decode token", error);
-        localStorage.removeItem("access_token");
-        localStorage.removeItem("user");
-      }
+      fetchUserDetails(accessToken);
     }
   }, []);
 
+  // Fetch user details from the server
+  const fetchUserDetails = async (accessToken: string) => {
+    try {
+      const response = await axios.get(`${serverurl}/user/getUserDetails`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+      const userData = response.data.user;
+      setUser(userData);
+      localStorage.setItem("user", JSON.stringify(userData));
+    } catch (error) {
+      console.error("Failed to fetch user details", error);
+      toast.error("Failed to fetch user details");
+    }
+  };
+
+  // Login user
   const login = (user: User, accessToken: string, refreshToken: string) => {
     setUser(user);
     localStorage.setItem("access_token", accessToken);
@@ -74,6 +74,7 @@ export function AppContextProvider({ children }: { children: ReactNode }) {
     }; Secure; SameSite=Strict`;
   };
 
+  // Logout user
   const logout = () => {
     setUser(null);
     localStorage.removeItem("access_token");
@@ -84,6 +85,12 @@ export function AppContextProvider({ children }: { children: ReactNode }) {
     navigate("/login");
   };
 
+  // Update user info
+  const updateUserInfo = (updatedUser: User) => {
+    setUser(updatedUser);
+    localStorage.setItem("user", JSON.stringify(updatedUser));
+  };
+
   return (
     <AppContext.Provider
       value={{
@@ -91,6 +98,7 @@ export function AppContextProvider({ children }: { children: ReactNode }) {
         isAuthenticated,
         login,
         logout,
+        updateUserInfo,
       }}
     >
       {children}

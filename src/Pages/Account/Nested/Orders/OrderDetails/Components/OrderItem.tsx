@@ -42,7 +42,7 @@ const OrderItem: React.FC<OrderItemProps> = ({ order }) => {
       {/* Order Summary */}
       <div className="flex justify-between mb-4">
         <p className="text-lg font-semibold text-gray-800">
-          Total: ₹{order.finalPrice.toFixed(2)}
+          Total: ₹{order.finalPrice}
         </p>
         <p className="text-md font-medium">
           Status:{" "}
@@ -83,7 +83,7 @@ const OrderItem: React.FC<OrderItemProps> = ({ order }) => {
                     {item.product.title}
                   </h4>
                   <p className="text-gray-500 flex flex-col xs:flex-row gap-1">
-                    {item.product.category} -{" "}
+                    {item.product.categories[0]} -{" "}
                     <span className="text-yellow-500 flex items-center">
                       <FaStar className="inline mr-1" />
                       {item.product.rating}
@@ -101,7 +101,7 @@ const OrderItem: React.FC<OrderItemProps> = ({ order }) => {
                   Qty: {item.quantity}
                 </p>
                 <p className="text-lg font-semibold text-gray-800">
-                  ₹{item.totalPrice.toFixed(2)}
+                  ₹{item.totalPrice}
                 </p>
               </div>
             </li>
@@ -117,26 +117,26 @@ const OrderItem: React.FC<OrderItemProps> = ({ order }) => {
         <div className="space-y-2">
           <p className="text-gray-700 flex justify-between">
             <span>Subtotal:</span>
-            <span>₹{order.totalPrice.toFixed(2)}</span>
+            <span>₹{order.totalPrice}</span>
           </p>
           <p className="text-gray-700 flex justify-between">
             <span>Taxes:</span>
-            <span>₹{order.taxes.toFixed(2)}</span>
+            <span>₹{order.taxes}</span>
           </p>
           <p className="text-gray-700 flex justify-between">
             <span>Delivery Charges:</span>
-            <span>₹{order.deliveryCharges.toFixed(2)}</span>
+            <span>₹{order.deliveryCharges}</span>
           </p>
           {order.discountAmount > 0 && (
             <p className="text-red-500 flex justify-between font-semibold">
               <span>Discount:</span>
-              <span>- ₹{order.discountAmount.toFixed(2)}</span>
+              <span>- ₹{order.discountAmount}</span>
             </p>
           )}
           <hr className="border-gray-200 my-2" />
           <p className="text-gray-800 flex justify-between font-semibold text-lg">
             <span>Grand Total:</span>
-            <span>₹{order.finalPrice.toFixed(2)}</span>
+            <span>₹{order.finalPrice}</span>
           </p>
         </div>
       </div>

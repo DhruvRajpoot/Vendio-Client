@@ -1,11 +1,12 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { useWishlist } from "../../../Context/WishlistContext";
-import ProductCard from "../../../Components/ProductCard";
-import { products } from "../../../Store/products";
+import { useWishlist } from "../../../../Context/WishlistContext";
+import ProductCard from "../../../../Components/ProductCard";
+import { useProduct } from "../../../../Context/ProductContext";
 
 const Wishlist: React.FC = () => {
   const { wishlist, wishlistLoading, wishlistError } = useWishlist();
+  const { products } = useProduct();
 
   const renderState = () => {
     if (wishlistError) {
@@ -44,7 +45,7 @@ const Wishlist: React.FC = () => {
     return (
       <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-3 gap-10 xl:gap-12 2xl:gap-20 mt-6">
         {[...wishlist].map((productId) => {
-          const product = products.find((p) => p.id === productId);
+          const product = products.find((p) => p._id === productId);
           if (!product) return null;
           return <ProductCard key={productId} product={product} />;
         })}

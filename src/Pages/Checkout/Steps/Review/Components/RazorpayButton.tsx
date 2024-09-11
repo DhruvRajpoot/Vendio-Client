@@ -6,6 +6,7 @@ import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../../../../../Context/CartContext";
 import Spinner from "../../../../../Components/Spinner";
+import { useOrder } from "../../../../../Context/OrderContext";
 
 interface RazorpayButtonProps {
   shippingAddress: Address;
@@ -19,6 +20,7 @@ const RazorpayButton: React.FC<RazorpayButtonProps> = ({
   const navigate = useNavigate();
   const { user } = useAppContext();
   const { clearCart } = useCart();
+  const { fetchOrders } = useOrder();
   const [loading, setLoading] = useState(false);
 
   const handleRazorpayPayment = async () => {
@@ -62,6 +64,9 @@ const RazorpayButton: React.FC<RazorpayButtonProps> = ({
 
             toast.success("Payment successful and order placed!");
             clearCart();
+
+            orderData.order.orderStatus = "Placed";
+            fetchOrders();
             navigate("/account/orders");
           } catch (err) {
             console.error("Payment verification failed:", err);
@@ -80,6 +85,7 @@ const RazorpayButton: React.FC<RazorpayButtonProps> = ({
         },
         modal: {
           ondismiss: function () {
+            fetchOrders();
             toast.error("Payment process was interrupted.");
             setLoading(false);
           },

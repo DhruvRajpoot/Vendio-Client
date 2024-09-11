@@ -5,14 +5,13 @@ import CartItem from "./Components/CartItem";
 import Navbar from "../../Components/Navbar";
 import OrderSummary from "./Components/OrderSummary";
 import EmptyCart from "./Components/EmptyCart";
-import { deliveryCharges, taxRate } from "../../Constants/Constants";
 import ScrollingStripe from "../../Components/ScrollingStripe";
 
 const Cart: React.FC = () => {
-  const { cartItems, addToCart, removeFromCart, discount } = useCart();
+  const { cartItems, addToCart, removeFromCart } = useCart();
 
-  const handleQuantityChange = (id: number, amount: number) => {
-    const item = cartItems.find((item) => item.product.id === id);
+  const handleQuantityChange = (id: string, amount: number) => {
+    const item = cartItems.find((item) => item.product._id === id);
     if (item) {
       const newQuantity = item.quantity + amount;
       if (newQuantity <= 0) {
@@ -23,23 +22,9 @@ const Cart: React.FC = () => {
     }
   };
 
-  const handleRemoveItem = (id: number) => {
+  const handleRemoveItem = (id: string) => {
     removeFromCart(id);
   };
-
-  // Calculate subtotal, discount, delivery charges, taxes, and grand total
-  const subtotal = cartItems.reduce((total, item) => {
-    return (
-      total +
-      (item.product.price -
-        item.product.price * (item.product.discount / 100)) *
-        item.quantity
-    );
-  }, 0);
-
-  const discountAmount = (subtotal * discount) / 100;
-  const taxes = (subtotal - discountAmount) * taxRate;
-  const grandTotal = subtotal - discountAmount + deliveryCharges + taxes;
 
   return (
     <>
@@ -73,13 +58,13 @@ const Cart: React.FC = () => {
                   <tbody>
                     {cartItems.map((item) => (
                       <CartItem
-                        key={item.product.id}
-                        id={item.product.id}
+                        key={item.product._id}
+                        id={item.product._id}
                         quantity={item.quantity}
                         onQuantityChange={(amount) =>
-                          handleQuantityChange(item.product.id, amount)
+                          handleQuantityChange(item.product._id, amount)
                         }
-                        onRemove={() => handleRemoveItem(item.product.id)}
+                        onRemove={() => handleRemoveItem(item.product._id)}
                       />
                     ))}
                   </tbody>
@@ -88,14 +73,7 @@ const Cart: React.FC = () => {
             )}
           </div>
 
-          {cartItems.length > 0 && (
-            <OrderSummary
-              subtotal={subtotal}
-              deliveryCharges={deliveryCharges}
-              taxes={taxes}
-              total={grandTotal}
-            />
-          )}
+          {cartItems.length > 0 && <OrderSummary />}
         </div>
 
         {cartItems.length > 0 && (

@@ -1,8 +1,9 @@
 import React from "react";
 import ProductCard from "../../../Components/ProductCard";
-import { products } from "../../../Store/products";
+import { useProduct } from "../../../Context/ProductContext";
 
 const TopProducts: React.FC = () => {
+  const { products } = useProduct();
   const topProducts = products.sort(() => Math.random() - 0.5).slice(0, 6);
 
   return (
@@ -13,7 +14,7 @@ const TopProducts: React.FC = () => {
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 md:gap-20">
           {topProducts.map((product) => (
-            <ProductCard key={product.id} product={product} />
+            <ProductCard key={product._id} product={product} />
           ))}
         </div>
       </div>

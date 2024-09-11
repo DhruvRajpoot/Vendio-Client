@@ -11,6 +11,7 @@ import { CartProvider } from "./Context/CartContext.tsx";
 import { OrderProvider } from "./Context/OrderContext.tsx";
 import { WishlistProvider } from "./Context/WishlistContext.tsx";
 import { AddressProvider } from "./Context/AddressContext.tsx";
+import { ProductProvider } from "./Context/ProductContext.tsx";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
@@ -18,15 +19,17 @@ createRoot(document.getElementById("root")!).render(
       <ToastProvider />
       <BrowserRouter>
         <AppContextProvider>
-          <CartProvider>
-            <OrderProvider>
-              <WishlistProvider>
-                <AddressProvider>
-                  <App />
-                </AddressProvider>
-              </WishlistProvider>
-            </OrderProvider>
-          </CartProvider>
+          <ProductProvider>
+            <CartProvider>
+              <OrderProvider>
+                <WishlistProvider>
+                  <AddressProvider>
+                    <App />
+                  </AddressProvider>
+                </WishlistProvider>
+              </OrderProvider>
+            </CartProvider>
+          </ProductProvider>
         </AppContextProvider>
       </BrowserRouter>
     </GoogleOAuthProvider>

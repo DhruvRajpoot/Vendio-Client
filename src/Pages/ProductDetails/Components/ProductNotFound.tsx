@@ -2,12 +2,14 @@ import React from "react";
 import Navbar from "../../../Components/Navbar";
 import Breadcrumb from "../../../Components/Breadcrumb";
 import Footer from "../../../Components/Footer";
-import { products } from "../../../Store/products";
 import Lottie from "lottie-react";
 import notFoundAnimation from "../../../Assets/Lottie/notfound.json";
 import RelatedProducts from "./RelatedProducts";
+import { useProduct } from "../../../Context/ProductContext";
 
 const ProductNotFound: React.FC = () => {
+  const { products } = useProduct();
+
   return (
     <div className="flex flex-col min-h-screen">
       <Navbar />

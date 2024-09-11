@@ -1,21 +1,13 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useCart } from "../../../Context/CartContext";
+import { deliveryCharges, taxRate } from "../../../Constants/Constants";
 
-interface OrderSummaryProps {
-  subtotal: number;
-  deliveryCharges: number;
-  taxes: number;
-  total: number;
-}
+interface OrderSummaryProps {}
 
-const OrderSummary: React.FC<OrderSummaryProps> = ({
-  subtotal,
-  deliveryCharges,
-  taxes,
-  total,
-}) => {
-  const { couponCode, setCouponCode, applyCoupon, discount } = useCart();
+const OrderSummary: React.FC<OrderSummaryProps> = ({}) => {
+  const { cartItems, couponCode, setCouponCode, applyCoupon, discount } =
+    useCart();
   const [isCouponApplied, setIsCouponApplied] = useState<boolean>(discount > 0);
 
   const handleCouponSubmit = (e: React.FormEvent) => {
@@ -32,7 +24,14 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
     }
   };
 
-  const discountAmount = ((subtotal * discount) / 100).toFixed(2);
+  // Calculate subtotal, discount, delivery charges, taxes, and grand total
+  const subtotal = cartItems.reduce((total, item) => {
+    return total + item.product.discountedPrice * item.quantity;
+  }, 0);
+
+  const discountAmount = Math.floor((subtotal * discount) / 100);
+  const taxes = Math.floor((subtotal - discountAmount) * taxRate);
+  const grandTotal = subtotal - discountAmount + deliveryCharges + taxes;
 
   return (
     <div className="bg-white shadow-md rounded-lg p-3 sm:p-6 flex flex-col">
@@ -69,7 +68,7 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
       <div className="mb-4">
         <div className="flex justify-between mb-2">
           <span>Subtotal:</span>
-          <span>₹{subtotal.toFixed(2)}</span>
+          <span>₹{subtotal}</span>
         </div>
         <div className="flex justify-between mb-2">
           <span>Delivery Charges:</span>
@@ -77,7 +76,7 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
         </div>
         <div className="flex justify-between mb-2">
           <span>Taxes:</span>
-          <span>₹{taxes.toFixed(2)}</span>
+          <span>₹{taxes}</span>
         </div>
         {isCouponApplied && (
           <div className="flex justify-between mb-2 text-red-500 font-semibold">
@@ -90,7 +89,7 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
 
         <div className="flex justify-between font-semibold text-lg">
           <span>Grand Total:</span>
-          <span>₹{total.toFixed(2)}</span>
+          <span>₹{grandTotal}</span>
         </div>
       </div>
 

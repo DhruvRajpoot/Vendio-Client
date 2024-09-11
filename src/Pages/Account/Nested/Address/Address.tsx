@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { useAddress } from "../../../Context/AddressContext";
-import AddressForm from "../Components/AddressForm";
-import AddressItem from "../Components/AddressItem";
+import { useAddress } from "../../../../Context/AddressContext";
+import AddressForm from "./Components/AddressForm";
+import AddressItem from "./Components/AddressItem";
 import { FaPlus } from "react-icons/fa";
 
 const Address: React.FC = () => {

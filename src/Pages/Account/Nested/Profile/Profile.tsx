@@ -1,6 +1,6 @@
 import React from "react";
-import { useAppContext } from "../../../Context/AppContext";
-import defaultProfilePic from "../../../Assets/Images/defaultuser.png";
+import { useAppContext } from "../../../../Context/AppContext";
+import ProfilePic from "./Components/ProfilePic";
 
 const Profile: React.FC = () => {
   const { user } = useAppContext();
@@ -8,7 +8,9 @@ const Profile: React.FC = () => {
   return (
     <div className="flex flex-col relative">
       <div className="flex items-center justify-between mb-4">
-        <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Profile</h1>
+        <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">
+          Profile
+        </h1>
 
         <div
           className={`px-5 py-1 font-medium rounded-full ${
@@ -26,13 +28,8 @@ const Profile: React.FC = () => {
       </p>
 
       <div className="relative flex flex-col lg:flex-row lg:items-start lg:space-x-10 mb-8 space-y-6 lg:space-y-0">
-        <div className="w-28 h-28 mx-auto lg:mx-0 flex-shrink-0">
-          <img
-            src={user?.profilePic || defaultProfilePic}
-            alt="Profile Picture"
-            className="w-full h-full object-cover rounded-full border-4 border-teal-500"
-          />
-        </div>
+        <ProfilePic />
+
         <div className="flex-1 flex flex-col gap-6">
           <div className="flex flex-col md:flex-row gap-6">
             <div className="flex-1">
