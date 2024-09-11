@@ -20,7 +20,7 @@ const RazorpayButton: React.FC<RazorpayButtonProps> = ({
   const navigate = useNavigate();
   const { user } = useAppContext();
   const { clearCart } = useCart();
-  const { insertOrder } = useOrder();
+  const { fetchOrders } = useOrder();
   const [loading, setLoading] = useState(false);
 
   const handleRazorpayPayment = async () => {
@@ -66,7 +66,7 @@ const RazorpayButton: React.FC<RazorpayButtonProps> = ({
             clearCart();
 
             orderData.order.orderStatus = "Placed";
-            insertOrder(orderData.order);
+            fetchOrders();
             navigate("/account/orders");
           } catch (err) {
             console.error("Payment verification failed:", err);
@@ -85,7 +85,7 @@ const RazorpayButton: React.FC<RazorpayButtonProps> = ({
         },
         modal: {
           ondismiss: function () {
-            insertOrder(orderData.order);
+            fetchOrders();
             toast.error("Payment process was interrupted.");
             setLoading(false);
           },

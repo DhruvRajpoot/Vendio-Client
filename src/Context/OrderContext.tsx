@@ -51,7 +51,6 @@ interface OrderContextType {
   updateOrderStatus: (orderId: string, status: string) => Promise<void>;
   updatePaymentStatus: (orderId: string, status: string) => Promise<void>;
   cancelOrder: (orderId: string) => Promise<void>;
-  insertOrder: (order: Order) => void;
   orderLoading: boolean;
   orderError: string | null;
 }
@@ -173,11 +172,6 @@ export const OrderProvider: React.FC<{ children: ReactNode }> = ({
     }
   };
 
-  // Insert order at the start
-  const insertOrder = (order: Order) => {
-    setOrders((prevOrders) => [order, ...prevOrders]);
-  };
-
   return (
     <OrderContext.Provider
       value={{
@@ -186,7 +180,6 @@ export const OrderProvider: React.FC<{ children: ReactNode }> = ({
         fetchOrders,
         updateOrderStatus,
         cancelOrder,
-        insertOrder,
         updatePaymentStatus,
         orderLoading,
         orderError,
