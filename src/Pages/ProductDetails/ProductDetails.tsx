@@ -51,12 +51,7 @@ const ProductDetails: React.FC = () => {
     setQuantity((prev) => Math.max(prev + amount, 1));
   };
 
-  const discountedPrice = (
-    product.price -
-    product.price * (product.discount / 100)
-  ).toFixed(2);
-
-  const discountPercentage = product.discount.toFixed(0);
+  const discountPercentage = product.discount;
 
   const renderRating = (rating: number) => {
     const fullStars = Math.floor(rating);
@@ -208,7 +203,7 @@ const ProductDetails: React.FC = () => {
             </div>
 
             <p className="text-xl text-red-600 font-semibold mb-2">
-              ₹{discountedPrice}{" "}
+              ₹{product.discountedPrice}{" "}
               <span className="line-through text-gray-500 text-lg">
                 ₹{product.price}
               </span>{" "}

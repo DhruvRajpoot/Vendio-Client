@@ -1,6 +1,6 @@
 import React from "react";
 import { useCart } from "../../../../Context/CartContext";
-import CartTable from "../../Components/CartTable";
+import CartTable from "./Components/CartTable";
 import { useOrder } from "../../../../Context/OrderContext";
 import { deliveryCharges, taxRate } from "../../../../Constants/Constants";
 import { FaCreditCard, FaMapMarkerAlt, FaMoneyBillAlt } from "react-icons/fa";
@@ -21,17 +21,14 @@ const ReviewStep: React.FC<ReviewStepProps> = ({
 
   // Calculate subtotal, discount, delivery charges, taxes, and grand total
   const subtotal = cartItems.reduce((total, item) => {
-    return (
-      total +
-      (item.product.price -
-        item.product.price * (item.product.discount / 100)) *
-        item.quantity
-    );
+    return total + item.product.discountedPrice * item.quantity;
   }, 0);
 
-  const discountAmount = (subtotal * discount) / 100;
-  const taxes = (subtotal - discountAmount) * taxRate;
-  const grandTotal = subtotal - discountAmount + deliveryCharges + taxes;
+  const discountAmount = Math.floor((subtotal * discount) / 100);
+  const taxes = Math.floor((subtotal - discountAmount) * taxRate);
+  const grandTotal = Math.floor(
+    subtotal - discountAmount + deliveryCharges + taxes
+  );
 
   // Estimated delivery date
   const estimatedDeliveryDate = new Date();
@@ -116,25 +113,25 @@ const ReviewStep: React.FC<ReviewStepProps> = ({
                 <div>
                   <div className="flex justify-between mb-2 text-gray-700">
                     <span>Subtotal</span>
-                    <span>₹{subtotal.toFixed(2)}</span>
+                    <span>₹{subtotal}</span>
                   </div>
                   <div className="flex justify-between mb-2 text-gray-700">
                     <span>Delivery Charges</span>
-                    <span>₹{deliveryCharges.toFixed(2)}</span>
+                    <span>₹{deliveryCharges}</span>
                   </div>
                   <div className="flex justify-between mb-2 text-gray-700">
                     <span>Taxes</span>
-                    <span>₹{taxes.toFixed(2)}</span>
+                    <span>₹{taxes}</span>
                   </div>
                   {discountAmount > 0 && (
                     <div className="flex justify-between mb-2 text-red-500 font-semibold">
                       <span>Discount</span>
-                      <span>-₹{discountAmount.toFixed(2)}</span>
+                      <span>-₹{discountAmount}</span>
                     </div>
                   )}
                   <div className="border-t border-gray-300 pt-4 flex justify-between font-semibold text-lg text-gray-800">
                     <span>Grand Total</span>
-                    <span>₹{grandTotal.toFixed(2)}</span>
+                    <span>₹{grandTotal}</span>
                   </div>
                 </div>
               </div>

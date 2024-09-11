@@ -1,5 +1,5 @@
 import React from "react";
-import { Product, useProduct } from "../../../Context/ProductContext";
+import { Product, useProduct } from "../../../../../Context/ProductContext";
 
 interface CartTableProps {
   cartItems: { product: Product; quantity: number }[];
@@ -38,13 +38,9 @@ const CartTable: React.FC<CartTableProps> = ({ cartItems }) => {
               );
             }
 
-            const { images, title, price, discount, categories } = product;
-            const discountedPrice = (price - price * (discount / 100)).toFixed(
-              2
-            );
-            const itemTotal = (
-              parseFloat(discountedPrice) * item.quantity
-            ).toFixed(2);
+            const { images, title, discountedPrice, categories } = product;
+
+            const itemTotal = item.quantity * discountedPrice;
 
             return (
               <tr key={index} className="border-b border-gray-200">

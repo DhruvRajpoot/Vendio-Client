@@ -11,12 +11,6 @@ const ProductCard: React.FC<{ product: Product }> = React.memo(
     const { addToCart } = useCart();
     const { checkInWishlist, handleWishlistClick } = useWishlist();
 
-    const discountedPrice = useMemo(() => {
-      return (product.price - product.price * (product.discount / 100)).toFixed(
-        2
-      );
-    }, [product.price, product.discount]);
-
     const handleButtonClick = useCallback(
       (e: React.MouseEvent<HTMLButtonElement>) => {
         e.stopPropagation();
@@ -92,7 +86,7 @@ const ProductCard: React.FC<{ product: Product }> = React.memo(
             <div className="flex items-center justify-between mb-4">
               <div className="flex gap-2">
                 <p className="text-xl font-extrabold text-red-600 ">
-                  ₹{discountedPrice}
+                  ₹{product.discountedPrice}
                 </p>
                 <p className="text-lg font-semibold text-gray-500 line-through">
                   ₹{product.price}

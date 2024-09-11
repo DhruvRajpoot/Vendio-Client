@@ -30,10 +30,9 @@ const CartItem: React.FC<CartItemProps> = ({
     );
   }
 
-  const { images, title, price, discount, categories } = product;
+  const { images, title, discountedPrice, categories } = product;
 
-  const discountedPrice = (price - price * (discount / 100)).toFixed(2);
-  const itemTotal = (parseFloat(discountedPrice) * quantity).toFixed(2);
+  const itemTotal = discountedPrice * quantity;
 
   const navigateToProduct = () => {
     navigate(`/products/${product._id}`);
