@@ -58,6 +58,7 @@ export function AppContextProvider({ children }: { children: ReactNode }) {
       const userData = response.data.user;
       setUser(userData);
       localStorage.setItem("user", JSON.stringify(userData));
+      toast.success("User details fetched successfully");
     } catch (error) {
       console.error("Failed to fetch user details", error);
       toast.error("Failed to fetch user details");

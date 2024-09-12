@@ -1,5 +1,4 @@
 import React, { useRef, useState } from "react";
-import { uploadFile } from "../../../../../Utils/Cloudinary";
 import defaultProfilePic from "../../../../../Assets/Images/defaultuser.png";
 import { useAppContext } from "../../../../../Context/AppContext";
 import axiosInstance from "../../../../../Config/axiosInstance";
@@ -17,28 +16,26 @@ const ProfilePic: React.FC = () => {
     imageInputRef.current?.click();
   };
 
-  const uploadProfilePicToServer = async (pic: string, oldPic: string) => {
+  const handleProfilePicUpload = async (file: File) => {
+    setLoading(true);
     try {
-      const response = await axiosInstance.put(`/user/updateprofilepic`, {
-        pic: pic,
-        oldPic: oldPic,
-      });
+      const formData = new FormData();
+      formData.append("file", file);
+
+      const response = await axiosInstance.put(
+        "/user/updateProfilePic",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
 
       if (response.status === 200) {
         updateUserInfo(response.data.user);
         toast.success("Profile picture updated successfully.");
       }
-    } catch (err) {
-      console.error("Error updating profile picture:", err);
-      toast.error("Failed to update profile picture.");
-    }
-  };
-
-  const handleProfilePicUpload = async (file: File) => {
-    setLoading(true);
-    try {
-      const data = await uploadFile(file, "image", "low_res_image_preset");
-      await uploadProfilePicToServer(data.secure_url, user?.profilePic || "");
       setSelectedPic(null);
     } catch (error) {
       console.error("Profile picture upload failed", error);
@@ -62,9 +59,14 @@ const ProfilePic: React.FC = () => {
     if (window.confirm("Are you sure you want to remove your profile pic?")) {
       setLoading(true);
       try {
-        await uploadProfilePicToServer("", user?.profilePic || "");
+        const response = await axiosInstance.put("/user/updateProfilePic");
+
+        if (response.status === 200) {
+          updateUserInfo(response.data.user);
+          toast.success("Profile picture removed successfully.");
+        }
       } catch (error) {
-        console.error("Failed to remove profile picture:", error);
+        console.error("Failed to remove profile picture", error);
         toast.error("Failed to remove profile picture.");
       } finally {
         setLoading(false);
