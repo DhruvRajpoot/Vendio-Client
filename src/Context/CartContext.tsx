@@ -74,7 +74,8 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({
           )
         : [...prevItems, { product, quantity }];
 
-      localStorage.setItem("cart", JSON.stringify(updatedItems));
+      if (!isAuthenticated)
+        localStorage.setItem("cart", JSON.stringify(updatedItems));
 
       return updatedItems;
     });
@@ -99,7 +100,8 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({
         (item) => item.product._id !== productId
       );
 
-      localStorage.setItem("cart", JSON.stringify(updatedItems));
+      if (!isAuthenticated)
+        localStorage.setItem("cart", JSON.stringify(updatedItems));
 
       return updatedItems;
     });
@@ -121,7 +123,8 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({
         item.product._id === productId ? { ...item, quantity } : item
       );
 
-      localStorage.setItem("cart", JSON.stringify(updatedItems));
+      if (!isAuthenticated)
+        localStorage.setItem("cart", JSON.stringify(updatedItems));
 
       return updatedItems;
     });
@@ -142,23 +145,24 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({
 
   const syncCartWithBackend = async () => {
     try {
-      const response = await axiosInstance.get("/cart");
-      const backendCartItems = response.data.cart.items;
-
-      if (Array.isArray(backendCartItems)) {
-        if (backendCartItems.length > 0) {
-          setCartItems(backendCartItems);
-          localStorage.setItem("cart", JSON.stringify(backendCartItems));
-        } else if (cartItems.length > 0) {
-          await axiosInstance.post("/cart/bulk", {
-            items: cartItems,
+      const savedCart = localStorage.getItem("cart");
+      if (savedCart) {
+        const parsedCart = JSON.parse(savedCart);
+        if (Array.isArray(parsedCart)) {
+          const response = await axiosInstance.post("/cart/sync", {
+            items: parsedCart,
           });
+
+          setCartItems(response.data.cart.items);
+          localStorage.removeItem("cart");
         }
       } else {
-        console.error("Invalid cart data from backend");
+        const response = await axiosInstance.get("/cart");
+        setCartItems(response.data.cart.items);
       }
     } catch (error) {
-      console.error("Error fetching cart from backend:", error);
+      console.error("Error syncing cart with backend:", error);
+      toast.error("Failed to sync cart");
     }
   };
 
