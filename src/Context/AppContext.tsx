@@ -7,8 +7,7 @@ import {
 } from "react";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
-import { serverurl } from "../Config/baseurl";
+import axiosInstance from "../Config/axiosInstance";
 
 interface User {
   _id: string;
@@ -30,34 +29,22 @@ interface AppContextType {
 const AppContext = createContext<AppContextType | undefined>(undefined);
 
 export function AppContextProvider({ children }: { children: ReactNode }) {
-  const [user, setUser] = useState<User | null>(() => {
-    // Initial state from localStorage if available
-    const storedUser = localStorage.getItem("user");
-    return storedUser ? JSON.parse(storedUser) : null;
-  });
+  const [user, setUser] = useState<User | null>(null);
 
   const isAuthenticated = !!user;
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    const accessToken = localStorage.getItem("access_token");
-    if (accessToken) {
-      fetchUserDetails(accessToken);
-    }
+    fetchUserDetails();
   }, []);
 
   // Fetch user details from the server
-  const fetchUserDetails = async (accessToken: string) => {
+  const fetchUserDetails = async () => {
     try {
-      const response = await axios.get(`${serverurl}/user/getUserDetails`, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
+      const response = await axiosInstance.get("user/getUserDetails");
       const userData = response.data.user;
       setUser(userData);
-      localStorage.setItem("user", JSON.stringify(userData));
       toast.success("User details fetched successfully");
     } catch (error) {
       console.error("Failed to fetch user details", error);
@@ -69,7 +56,6 @@ export function AppContextProvider({ children }: { children: ReactNode }) {
   const login = (user: User, accessToken: string, refreshToken: string) => {
     setUser(user);
     localStorage.setItem("access_token", accessToken);
-    localStorage.setItem("user", JSON.stringify(user));
     document.cookie = `refreshToken=${refreshToken}; Max-Age=${
       7 * 24 * 60 * 60
     }; Secure; SameSite=Strict`;
@@ -89,7 +75,6 @@ export function AppContextProvider({ children }: { children: ReactNode }) {
   // Update user info
   const updateUserInfo = (updatedUser: User) => {
     setUser(updatedUser);
-    localStorage.setItem("user", JSON.stringify(updatedUser));
   };
 
   return (
