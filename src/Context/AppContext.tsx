@@ -36,7 +36,10 @@ export function AppContextProvider({ children }: { children: ReactNode }) {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetchUserDetails();
+    const accessToken = localStorage.getItem("access_token");
+    if (accessToken) {
+      fetchUserDetails();
+    }
   }, []);
 
   // Fetch user details from the server
@@ -65,8 +68,6 @@ export function AppContextProvider({ children }: { children: ReactNode }) {
   const logout = () => {
     setUser(null);
     localStorage.removeItem("access_token");
-    localStorage.removeItem("user");
-    localStorage.removeItem("cart");
     document.cookie = "refreshToken=; Max-Age=0;";
     toast.success("Logged out successfully");
     navigate("/login");

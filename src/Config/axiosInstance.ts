@@ -1,13 +1,26 @@
 import axios from "axios";
 import { serverurl } from "../Config/baseurl";
+import { jwtDecode } from "jwt-decode";
 
 const axiosInstance = axios.create({
   baseURL: serverurl,
 });
 
-// Variables to keep track of the refresh token status
 let isRefreshing = false;
-let failedQueue: Array<(token: string) => void> = [];
+let failedQueue: Array<(token: string | null) => void> = [];
+const MAX_TRIES = 3;
+const TOKEN_EXPIRY_THRESHOLD = 30000; // 30 seconds
+
+// Function to decode and check token expiration
+const isTokenExpired = (token: string): boolean => {
+  try {
+    const decoded: { exp: number } = jwtDecode(token);
+    const now = Date.now();
+    return decoded.exp * 1000 - now < TOKEN_EXPIRY_THRESHOLD;
+  } catch (e) {
+    return true;
+  }
+};
 
 // Function to get a new access token using the refresh token
 const refreshToken = async (): Promise<string> => {
@@ -19,9 +32,13 @@ const refreshToken = async (): Promise<string> => {
   if (!refreshToken) throw new Error("No refresh token available");
 
   if (isRefreshing) {
-    return new Promise((resolve) => {
-      failedQueue.push((token: string) => {
-        resolve(token);
+    return new Promise((resolve, reject) => {
+      failedQueue.push((token) => {
+        if (token) {
+          resolve(token);
+        } else {
+          reject(new Error("Token refresh failed"));
+        }
       });
     });
   }
@@ -38,10 +55,10 @@ const refreshToken = async (): Promise<string> => {
     isRefreshing = false;
     failedQueue.forEach((cb) => cb(accessToken));
     failedQueue = [];
-
     return accessToken;
   } catch (error) {
     isRefreshing = false;
+    failedQueue.forEach((cb) => cb(null));
     failedQueue = [];
     throw new Error("Failed to refresh access token");
   }
@@ -49,8 +66,13 @@ const refreshToken = async (): Promise<string> => {
 
 // Add a request interceptor to include the token
 axiosInstance.interceptors.request.use(
-  (config) => {
-    const token = localStorage.getItem("access_token");
+  async (config) => {
+    let token = localStorage.getItem("access_token");
+
+    if (token && isTokenExpired(token)) {
+      token = await refreshToken();
+    }
+
     if (token) {
       config.headers["Authorization"] = `Bearer ${token}`;
     }
@@ -65,18 +87,39 @@ axiosInstance.interceptors.response.use(
   async (error) => {
     const originalRequest = error.config;
 
-    if (error.response?.status === 401 && !originalRequest._retry) {
-      originalRequest._retry = true;
+    originalRequest._retryCount = originalRequest._retryCount || 0;
 
-      try {
-        const newAccessToken = await refreshToken();
-        axiosInstance.defaults.headers.common[
-          "Authorization"
-        ] = `Bearer ${newAccessToken}`;
-        return axiosInstance(originalRequest);
-      } catch (refreshError) {
+    if (
+      error.response?.status === 401 &&
+      originalRequest._retryCount < MAX_TRIES
+    ) {
+      originalRequest._retryCount += 1;
+
+      if (!originalRequest._retry) {
+        originalRequest._retry = true;
+
+        try {
+          const newAccessToken = await refreshToken();
+          if (newAccessToken) {
+            originalRequest.headers[
+              "Authorization"
+            ] = `Bearer ${newAccessToken}`;
+            return axiosInstance(originalRequest);
+          }
+        } catch (refreshError) {
+          if (!originalRequest._redirected) {
+            originalRequest._redirected = true;
+            window.location.href = "/login";
+          }
+          return Promise.reject(refreshError);
+        }
+      }
+    }
+
+    if (originalRequest._retryCount >= MAX_TRIES) {
+      if (!originalRequest._redirected) {
+        originalRequest._redirected = true;
         window.location.href = "/login";
-        return Promise.reject(refreshError);
       }
     }
 
