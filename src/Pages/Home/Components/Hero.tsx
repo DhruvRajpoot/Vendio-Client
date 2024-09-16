@@ -6,9 +6,9 @@ import "swiper/css/pagination";
 import { Navigation, Pagination, Autoplay } from "swiper/modules";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 
-import personImage1 from "../../../Assets/Home/Hero/1.png";
-import personImage2 from "../../../Assets/Home/Hero/2.png";
-import personImage3 from "../../../Assets/Home/Hero/3.png";
+import heroImage1 from "../../../Assets/Home/Hero/1.png";
+import heroImage2 from "../../../Assets/Home/Hero/2.png";
+import heroImage3 from "../../../Assets/Home/Hero/3.png";
 import { useNavigate } from "react-router-dom";
 
 const Hero: React.FC = () => {
@@ -16,39 +16,33 @@ const Hero: React.FC = () => {
 
   const slides = [
     {
-      image: personImage1,
-      title: "Men's Collection",
-      description:
-        "Discover top brands in shirts, jackets, watches, and accessories for the modern man.",
+      image: heroImage1,
+      title: "Latest Fashion Trends",
+      description: "Handpicked collections for all seasons.",
       buttonText: "Shop Now",
-      backgroundColor: "bg-[#F7F3F0]",
-      textColor: "text-black",
-      buttonColor: "bg-black text-white",
+      backgroundColor: "bg-gradient-to-r from-gray-400 to-gray-400",
+      overlay: "bg-black/30",
     },
     {
-      image: personImage2,
-      title: "Exclusive Deals",
-      description:
-        "Take advantage of limited-time discounts on premium brands and products.",
-      buttonText: "Discover Now",
-      backgroundColor: "bg-[#E8E8E8]",
-      textColor: "text-black",
-      buttonColor: "bg-red-600 text-white",
+      image: heroImage2,
+      title: "Exclusive Accessories",
+      description: "Finishing touches to elevate your style.",
+      buttonText: "Explore Accessories",
+      backgroundColor: "bg-gradient-to-r from-indigo-400 to-purple-500",
+      overlay: "bg-black/30",
     },
     {
-      image: personImage3,
-      title: "New Arrivals",
-      description:
-        "Check out the latest trends and new styles just in for a fresh wardrobe update.",
-      buttonText: "Explore",
-      backgroundColor: "bg-[#F0F8FF]",
-      textColor: "text-blue-900",
-      buttonColor: "bg-blue-600 text-white",
+      image: heroImage3,
+      title: "New Footwear Arrivals",
+      description: "Step into style with our new arrivals.",
+      buttonText: "Browse Footwear",
+      backgroundColor: "bg-gradient-to-r from-teal-400 to-teal-500",
+      overlay: "bg-black/30",
     },
   ];
 
   return (
-    <div className="relative overflow-hidden">
+    <div className="relative">
       <Swiper
         modules={[Navigation, Pagination, Autoplay]}
         spaceBetween={0}
@@ -58,53 +52,50 @@ const Hero: React.FC = () => {
           prevEl: ".swiper-button-prev-hero",
         }}
         pagination={{ clickable: true }}
-        autoplay={{ delay: 2500 }}
+        autoplay={{ delay: 4000 }}
         loop
         className="hero-slider"
       >
         {slides.map((slide, index) => (
           <SwiperSlide key={index}>
             <div
-              className={`w-full h-[70vh] md:h-[80vh] ${slide.backgroundColor} flex items-center justify-center`}
+              className={`relative w-full h-[60vh] sm:h-[65vh] md:h-[70vh] lg:h-[80vh] flex flex-col lg:flex-row items-center justify-between ${slide.backgroundColor} px-4 sm:px-8 md:px-12 lg:px-24 xl:px-32`}
             >
-              <div className="flex flex-col lg:flex-row items-center h-full max-w-screen-xl mx-auto xl:px-24 2xl:px-4">
-                <div className="flex flex-col items-center lg:items-start lg:text-left flex-1 mb-6 lg:mb-0 pt-16 text-center lg:pl-20 xl:pl-0">
-                  <h1
-                    className={`text-3xl md:text-5xl font-bold ${slide.textColor} mb-4`}
-                  >
-                    {slide.title}
-                  </h1>
-                  <p className={`text-sm md:text-lg ${slide.textColor} mb-6`}>
-                    {slide.description}
-                  </p>
-                  <button
-                    className={`px-6 py-3 rounded-full shadow-lg transition duration-300 ${slide.buttonColor} hover:opacity-90`}
-                    onClick={() => {
-                      navigate("/products");
-                    }}
-                  >
-                    {slide.buttonText}
-                  </button>
-                </div>
+              {/* Content Section */}
+              <div className="relative z-20 text-white flex flex-col justify-center items-center lg:items-start pt-10 lg:pt-0 text-center lg:text-left">
+                <h1 className="text-3xl md:text-4xl xl:text-5xl font-extrabold mb-4">
+                  {slide.title}
+                </h1>
+                <p className="text-sm sm:text-md md:text-lg lg:text-xl mb-6">
+                  {slide.description}
+                </p>
+                <button
+                  className="px-6 sm:px-8 py-2 lg:py-3 rounded-full bg-white text-black font-semibold shadow-lg hover:bg-gray-200 transition duration-300 text-sm md:text-base"
+                  onClick={() => {
+                    navigate("/products");
+                  }}
+                >
+                  {slide.buttonText}
+                </button>
+              </div>
 
-                <div className="flex-1 flex items-center justify-center">
-                  <div className="w-full h-full relative">
-                    <img
-                      src={slide.image}
-                      alt={slide.title}
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                </div>
+              {/* Image Section */}
+              <div className="w-full lg:w-1/2 h-full flex justify-center lg:justify-end items-center">
+                <img
+                  src={slide.image}
+                  alt={slide.title}
+                  className="h-full lg:object-bottom 2xl:object-contain"
+                />
               </div>
             </div>
           </SwiperSlide>
         ))}
 
-        <div className="swiper-button-prev-hero bg-black text-white rounded-full w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center shadow-md hover:bg-gray-700 absolute left-4 top-1/2 transform -translate-y-1/2 z-10">
+        {/* Navigation Arrows */}
+        <div className="swiper-button-prev-hero text-white rounded-full w-8 h-8 md:w-10 md:h-10 flex items-center justify-center absolute left-4 top-1/2 transform -translate-y-1/2 z-20 bg-gray-900/50 hover:bg-gray-900">
           <FaArrowLeft />
         </div>
-        <div className="swiper-button-next-hero bg-black text-white rounded-full w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center shadow-md hover:bg-gray-700 absolute right-4 top-1/2 transform -translate-y-1/2 z-10">
+        <div className="swiper-button-next-hero text-white rounded-full w-8 h-8 md:w-10 md:h-10 flex items-center justify-center absolute right-4 top-1/2 transform -translate-y-1/2 z-20 bg-gray-900/50 hover:bg-gray-900">
           <FaArrowRight />
         </div>
       </Swiper>

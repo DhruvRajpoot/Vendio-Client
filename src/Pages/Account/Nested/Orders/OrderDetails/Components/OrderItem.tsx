@@ -9,18 +9,24 @@ import {
   FaMoneyBillAlt,
   FaTimesCircle,
 } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
 interface OrderItemProps {
   order: Order;
 }
 
 const OrderItem: React.FC<OrderItemProps> = ({ order }) => {
+  const navigate = useNavigate();
   const { cancelOrder } = useOrder();
 
   const handleCancelOrder = () => {
     if (!window.confirm("Are you sure you want to cancel this order?")) return;
 
     cancelOrder(order._id);
+  };
+
+  const navigateToProduct = (productId: string) => {
+    navigate(`/products/${productId}`);
   };
 
   return (
@@ -77,9 +83,13 @@ const OrderItem: React.FC<OrderItemProps> = ({ order }) => {
                   src={item.product.images[0]}
                   alt={item.product.title}
                   className="w-16 h-16 object-cover rounded-lg"
+                  onClick={() => navigateToProduct(item.product._id)}
                 />
                 <div>
-                  <h4 className="text-md font-medium text-gray-800 h-6 overflow-hidden">
+                  <h4
+                    className="text-md font-medium text-gray-800 h-6 overflow-hidden"
+                    onClick={() => navigateToProduct(item.product._id)}
+                  >
                     {item.product.title}
                   </h4>
                   <p className="text-gray-500 flex flex-col xs:flex-row gap-1">

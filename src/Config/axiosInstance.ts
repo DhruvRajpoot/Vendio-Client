@@ -119,7 +119,8 @@ axiosInstance.interceptors.response.use(
     if (originalRequest._retryCount >= MAX_TRIES) {
       if (!originalRequest._redirected) {
         originalRequest._redirected = true;
-        window.location.href = "/login";
+        if (window.location.pathname !== "/login")
+          window.location.href = "/login";
       }
     }
 
