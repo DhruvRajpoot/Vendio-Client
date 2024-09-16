@@ -68,6 +68,7 @@ export const OrderProvider: React.FC<{ children: ReactNode }> = ({
 
   // Fetch orders
   const fetchOrders = async () => {
+    setOrderLoading(true);
     try {
       const response = await axiosInstance.get("/order");
       setOrders(response.data.orders);
