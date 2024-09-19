@@ -7,7 +7,7 @@ const Orders: React.FC = () => {
   const { orders, fetchOrders, orderLoading, orderError } = useOrder();
 
   useEffect(() => {
-    if (!orders.length) fetchOrders();
+    if (orders.length <= 1) fetchOrders();
   }, []);
 
   const renderState = () => {
