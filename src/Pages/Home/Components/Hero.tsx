@@ -20,15 +20,7 @@ const Hero: React.FC = () => {
       title: "Latest Fashion Trends",
       description: "Handpicked collections for all seasons.",
       buttonText: "Shop Now",
-      backgroundColor: "bg-gradient-to-r from-gray-400 to-gray-400",
-      overlay: "bg-black/30",
-    },
-    {
-      image: heroImage2,
-      title: "Exclusive Accessories",
-      description: "Finishing touches to elevate your style.",
-      buttonText: "Explore Accessories",
-      backgroundColor: "bg-gradient-to-r from-indigo-400 to-purple-500",
+      backgroundColor: "bg-gradient-to-r from-gray-400 to-gray-500",
       overlay: "bg-black/30",
     },
     {
@@ -36,7 +28,15 @@ const Hero: React.FC = () => {
       title: "New Footwear Arrivals",
       description: "Step into style with our new arrivals.",
       buttonText: "Browse Footwear",
-      backgroundColor: "bg-gradient-to-r from-teal-400 to-teal-500",
+      backgroundColor: "bg-gradient-to-r from-teal-500 to-teal-600",
+      overlay: "bg-black/30",
+    },
+    {
+      image: heroImage2,
+      title: "Exclusive Accessories",
+      description: "Finishing touches to elevate your style.",
+      buttonText: "Explore Accessories",
+      backgroundColor: "bg-gradient-to-r from-indigo-500 to-purple-600",
       overlay: "bg-black/30",
     },
   ];
