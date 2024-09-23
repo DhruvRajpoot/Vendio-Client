@@ -97,10 +97,28 @@ const ProductsPage: React.FC = () => {
     [navigate, location.search, currentPage]
   );
 
-  const breadcrumbItems = useMemo(
-    () => [{ label: "Home", link: "/" }, { label: "All Products" }],
-    []
-  );
+  const breadcrumbItems = useMemo(() => {
+    const items = [
+      { label: "Home", link: "/" },
+      { label: "Products", link: "/products" },
+    ];
+
+    if (categoryFilter !== "All") {
+      items.push({
+        label: categoryFilter,
+        link: `/products?category=${categoryFilter}`,
+      });
+    }
+
+    if (searchQuery) {
+      items.push({
+        label: `"${searchQuery}"`,
+        link: `/products?query=${searchQuery}`,
+      });
+    }
+
+    return items;
+  }, [categoryFilter, searchQuery]);
 
   const handleFilterChange = useCallback(
     (filters: { category: string; sortBy: string }) => {
