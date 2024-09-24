@@ -19,10 +19,10 @@ const Navbar: React.FC = () => {
   const redirectUrl =
     new URLSearchParams(location.search).get("redirect") || "/";
 
-  const navlinks = [
-    { title: "About Us", path: "/about" },
-    { title: "Products", path: "/products" },
-  ];
+  // const navlinks = [
+  //   { title: "About Us", path: "/about" },
+  //   { title: "Products", path: "/products" },
+  // ];
 
   const handleProfileClick = () => {
     navigate("/account/profile");
@@ -36,6 +36,7 @@ const Navbar: React.FC = () => {
     }
   };
 
+  // Set search query from URL
   useEffect(() => {
     const queryParams = new URLSearchParams(location.search);
     const query = queryParams.get("query");
@@ -182,6 +183,9 @@ const Navbar: React.FC = () => {
         cartItems={cartItems}
         isLoginPage={isLoginPage}
         redirectUrl={redirectUrl}
+        searchQuery={searchQuery}
+        setSearchQuery={setSearchQuery}
+        handleSearchSubmit={handleSearchSubmit}
       />
     </>
   );
