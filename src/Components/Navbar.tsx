@@ -55,7 +55,7 @@ const Navbar: React.FC = () => {
           <img src={logo} alt="Vendio" className="w-8 h-8" />
           <div className="relative">
             <span className="text-gray-800">Vendio</span>
-            <span className="text-xs text-gray-400 absolute -bottom-2 right-0">
+            <span className="text-xs text-teal-500 absolute -bottom-2 right-0">
               eCommerce
             </span>
           </div>
@@ -183,9 +183,6 @@ const Navbar: React.FC = () => {
         cartItems={cartItems}
         isLoginPage={isLoginPage}
         redirectUrl={redirectUrl}
-        searchQuery={searchQuery}
-        setSearchQuery={setSearchQuery}
-        handleSearchSubmit={handleSearchSubmit}
       />
     </>
   );

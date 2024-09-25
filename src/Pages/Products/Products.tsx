@@ -6,6 +6,7 @@ import Footer from "../../Components/Footer";
 import FilterBar from "./Components/FilterBar";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useProduct } from "../../Context/ProductContext";
+import SearchBarMobile from "../../Components/SearchBarMobile";
 
 const ProductsPage: React.FC = () => {
   const location = useLocation();
@@ -138,6 +139,7 @@ const ProductsPage: React.FC = () => {
   return (
     <div className="bg-neutral-50 min-h-screen">
       <Navbar />
+      <SearchBarMobile />
 
       <Breadcrumb items={breadcrumbItems} />
 

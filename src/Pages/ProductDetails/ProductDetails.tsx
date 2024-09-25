@@ -15,6 +15,7 @@ import { useCart } from "../../Context/CartContext";
 import RelatedProducts from "./Components/RelatedProducts";
 import { useWishlist } from "../../Context/WishlistContext";
 import { useProduct } from "../../Context/ProductContext";
+import SearchBarMobile from "../../Components/SearchBarMobile";
 
 const ProductDetails: React.FC = () => {
   const navigate = useNavigate();
@@ -136,6 +137,7 @@ const ProductDetails: React.FC = () => {
   return (
     <div className="flex flex-col min-h-screen">
       <Navbar />
+      <SearchBarMobile />
       <Breadcrumb items={breadcrumbItems} />
 
       <section className="container mx-auto px-4 max-w-screen-xl py-5 flex-1">
