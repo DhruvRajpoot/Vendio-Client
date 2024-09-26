@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { CiLogin, CiLogout } from "react-icons/ci";
 import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
@@ -7,14 +7,23 @@ import defaultuser from "../Assets/Images/defaultuser.png";
 import { LiaShoppingCartSolid } from "react-icons/lia";
 import { FaRegHeart } from "react-icons/fa";
 
-const NavbarMobile = ({
+interface NavbarMobileProps {
+  isAuthenticated: boolean;
+  user: any;
+  logout: any;
+  cartItems: any;
+  isLoginPage: boolean;
+  redirectUrl: string;
+}
+
+const NavbarMobile: React.FC<NavbarMobileProps> = ({
   isAuthenticated,
   user,
   logout,
   cartItems,
   isLoginPage,
   redirectUrl,
-}: any) => {
+}) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
@@ -47,13 +56,13 @@ const NavbarMobile = ({
   }, [isMenuOpen]);
 
   return (
-    <nav className="w-full h-16 p-3 bg-white flex items-center justify-between px-4 border-b border-b-gray-300 md:hidden sticky top-0 z-50">
+    <nav className="w-full h-16 p-3 bg-white flex items-center justify-between px-4 border-b border-gray-300 shadow-md md:hidden sticky top-0 z-50">
       {/* Logo */}
-      <Link to="/" className="text-2xl font-bold flex gap-2 items-center">
-        <img src={logo} alt="Vendio" className="w-8 h-8" />
+      <Link to="/" className="flex items-center gap-2">
+        <img src={logo} alt="Vendio" className="w-9 h-9" />
         <div className="relative">
-          <span className="text-gray-800 font-semibold">Vendio</span>
-          <span className="text-xs text-gray-500 absolute -bottom-2 right-0">
+          <span className="text-2xl font-semibold text-gray-800">Vendio</span>
+          <span className="text-xs text-teal-500 absolute -bottom-2 right-0">
             eCommerce
           </span>
         </div>
@@ -65,7 +74,7 @@ const NavbarMobile = ({
           <Link
             to="/account/wishlist"
             title="Wishlist"
-            className="text-gray-600 hover:text-gray-800 transition-colors"
+            className="text-gray-600 hover:text-teal-600 transition-colors"
           >
             <FaRegHeart className="text-2xl" />
           </Link>
@@ -75,39 +84,33 @@ const NavbarMobile = ({
         <Link
           to="/cart"
           title="Cart"
-          className="relative flex items-center gap-2 text-lg font-bold text-gray-600 hover:text-gray-800 transition-colors"
+          className="relative flex items-center gap-2 text-lg font-bold text-gray-600 hover:text-teal-600 transition-colors"
         >
-          <LiaShoppingCartSolid className="text-3xl scale-[1.10]" />
+          <LiaShoppingCartSolid className="text-3xl" />
           {cartItems.length > 0 && (
-            <span className="absolute -top-1 -right-2 bg-teal-500 text-white text-xs font-bold rounded-full w-4 h-4 flex items-center justify-center">
+            <span className="absolute -top-1 -right-2 bg-teal-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center shadow-md">
               {cartItems.length}
             </span>
           )}
         </Link>
 
-        {!isAuthenticated &&
-          (isLoginPage ? (
-            <Link
-              to={`/signup?redirect=${redirectUrl}`}
-              title="signup"
-              className="flex items-center gap-2 text-sm font-semibold text-white bg-teal-600 hover:bg-teal-700 px-2 py-2 xs:px-4 rounded-md shadow-sm transition-colors duration-300"
-            >
-              <span>Sign Up</span>
-            </Link>
-          ) : (
-            <Link
-              to={`/login?redirect=${redirectUrl}`}
-              title="login"
-              className="flex items-center gap-2 text-sm font-semibold text-white bg-teal-600 hover:bg-teal-700 px-2 py-2 xs:px-4 rounded-md shadow-sm transition-colors duration-300"
-            >
-              <span>Login</span>
-            </Link>
-          ))}
+        {!isAuthenticated && (
+          <Link
+            to={
+              isLoginPage
+                ? `/signup?redirect=${redirectUrl}`
+                : `/login?redirect=${redirectUrl}`
+            }
+            className="bg-teal-600 text-white font-semibold px-4 py-2 rounded-md shadow-md hover:bg-teal-700 transition-all duration-300"
+          >
+            {isLoginPage ? "Sign Up" : "Login"}
+          </Link>
+        )}
 
         {/* Hamburger Icon */}
         <div
           onClick={() => setIsMenuOpen(!isMenuOpen)}
-          className="text-2xl cursor-pointer text-gray-600 hover:text-gray-800 transition-colors"
+          className="text-2xl cursor-pointer text-gray-600 hover:text-teal-600 transition-colors"
           title="Menu"
         >
           {isMenuOpen ? <AiOutlineClose /> : <AiOutlineMenu />}
@@ -128,16 +131,16 @@ const NavbarMobile = ({
         </div>
 
         {/* Navigation Links */}
-        <div className="flex flex-col flex-grow gap-2">
+        <div className="flex flex-col flex-grow gap-3">
           {navlinks.map((link) => (
             <Link
               to={link.path}
               key={link.title}
-              className={`flex items-center text-gray-800 font-medium text-lg py-3 px-4 rounded-lg ${
+              className={`text-gray-800 font-semibold text-lg py-3 px-4 rounded-lg transition-colors duration-300 ${
                 location.pathname === link.path
                   ? "bg-teal-100 shadow-md"
                   : "hover:bg-teal-200"
-              } transition-colors duration-300 ease-in-out`}
+              }`}
               onClick={() => setIsMenuOpen(false)}
             >
               {link.title}
@@ -145,19 +148,16 @@ const NavbarMobile = ({
           ))}
 
           {/* User Section */}
-          <div className="flex justify-between items-center gap-3 mt-auto p-3">
+          <div className="flex justify-between items-center gap-3 mt-auto p-3 border-t border-gray-200">
             <div
               onClick={handleProfileClick}
-              className="flex items-center gap-2 font-semibold text-gray-600 cursor-pointer hover:text-gray-800 transition-colors"
+              className="flex items-center gap-3 cursor-pointer hover:text-teal-600 transition-colors"
             >
-              <div className="bg-gray-100 rounded-full">
-                <img
-                  src={user?.profilePic || defaultuser}
-                  alt="Profile"
-                  className="w-8 h-8 rounded-full"
-                />
-              </div>
-
+              <img
+                src={user?.profilePic || defaultuser}
+                alt="Profile"
+                className="w-10 h-10 rounded-full bg-gray-100"
+              />
               <span className="text-gray-800 max-w-40 truncate">
                 {isAuthenticated ? user?.firstName : "Hi, Guest"}
               </span>
@@ -166,27 +166,21 @@ const NavbarMobile = ({
             {isAuthenticated ? (
               <button
                 onClick={handleLogout}
-                className="flex items-center gap-2 font-semibold text-gray-600 hover:text-gray-800 transition-colors"
+                className="flex items-center gap-2 text-gray-600 hover:text-teal-600 transition-colors"
               >
                 Logout
                 <CiLogout className="text-xl" />
               </button>
-            ) : isLoginPage ? (
-              <Link
-                to={`/signup?redirect=${redirectUrl}`}
-                title="Sign Up"
-                className="flex items-center gap-2 font-semibold text-gray-600 hover:text-gray-800 transition-colors"
-              >
-                <span>Sign Up</span>
-                <CiLogin className="text-xl" />
-              </Link>
             ) : (
               <Link
-                to={`/login?redirect=${redirectUrl}`}
-                title="Login"
-                className="flex items-center gap-2 font-semibold text-gray-600 hover:text-gray-800 transition-colors"
+                to={
+                  isLoginPage
+                    ? `/signup?redirect=${redirectUrl}`
+                    : `/login?redirect=${redirectUrl}`
+                }
+                className="flex items-center gap-2 text-gray-600 hover:text-teal-600 transition-colors"
               >
-                <span>Login</span>
+                {isLoginPage ? "Sign Up" : "Login"}
                 <CiLogin className="text-xl" />
               </Link>
             )}

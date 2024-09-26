@@ -6,6 +6,7 @@ import Footer from "../../Components/Footer";
 import FilterBar from "./Components/FilterBar";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useProduct } from "../../Context/ProductContext";
+import SearchBarMobile from "../../Components/SearchBarMobile";
 
 const ProductsPage: React.FC = () => {
   const location = useLocation();
@@ -27,6 +28,7 @@ const ProductsPage: React.FC = () => {
 
   const categoryFilter = queryParams.get("category") || "All";
   const sortBy = queryParams.get("sortBy") || "Relevancy";
+  const searchQuery = queryParams.get("query") || "";
 
   useEffect(() => {
     const pageParam = parseInt(queryParams.get("page") || "1", 10);
@@ -36,12 +38,27 @@ const ProductsPage: React.FC = () => {
   const filteredProducts = useMemo(() => {
     let filtered = [...products];
 
+    // category filter
     if (categoryFilter !== "All") {
       filtered = filtered.filter((product) =>
         product.categories.includes(categoryFilter)
       );
     }
 
+    // search query filter
+    if (searchQuery) {
+      const lowercasedQuery = searchQuery.toLowerCase();
+      filtered = filtered.filter(
+        (product) =>
+          product.title.toLowerCase().includes(lowercasedQuery) ||
+          product.description.toLowerCase().includes(lowercasedQuery) ||
+          product.categories.some((category) =>
+            category.toLowerCase().includes(lowercasedQuery)
+          )
+      );
+    }
+
+    // sort logic
     if (sortBy !== "Relevancy") {
       const discountPrice = (product: any) =>
         product.price - (product.price * product.discount) / 100;
@@ -57,7 +74,7 @@ const ProductsPage: React.FC = () => {
     }
 
     return filtered;
-  }, [categoryFilter, sortBy, products]);
+  }, [categoryFilter, sortBy, searchQuery, products]);
 
   const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
 
@@ -81,10 +98,28 @@ const ProductsPage: React.FC = () => {
     [navigate, location.search, currentPage]
   );
 
-  const breadcrumbItems = useMemo(
-    () => [{ label: "Home", link: "/" }, { label: "All Products" }],
-    []
-  );
+  const breadcrumbItems = useMemo(() => {
+    const items = [
+      { label: "Home", link: "/" },
+      { label: "Products", link: "/products" },
+    ];
+
+    if (categoryFilter !== "All") {
+      items.push({
+        label: categoryFilter,
+        link: `/products?category=${categoryFilter}`,
+      });
+    }
+
+    if (searchQuery) {
+      items.push({
+        label: `"${searchQuery}"`,
+        link: `/products?query=${searchQuery}`,
+      });
+    }
+
+    return items;
+  }, [categoryFilter, searchQuery]);
 
   const handleFilterChange = useCallback(
     (filters: { category: string; sortBy: string }) => {
@@ -104,6 +139,7 @@ const ProductsPage: React.FC = () => {
   return (
     <div className="bg-neutral-50 min-h-screen">
       <Navbar />
+      <SearchBarMobile />
 
       <Breadcrumb items={breadcrumbItems} />
 

@@ -4,6 +4,7 @@ import { FaStar, FaLock, FaShippingFast, FaHeadset } from "react-icons/fa";
 import aboutUsImage from "../../Assets/Images/about.jpg";
 import Navbar from "../../Components/Navbar";
 import Footer from "../../Components/Footer";
+import SearchBarMobile from "../../Components/SearchBarMobile";
 
 const features = [
   {
@@ -38,6 +39,7 @@ const AboutUs: React.FC = () => {
   return (
     <div>
       <Navbar />
+      <SearchBarMobile />
 
       <header
         className="relative h-44 xs:h-40 lg:h-52 flex items-center justify-center text-white
